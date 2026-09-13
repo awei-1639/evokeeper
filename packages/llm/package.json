@@ -1,0 +1,17 @@
+{
+  "name": "@evokeeper/llm",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"no tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "@evokeeper/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

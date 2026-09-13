@@ -1,0 +1,49 @@
+version: "3.9"
+
+# 本地开发基础设施：Postgres(pgvector) / Redis / Langfuse
+# 生产部署再调整：密码用 .env 注入，勿提交真实密钥
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: evokeeper-postgres
+    environment:
+      POSTGRES_USER: evokeeper
+      POSTGRES_PASSWORD: evokeeper_dev_only
+      POSTGRES_DB: evokeeper
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evokeeper"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: evokeeper-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  # 自托管观测/评测留痕（计划书 §5：质量数字可回溯）
+  langfuse:
+    image: langfuse/langfuse:2
+    container_name: evokeeper-langfuse
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://evokeeper:evokeeper_dev_only@postgres:5432/evokeeper
+      NEXTAUTH_SECRET: change-me-before-real-use
+      NEXTAUTH_URL: http://localhost:3001
+      SALT: change-me-too
+    ports:
+      - "3001:3000"
+
+volumes:
+  pgdata:
+  redisdata:

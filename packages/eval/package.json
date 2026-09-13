@@ -1,0 +1,19 @@
+{
+  "name": "@evokeeper/eval",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"no tests yet\" && exit 0",
+    "eval:run": "echo \"W6: 运行评测集\" && exit 1",
+    "eval:gate": "echo \"W6: 执行门禁判定\" && exit 1"
+  },
+  "dependencies": {
+    "@evokeeper/core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

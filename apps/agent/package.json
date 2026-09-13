@@ -1,0 +1,20 @@
+{
+  "name": "@evokeeper/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo \"W2: 实现 GitHub webhook 消费与 Agent 执行器\" && exit 0",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"no tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "@evokeeper/core": "workspace:*",
+    "@evokeeper/memory": "workspace:*",
+    "@evokeeper/gateway": "workspace:*",
+    "@evokeeper/llm": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

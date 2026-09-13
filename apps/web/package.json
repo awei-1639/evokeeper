@@ -1,0 +1,11 @@
+{
+  "name": "@evokeeper/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"W7: Next.js 管理台（轨迹查看器/记忆时间线/评测报告/回滚控制台）\" && exit 0",
+    "build": "echo \"W7\" && exit 0",
+    "typecheck": "echo \"W7\" && exit 0",
+    "test": "echo \"no tests yet\" && exit 0"
+  }
+}

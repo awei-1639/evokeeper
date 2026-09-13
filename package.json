@@ -1,0 +1,19 @@
+{
+  "name": "evokeeper",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-evolving community agent: issue triage & Q&A with an experience CI/CD loop",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "eval:run": "pnpm --filter @evokeeper/eval run eval:run",
+    "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate"
+  }
+}
