@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EvoKeeper Golden Set 标注工具</title>
+<style>
+  :root{
+    --bg:#f8fafc; --panel:#ffffff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b;
+    --blue:#2563eb; --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+  body{display:flex;flex-direction:column}
+  header{padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  header h1{font-size:15px;margin:0;font-weight:600}
+  #progress{color:var(--muted)}
+  #progress b{color:var(--text)}
+  .count-chip{display:inline-block;padding:1px 8px;border-radius:10px;background:#f1f5f9;border:1px solid var(--border);margin-right:6px;font-size:12px}
+  main{flex:1;display:flex;min-height:0}
+  aside{width:320px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--panel)}
+  .aside-tools{padding:10px;border-bottom:1px solid var(--border)}
+  #search{width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+  .filters{margin-top:8px;display:flex;gap:6px}
+  .filters button{flex:1;padding:5px 0;border:1px solid var(--border);background:#fff;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted)}
+  .filters button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  #list{flex:1;overflow-y:auto;margin:0;padding:0;list-style:none}
+  #list li{padding:9px 12px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;gap:8px;align-items:flex-start}
+  #list li:hover{background:#f1f5f9}
+  #list li.cur{background:#eff6ff;border-left:3px solid var(--blue)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;margin-top:5px;flex:none}
+  .dot.done{background:var(--green)}
+  .li-title{flex:1;min-width:0}
+  .li-title .t{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+  .li-title .m{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  #editor{flex:1;overflow-y:auto;padding:18px 22px}
+  .empty{color:var(--muted);margin-top:40px;text-align:center}
+  h2.title{font-size:16px;margin:0 0 6px;line-height:1.45}
+  .meta{color:var(--muted);font-size:12px;margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .badge{display:inline-block;padding:1px 7px;border-radius:9px;background:#f1f5f9;border:1px solid var(--border);font-size:11px}
+  .badge.raw{background:#fefce8;border-color:#fde68a}
+  a.gh{display:inline-block;margin-bottom:12px;color:var(--blue);text-decoration:none;font-weight:600;font-size:13px}
+  a.gh:hover{text-decoration:underline}
+  pre.body{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-word;max-height:260px;overflow-y:auto;font-size:13px;line-height:1.55;font-family:inherit;margin:0 0 16px}
+  .replies{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 12px;margin:0 0 14px;font-size:13px;line-height:1.5}
+  .replies .rlabel{font-size:11px;color:#92700a;margin-bottom:6px;letter-spacing:.02em}
+  .replies .reply{padding:4px 0;border-top:1px dashed #f3d98a}
+  .replies .reply:first-of-type{border-top:none}
+  .replies .reply b{color:#7c5e09;margin-right:6px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px}
+  .card h3{margin:0 0 10px;font-size:13px;color:var(--muted);font-weight:600}
+  .lbl-row{display:flex;gap:14px;flex-wrap:wrap}
+  .lbl{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:7px;cursor:pointer;user-select:none;font-size:13px;background:#fff}
+  .lbl:has(input:checked){background:#eff6ff;border-color:var(--blue);color:var(--blue);font-weight:600}
+  .lbl input{accent-color:var(--blue);margin:0}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6}
+  .hint b{color:var(--amber)}
+  textarea,input[type=text],select{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;background:#fff;color:var(--text)}
+  textarea{resize:vertical;min-height:56px;line-height:1.5}
+  .field{margin-top:10px}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+  .qa-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px}
+  #qa-box{display:none;margin-top:10px}
+  #qa-box.show{display:block}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-top:4px}
+  button.primary{background:var(--blue);color:#fff;border:none;border-radius:7px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer}
+  button.primary:hover{background:#1d4ed8}
+  button.ghost{background:#fff;border:1px solid var(--border);border-radius:7px;padding:9px 14px;cursor:pointer}
+  #toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;display:none;z-index:9}
+  #toast.err{background:var(--red)}
+  kbd{background:#f1f5f9;border:1px solid var(--border);border-radius:4px;padding:0 5px;font-size:11px;font-family:consolas,monospace}
+  .gid{font-size:12px;color:var(--green);font-weight:600}
+</style>
+</head>
+<body>
+<header>
+  <h1>EvoKeeper 标注台</h1>
+  <div id="progress"></div>
+  <div id="counts"></div>
+</header>
+<main>
+  <aside>
+    <div class="aside-tools">
+      <input id="search" placeholder="搜索标题 / #编号 / gs-id">
+      <div class="filters">
+        <button data-f="todo" class="on">未标</button>
+        <button data-f="done">已标</button>
+        <button data-f="all">全部</button>
+      </div>
+    </div>
+    <ul id="list"></ul>
+  </aside>
+  <section id="editor"><p class="empty">← 从左侧选择一条 issue 开始标注<br><br>流程：读正文 → 打开 GitHub 看维护者回复 → 定标签 → 写一句话依据 → 判难度 →（question/bug 类）填 QA 要点</p></section>
+</main>
+<div id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const MAIN = ['bug','feature','question','duplicate'];
+let items = [], filter = 'todo', q = '', cur = -1;
+
+const isDone = it => !!(it.annotator && it.labels_gold && it.labels_gold.length && it.difficulty && it.triage_rationale);
+const mainOf = it => (it.labels_gold||[]).find(l => MAIN.includes(l)) || null;
+
+function toast(msg, err){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = err ? 'err' : '';
+  t.style.display = 'block';
+  clearTimeout(t._h);
+  t._h = setTimeout(()=> t.style.display='none', err?2600:1600);
+}
+
+function render(){
+  // 统计
+  const done = items.filter(isDone).length;
+  $('#progress').innerHTML = `已标 <b>${done}</b> / ${items.length} · 剩余 <b>${items.length-done}</b>`;
+  const cnt = {};
+  for(const it of items) for(const l of (it.labels_gold||[])) cnt[l]=(cnt[l]||0)+1;
+  $('#counts').innerHTML = ['bug','feature','question','duplicate','invalid','needs-more-info']
+    .map(l=>`<span class="count-chip">${l}:${cnt[l]||0}</span>`).join('');
+  // 列表
+  const lis = items.map((it,i)=>({it,i})).filter(({it})=>{
+    if(filter==='todo'&&isDone(it)) return false;
+    if(filter==='done'&&!isDone(it)) return false;
+    if(q){const s=q.toLowerCase(); return (it.title+' #'+it.issue_number+' '+(it.id||'')).toLowerCase().includes(s);}
+    return true;
+  });
+  $('#list').innerHTML = lis.map(({it,i})=>`
+    <li data-i="${i}" class="${i===cur?'cur':''}">
+      <span class="dot ${isDone(it)?'done':''}"></span>
+      <span class="li-title">
+        <span class="t">${esc(it.title)}</span>
+        <span class="m">#${it.issue_number} · ${it.created_at} · ${it.id!=='TBD'?it.id:'未编号'}</span>
+      </span>
+    </li>`).join('');
+  $('#list').querySelectorAll('li').forEach(li=>{
+    li.onclick = ()=>{ cur = +li.dataset.i; renderEditor(); render(); };
+  });
+}
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderEditor(){
+  const it = items[cur];
+  if(!it) return;
+  const m = mainOf(it), gold = it.labels_gold||[];
+  const qa = it.qa||null;
+  $('#editor').innerHTML = `
+    <h2 class="title">${esc(it.title)}</h2>
+    <div class="meta">
+      <span>#${it.issue_number}</span><span>${it.created_at} → ${it.closed_at||'开放'}</span>
+      <span>${it.comments_count} 条回复</span>
+      ${it.raw_labels.map(l=>`<span class="badge raw">维护者: ${esc(l)}</span>`).join('')}
+      <span class="badge">split: ${it.split}</span>
+      <span class="gid">${it.id!=='TBD'?it.id:''}</span>
+    </div>
+    <a class="gh" href="${it.url}" target="_blank" rel="noopener">在 GitHub 打开（必读维护者回复）↗</a>
+    ${it.maintainer_replies && it.maintainer_replies.length ? `
+    <div class="replies">
+      <div class="rlabel">讨论摘要（供参照，<b>非答案</b>，以你自己判断为准）</div>
+      ${it.maintainer_replies.map(r=>`<div class="reply"><b>${esc(r.author)}</b>: ${esc(r.body_excerpt)}</div>`).join('')}
+    </div>` : ''}
+    <pre class="body">${esc(it.body_excerpt)}</pre>
+
+    <div class="card">
+      <h3>① 分诊标签（labels_gold）</h3>
+      <div class="lbl-row">
+        ${MAIN.map(l=>`<label class="lbl"><input type="radio" name="main" value="${l}" ${m===l?'checked':''}> ${l}</label>`).join('')}
+        <label class="lbl"><input type="checkbox" id="cb-nmi" ${gold.includes('needs-more-info')?'checked':''}> needs-more-info（可叠加）</label>
+        <label class="lbl"><input type="checkbox" id="cb-invalid" ${gold.includes('invalid')?'checked':''}> invalid（可叠加，也可单独作为主标签）</label>
+      </div>
+      <div class="hint">边界：bug 需有"预期 vs 实际"；有报错堆栈的咨询 = <b>question</b>；"现在做不了 X"若因缺陷 = <b>bug</b>；纯抱怨无细节 = <b>invalid</b>。主性质四选一互斥。<br>
+      快捷键：<kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 主标签 · <kbd>5</kbd> invalid · <kbd>6</kbd> needs-more-info · <kbd>e</kbd>/<kbd>m</kbd>/<kbd>h</kbd> 难度 · <kbd>Ctrl+Enter</kbd> 保存并下一条</div>
+    </div>
+
+    <div class="card">
+      <h3>② 判定依据（triage_rationale，必填，一句话）</h3>
+      <textarea id="f-rationale" placeholder="例：含构建报错与复现命令，属缺陷报告而非使用咨询；duplicate 必须写明原 issue 号（#xxxx）">${esc(it.triage_rationale||'')}</textarea>
+    </div>
+
+    <div class="card">
+      <h3>③ 难度（difficulty）与归属</h3>
+      <div class="lbl-row">
+        ${['easy','medium','hard'].map(d=>`<label class="lbl"><input type="radio" name="diff" value="${d}" ${it.difficulty===d?'checked':''}> ${d}</label>`).join('')}
+      </div>
+      <div class="field" style="display:flex;gap:12px;margin-top:12px">
+        <div style="flex:1"><label>split（不用管，标完统一划 holdout）</label>
+          <select id="f-split"><option value="dev" ${it.split==='dev'?'selected':''}>dev</option><option value="holdout" ${it.split==='holdout'?'selected':''}>holdout</option></select></div>
+        <div style="flex:1"><label>annotator（轮次标识，持久保存）</label>
+          <input type="text" id="f-annotator" value="${esc(it.annotator||localStorage.getItem('evk_annotator')||'v1')}"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>④ QA 标注（建议给 question / bug 类填写；要点必须来自真实解决过程或官方文档）</h3>
+      <label class="qa-toggle"><input type="checkbox" id="qa-on" ${qa?'checked':''}> 本条填写 QA</label>
+      <div id="qa-box" class="${qa?'show':''}">
+        <div class="field"><label>qa.question（用户视角的问题重述）</label>
+          <input type="text" id="qa-q" value="${esc(qa?qa.question:'')}" placeholder="例：go build 提示 unexpected EOF，如何排查？"></div>
+        <div class="field"><label>ideal_answer_outline（3-5 个可判定要点，一行一个，judge 按覆盖度打分）</label>
+          <textarea id="qa-o" style="min-height:90px" placeholder="1) 指出原因 X&#10;2) 给出命令 Y&#10;3) 说明何时需要 Z">${esc(qa?qa.ideal_answer_outline:'')}</textarea></div>
+        <div class="field"><label>sources（出处，一行一个：issue#xxx / 文档路径）</label>
+          <textarea id="qa-s" style="min-height:44px" placeholder="issue#15823&#10;official-docs:auth-plugin">${esc(qa&&qa.sources?qa.sources.join('\n'):'')}</textarea></div>
+        <div class="field"><label>rubric_hints（可选：好回答 vs 坏回答的区分特征）</label>
+          <textarea id="qa-r" style="min-height:44px" placeholder="好回答应指出 fail-open 风险并给出版本核对步骤；坏回答只复述配置项">${esc(qa&&qa.rubric_hints?qa.rubric_hints:'')}</textarea></div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="primary" id="btn-save-next">保存并下一条（Ctrl+Enter）</button>
+      <button class="ghost" id="btn-save">仅保存（Ctrl+S）</button>
+    </div>`;
+
+  $('#editor').querySelectorAll('input[type=radio]').forEach(r=>r.onchange=render);
+  $('#qa-on').onchange = e => $('#qa-box').classList.toggle('show', e.target.checked);
+  $('#f-annotator').onchange = e => localStorage.setItem('evk_annotator', e.target.value.trim()||'v1');
+  $('#btn-save').onclick = ()=>save(false);
+  $('#btn-save-next').onclick = ()=>save(true);
+}
+
+function collect(){
+  const it = items[cur];
+  const main = document.querySelector('input[name=main]:checked');
+  const nmi = $('#cb-nmi').checked;
+  const inv = $('#cb-invalid').checked;
+  const labels = [];
+  if(main) labels.push(main.value);
+  if(nmi) labels.push('needs-more-info');
+  if(inv && !labels.includes('invalid')) labels.push('invalid');
+  if(!labels.length) throw new Error('至少选择一个主性质标签（bug/feature/question/duplicate），或勾选 invalid');
+  const rationale = $('#f-rationale').value.trim();
+  if(!rationale) throw new Error('triage_rationale 必填：一句话判定依据');
+  if(labels.includes('duplicate') && !/#\d+/.test(rationale)) {
+    if(!confirm('duplicate 规范要求在依据里写明原 issue 号（#xxxx），确定不写直接保存吗？')) throw new Error('cancelled');
+  }
+  const diff = document.querySelector('input[name=diff]:checked');
+  if(!diff) throw new Error('difficulty 必选（easy / medium / hard）');
+  const annotator = $('#f-annotator').value.trim();
+  if(!annotator) throw new Error('annotator 必填（如 v1，或你的名字）');
+  let qa = null;
+  if($('#qa-on').checked){
+    const question = $('#qa-q').value.trim();
+    const outline = $('#qa-o').value.trim();
+    const sources = $('#qa-s').value.split(/[\n,，]/).map(s=>s.trim()).filter(Boolean);
+    if(!question || !outline || !sources.length) throw new Error('QA 需填写：问题重述、要点 outline、至少一个 source');
+    qa = { question, ideal_answer_outline: outline, sources };
+    const rh = $('#qa-r').value.trim();
+    if(rh) qa.rubric_hints = rh;
+  }
+  return {
+    issue_number: it.issue_number, repo: it.repo,
+    labels_gold: labels, triage_rationale: rationale,
+    difficulty: diff.value, split: $('#f-split').value,
+    annotator, annotated_at: new Date().toISOString().slice(0,10), qa
+  };
+}
+
+async function save(goNext){
+  try{
+    const patch = collect();
+    const r = await fetch('/api/save',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(patch)});
+    const d = await r.json();
+    if(!d.ok) throw new Error(d.error||'保存失败');
+    Object.assign(items[cur], patch, {id:d.id});
+    toast(`已保存 ${d.id}`);
+    if(goNext){
+      const n = items.length;
+      for(let k=1;k<=n;k++){
+        const j = (cur+k)%n;
+        if(!isDone(items[j])){ cur=j; break; }
+      }
+    }
+    renderEditor(); render();
+  }catch(e){
+    if(e.message!=='cancelled') toast(e.message, true);
+  }
+}
+
+$('#search').oninput = e => { q = e.target.value.trim(); render(); };
+document.querySelectorAll('.filters button').forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); filter = b.dataset.f; cur=-1; renderEditor(); render();
+  };
+});
+
+document.addEventListener('keydown', e=>{
+  if(cur<0) return;
+  const ae = document.activeElement, tag = ae && ae.tagName;
+  const typing = tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT';
+  if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); save(true); return; }
+  if((e.ctrlKey||e.metaKey) && (e.key==='s'||e.key==='S')){ e.preventDefault(); save(false); return; }
+  if(typing || e.ctrlKey || e.metaKey || e.altKey) return;
+  const main = document.querySelector('input[name=main]:checked');
+  if(e.key>='1'&&e.key<='4'){ const r=document.querySelectorAll('input[name=main]')[+e.key-1]; if(r){r.checked = !(main&&main===r); renderEditor();} }
+  if(e.key==='5'){ const c=$('#cb-invalid'); c.checked=!c.checked; }
+  if(e.key==='6'){ const c=$('#cb-nmi'); c.checked=!c.checked; }
+  const dm = {e:'easy',m:'medium',h:'hard'};
+  if(dm[e.key]){ const r=document.querySelector(`input[name=diff][value="${dm[e.key]}"]`); if(r) r.checked=true; }
+});
+
+(async function load(){
+  const d = await (await fetch('/api/items')).json();
+  items = d.items;
+  render();
+})();
+</script>
+</body>
+</html>

@@ -6,5 +6,8 @@ dist/
 .env.*
 !.env.example
 datasets/**/*.local.jsonl
-coverage/
+# 标注工具的滚动备份快照（git 历史本身就是版本化备份，不需要重复入库）
+datasets/**/*.backup.jsonl
+# WorkBuddy 会话工作记忆，不属于项目源码
+.workbuddy/
 .DS_Store
