@@ -4,7 +4,7 @@
 
 参考 [MetaRSI (arXiv:2609.06396)](https://arxiv.org/abs/2609.06396) 的 Loop Kernel 范式与 AWM / Mem0 / Voyager 等研究，把"经验积累"工程化为一套带评测门禁的发布流程（经验 CI/CD）。
 
-完整设计见《项目计划书》（工作区根目录 `自进化Agent-项目计划书.md`）。
+完整设计见《项目计划书》（`docs/项目计划书.md`）。
 
 ## 架构总览
 
