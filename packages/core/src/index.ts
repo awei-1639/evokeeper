@@ -108,6 +108,64 @@ export interface MemoryItem {
   createdAt: string;
 }
 
+// ---------- 判别规则与整理任务（W3/W5 先行定义，保证文档与代码同源） ----------
+
+/** 判别规则集：失败判别规则必须版本化，因为判别器本身也是被评测对象（D4） */
+export interface JudgeRuleSet {
+  /** 对应 JudgedTrace.judgeRuleVersion，如 "jrv-1.0" */
+  version: string;
+  /** 规则按优先级降序匹配，命中即返回 verdict */
+  rules: Array<{
+    signal: ReactionSignal["kind"];
+    verdict: FailureVerdict;
+    priority: number;
+  }>;
+  /** 反应信号采集窗口（天）：超时仍无信号记为 no_reaction */
+  windowDays: number;
+  /** 每周人工抽检条数（校准判别器） */
+  humanReviewSampleSize: number;
+}
+
+/** 一次睡眠整理任务：可重放、可审计（R3） */
+export interface ConsolidationJob {
+  id: string;
+  repo: string;
+  /** 输入快照：参与整理的 JudgedTrace 及判别规则版本，保证可重放 */
+  inputTraceIds: string[];
+  judgeRuleVersion: string;
+  /** 聚类参数快照（阈值/相似度/最小簇大小），参数变更可追溯 */
+  clusterParams: {
+    minClusterSize: number;
+    similarityThreshold: number;
+    maxCandidates: number;
+  };
+  status: "running" | "completed" | "failed";
+  /** 未成候选的低频簇，进周报供人工查看 */
+  lowFrequencyClusters: Array<{ size: number; sampleTraceIds: string[] }>;
+  candidateIds: string[];
+  startedAt: string;
+  finishedAt: string | null;
+}
+
+/** 灰度观察指标：决定 canary 是转 full 还是 rolled_back */
+export interface CanaryMetrics {
+  releaseVersion: string;
+  /** 灰度范围：repo:owner/name 或 pct:20 */
+  scope: string;
+  sampleSize: number;
+  /** 维护者纠正率（人改标签 / 总处理量）—— 灰度最敏感的信号 */
+  humanCorrectionRate: number;
+  escalateRate: number;
+  costPerIssue: number;
+  p95LatencyMs: number;
+  /** 负面反应数：评论被删、被踩、明确不满 */
+  negativeReactionCount: number;
+  /** pending -> promote / rollback 的人工或自动裁决 */
+  decision: "pending" | "promote" | "rollback";
+  observedFrom: string;
+  observedTo: string;
+}
+
 // ---------- 经验 CI/CD ----------
 
 export type ExperienceType =
@@ -146,6 +204,16 @@ export interface EvalMetrics {
   adversarialPassRate: number | null;
 }
 
+/**
+ * 模型配置快照（purpose → 具体模型标识，含版本/快照号）
+ * 换模型即换行为：没有这个快照，两次 EvalRun 的指标不可比（R3）
+ */
+export interface ModelConfig {
+  /** 配置版本，如 "mc-1.0"；任何映射变更必须递增，禁止原地改 */
+  version: string;
+  routing: Record<"triage" | "answer" | "judge" | "consolidate" | "embed", string>;
+}
+
 export interface EvalRun {
   id: string;
   candidateId: string | null;
@@ -153,6 +221,8 @@ export interface EvalRun {
   baselineRunId: string | null;
   datasetVersion: string;
   split: "dev" | "holdout";
+  /** 本次评测所用模型配置快照；与 baselineRunId 指向的 modelConfig 不同时，对比无效 */
+  modelConfig: ModelConfig;
   metrics: EvalMetrics;
   /** bootstrap 95% 置信区间（主指标） */
   ci95: { lower: number; upper: number } | null;

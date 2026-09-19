@@ -11,9 +11,16 @@
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm -r test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "triage:dryrun": "tsx scripts/dryrun-triage.mts",
+    "pilot:triage": "tsx scripts/pilot-triage.mts",
     "lint": "pnpm -r lint",
     "eval:run": "pnpm --filter @evokeeper/eval run eval:run",
     "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.13",
+    "vitest": "^5.0.0"
   }
 }
