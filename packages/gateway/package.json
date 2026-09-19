@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "echo \"no tests yet\" && exit 0"
