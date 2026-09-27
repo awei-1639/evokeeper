@@ -24,7 +24,9 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
   - `apps/agent`：`triage.ts`（prompt `tp-1.0` + 结构化隔离 + `parseTriage` + 注入嫌疑检测）、`index.ts`（`handleIssueEvent` + `decideActions` 纯函数）
   - 测试：`pnpm test`（vitest，41 用例全绿）；试跑：`pnpm triage:dryrun -- --limit 300`（离线审阅真实 prompt），加 `--call` 真实跑批
 - ✅ **golden set 标注全量完成（2026-09-27）**：剩余 224 条由 AI 第 1 轮标注（annotator=ai-v1，8 子代理 + 两轮质检）。终态主标签：bug 104 / question 74 / feature 67 / invalid 36 / duplicate 19（全量 300）；**QA 轨道 127/300 条已产出**（有实质维护者回复才产出，35 条据不足置 null）；token 修复后已拉全维护者回复（252/253）。分诊标签经两轮证据复核共改判 12 条（含 duplicate 原号回填），详见 `docs/annotation-report-ai-r1.md` 与 `datasets/ai-annotation/round1/reviews.json`（15 条待仲裁）
-- ⏳ 待办：① 第二轮盲标 60 条（`ANNOTATE_DATA=datasets/review/blind-round2.jsonl node scripts/annotate.mjs`，annotator 填 v2）→ `node scripts/kappa.mjs` 算 κ≥0.75；② 仲裁 15 条（重点：3 条 duplicate 缺原号、feature/question 边界 2 条）；③ holdout 40 条分层锁定（方案已提议未落锁，见报告 §6）；④ W2 剩余：Inbox（webhook 消费与幂等）→ 基线跑批；⑤ 装 Docker 后补跑 infra 验证
+- ✅ **W2 Inbox 已落地（2026-09-27）**：`apps/agent/src/inbox.ts`（eventId 幂等认领、issues/issue_comment 事件映射、1m/5m/30m 重试 + 死信、HMAC 验签）+ `webhook-server.ts`（:8787 HTTP 接入，`pnpm --filter @evokeeper/agent dev`）。队列/存储为接口注入 + 内存实现，装 Redis/PG 后换 BullMQ/Postgres 适配器，接口不变。单测 13 例（去重/重试/映射/验签）
+- ✅ **W2 基线跑批完成（2026-09-27）**：tp-1.2 × deepseek-v4-flash × 全量 300 条 → 主标签准确率 **67.0%**（解析失败 22、nmi 命中 1/39 误报 0、成本单条 ¥0.0023、p50 1.6s）。结构性发现：duplicate 召回 0/19（需 W4 RAG 证据，prompt 已冻结禁止调参）；bug↔question 互窜是主要误差源。报告 `datasets/pilot/baseline-deepseek-v4-flash-mc-1.0-tp-1.2-v1-draft-n300.json`，分析记入 design.md §9.1
+- ⏳ 待办：① 第二轮盲标 60 条（`ANNOTATE_DATA=datasets/review/blind-round2.jsonl node scripts/annotate.mjs`，annotator 填 v2）→ `node scripts/kappa.mjs` 算 κ≥0.75；② 仲裁 15 条（重点：3 条 duplicate 缺原号、feature/question 边界 2 条）；③ κ 过关 + 仲裁后跑 `node scripts/select-holdout.mjs --apply` 落锁 holdout 40 条（方案已生成，seed=42 可复现，dry-run 默认）；④ W2 DoD 剩余：RAG 问答链路；⑤ W3：轨迹库落库 + 记忆层；⑥ 装 Docker 后补跑 infra 验证（BullMQ/Postgres 适配器落地依赖它）
 
 ## 3. 不可违反的项目约定
 

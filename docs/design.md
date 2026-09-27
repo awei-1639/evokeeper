@@ -236,14 +236,18 @@ GitHub App (webhook)
 
 **峰谷调度**：eval 回放、consolidate、批量 embedding 强制排在 22:00-次日 08:00 或周末（空闲价 5 折）；实时 triage / answer 不挑时段（首响延迟优先）。
 
-**落地状态（2026-09-14）**：`packages/llm` 已实现 purpose 路由、峰谷计价（`estimateCost`）、
+**落地状态（2026-09-27 更新）**：`packages/llm` 已实现 purpose 路由、峰谷计价（`estimateCost`）、
 查询缓存（triage 24h / answer 6h / **judge 与 consolidate 为 0**）、OpenAI 兼容传输层（三家供应商、
 429/5xx 退避重试）、结构化输出校验（失败重试 2 次后 `ok:false`，不静默降级）。
 `apps/agent` 已实现分诊提示词、结构化隔离、输出校验与动作决策纯函数。
-验证方式：`pnpm test`（41 个用例，锁死峰谷 2 倍价差、judge 不缓存、duplicate 无证据降级等契约）；
-`pnpm triage:dryrun -- --limit 300` 可离线审阅真实提示词并估算体量——
-当前 300 条草稿池输入约 21.9 万 tokens，空闲时段单次全跑约 ¥0.33。
-设好 `DEEPSEEK_API_KEY` 后加 `--call` 即真实跑批，结果写入 `datasets/pilot/`。
+**Inbox（W2 剩余）已落地**：`apps/agent/src/inbox.ts`（eventId 幂等认领 `InboxStore` +
+issues/issue_comment 事件映射 + 1m/5m/30m 重试与死信回调 + `X-Hub-Signature-256` 校验）与
+`webhook-server.ts`（HTTP 接入，`pnpm --filter @evokeeper/agent dev` 启动于 :8787）。
+队列当前为进程内 scheduler 注入 + `MemoryInboxStore`（容量淘汰），接口已按 BullMQ/Postgres
+适配器形状设计，装 Redis/PG 后只换实现不改策略。单测 13 例锁死去重/重试/映射/验签契约。
+验证方式：`pnpm test`（54 个用例）；`pnpm triage:dryrun -- --limit 300` 离线审阅提示词；
+`pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-n300` 真实跑批并写报告到 `datasets/pilot/`。
+golden set 已全量标注 300 条（AI r1 + 两轮质检，见 `docs/annotation-report-ai-r1.md`）。
 
 **分诊 pilot 结果（2026-09-19，golden set 前 50 条，`pnpm pilot:triage`）**：
 
@@ -262,6 +266,16 @@ duplicate 无编号禁止在 prompt 层显式化（与 §3.3 动作层降级形�
 1. tp-1.1 曾把"宁 question 勿 bug"写进 prompt，准确率反降 12pt——**prompt 倾向性表述必须经 pilot 实测，不能凭直觉**；评测闭环首次真实拦下了一次坏变更。
 2. tp 系列迭代均"看过" pilot 错例，pilot 数字偏乐观（对 pilot 过拟合）。**prompt 迭代就此冻结**；dev 剩余 110 条标完后必须以 tp-1.2 重跑验证；holdout 40 条仅在最终定稿时评测一次。
 3. 遗留问题：结构化输出存在间歇性失败（同输入时败时成，2-3/50），生产由 escalate 兜底；后续在传输层记录失败时的原始响应以定位根因。
+
+**dev 池基线（2026-09-27，tp-1.2 × deepseek-v4-flash × 全量 300 条，`--tag=baseline`）**：
+主标签严格比对 **67.0%（201/300）**；解析失败 22 条（7.3%）；nmi 命中 1/39、误报 0；
+easy 切片 79/110、hard 16/28；成本合计 ¥0.6871（单条 ¥0.00229）；p50 1.6s / p95 6.8s。
+混淆焦点：bug↔question 互窜（17+14 条）为主；**duplicate 召回 0/19**——判重需要跨 issue 证据，
+静态分诊天然不可得，是 W4 RAG 的明确输入而非 prompt 问题（prompt 已冻结，禁止据此调参）；
+nmi 命中崩至 1/39 是 tp-1.2 把误报 9→1 的直接代价，两难留待 W4 证据注入后重测。
+报告：`datasets/pilot/baseline-deepseek-v4-flash-mc-1.0-tp-1.2-v1-draft-n300.json`。
+**纪律**：本次跑批覆盖全部 300 条（含未来 holdout 候选），其结果只作为 dev 池锚点；
+holdout 落锁后的终评必须全新跑批，且禁止对本次报告中 holdout 子集做任何错误分析。
 
 ---
 

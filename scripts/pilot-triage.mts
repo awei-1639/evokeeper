@@ -9,7 +9,8 @@
  *
  * 用法：
  *   pnpm pilot:triage                 # 前 50 条，默认模型（deepseek-v4-flash）
- *   pnpm pilot:triage -- --limit 50 --model deepseek-v4-pro   # 对比其他模型
+ *   pnpm pilot:triage -- --limit=50 --model deepseek-v4-pro   # 对比其他模型
+ *   pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-300  # 基线跑批（独立报告文件）
  */
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -36,8 +37,12 @@ if (!process.env.DEEPSEEK_API_KEY) {
 const argv = process.argv.slice(2);
 const limitArg = argv.find((a) => a.startsWith("--limit="));
 const modelArg = argv.find((a) => a.startsWith("--model="));
+const tagArg = argv.find((a) => a.startsWith("--tag="));
+const dsArg = argv.find((a) => a.startsWith("--ds="));
 const LIMIT = limitArg ? Number(limitArg.split("=")[1]) : 50;
 const MODEL = modelArg ? modelArg.split("=")[1] : undefined;
+const TAG = tagArg ? tagArg.split("=")[1] : "pilot"; // 报告文件名前缀，区分 pilot/baseline 等用途
+const DATASET_VERSION = dsArg ? dsArg.split("=")[1] : null; // 数据集版本快照标识，禁止跨版本比较
 const PROMPT_VERSION = "tp-1.2"; // prompt 升级时同步改这里，报告文件名随之区分
 
 const MAIN = ["bug", "feature", "question", "duplicate"] as const;
@@ -161,7 +166,8 @@ for (const [gold, m] of [...confusion.entries()].sort()) {
 
 const outDir = resolve(ROOT, "datasets/pilot");
 mkdirSync(outDir, { recursive: true });
-const outFile = resolve(outDir, `pilot-${MODEL ?? resolveModel("triage")}-${DEFAULT_MODEL_CONFIG.version}-${PROMPT_VERSION}.json`);
+const ds = DATASET_VERSION ?? `v1-draft-n${rows.length}`;
+const outFile = resolve(outDir, `${TAG}-${MODEL ?? resolveModel("triage")}-${DEFAULT_MODEL_CONFIG.version}-${PROMPT_VERSION}-${ds}.json`);
 writeFileSync(
   outFile,
   JSON.stringify(
@@ -169,7 +175,7 @@ writeFileSync(
       model: MODEL ?? resolveModel("triage"),
       modelConfigVersion: DEFAULT_MODEL_CONFIG.version,
       promptVersion: PROMPT_VERSION,
-      datasetVersion: "v1-draft-pilot50",
+      datasetVersion: ds,
       n,
       correct,
       accuracy,

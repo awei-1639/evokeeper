@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "echo \"W2: 实现 GitHub webhook 消费与 Agent 执行器\" && exit 0",
+    "dev": "tsx src/webhook-server.ts",
     "typecheck": "tsc --noEmit",
     "test": "echo \"no tests yet\" && exit 0"
   },
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "tsx": "^4.23.13",
     "typescript": "^5.7.0"
   }
 }

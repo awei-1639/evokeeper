@@ -2,7 +2,8 @@
  * Agent 执行器 —— design.md §3
  *
  * 当前进度（W2）：分诊链路跑通（提示词装配 → 结构化输出 → 校验 → 动作决策 → TraceStep）。
- * 尚未接入：GitHub webhook 消费与幂等（Inbox）、记忆/技能注入（W3/W5）、RAG 问答。
+ * Inbox（webhook 接入 + eventId 幂等 + 重试）已实现：./inbox.ts + ./webhook-server.ts。
+ * 尚未接入：GitHub 写动作执行（需 MCP 网关，W3+）、记忆/技能注入（W3/W5）、RAG 问答。
  *
  * 红线：R2 输出动作仅限 addLabels / comment / escalate；R3 每次调用必须产出可落库的 TraceStep。
  */
