@@ -1,0 +1,26 @@
+{"issue_number":13857,"labels_gold":["bug"],"triage_rationale":"正文按缺陷模板描述单测在 NonDex 下因 JSON 字段顺序精确比对而间歇性失败（flaky 测试属缺陷），有明确预期与实际差异，维护者鼓励提交 PR 且已由 #13858 修复。","difficulty":"easy"}
+{"issue_number":13889,"labels_gold":["invalid"],"triage_rationale":"正文虽报告 jasypt 解密失效，但维护者回复说明根因是 Spring Cloud Alibaba 2023.0.1.3 起不再兼容 Bootstrap 模式、改用 application.yml 即可正常加解密（按设计行为），且该 issue 以 status/invalid 标签关闭，信号一致判无效。","difficulty":"medium"}
+{"issue_number":13951,"labels_gold":["feature"],"triage_rationale":"正文明确建议为 console 模块跨域过滤器增加可配置能力，属新能力诉求；维护者回复欢迎提交 PR 并打 contribution welcome 标签。","difficulty":"easy"}
+{"issue_number":14068,"labels_gold":["question"],"triage_rationale":"用户报告 hostname 配置 cluster.conf 会多生成一个 ip 实例，维护者仅回复 nacos.inetutils.prefer-hostname-over-ip 参数文档链接作配置指引，属配置使用咨询而非缺陷确认。","difficulty":"medium"}
+{"issue_number":14119,"labels_gold":["question"],"triage_rationale":"用户携带 UsernameNotFoundException 堆栈求助排障，维护者引导查库并用 arthas 分析，最终用户自答并非 nacos-server 的问题而是自身微服务问题，无产品缺陷证据，有堆栈的咨询判 question。","difficulty":"medium"}
+{"issue_number":14439,"labels_gold":["feature"],"triage_rationale":"诉求是为 AgentCard 补充 authentication 属性以传递 apikey；维护者核实 0.3.0/0.2.6 规范并无该字段且 securitySchemes 等安全字段均已适配，后续将按 1.0.0 新版规范适配，属规范演进带来的新能力诉求而非缺陷。","difficulty":"medium"}
+{"issue_number":14777,"labels_gold":["question"],"triage_rationale":"kind/discussion 按内容判：正文是对 OIDC authorization-endpoint 必填否则抛错与登录页设计的探讨交流，维护者解释了当前设计取舍并指向设计 issue #14054，无缺陷证据，属使用与设计咨询。","difficulty":"medium"}
+{"issue_number":14926,"labels_gold":["bug"],"triage_rationale":"缺陷模板给出明确预期（Next 控制台正常显示）与实际（关闭 console auth 时界面持续闪烁），维护者回复已由 3.2.1 修复，确认为功能缺陷。","difficulty":"easy"}
+{"issue_number":15207,"labels_gold":["bug"],"triage_rationale":"正文报告 object 类型入参字段无法被接口获取与显示的功能失效并附截图，kind/research 按内容判仍为缺陷报告；他人回复 3.1.1 亲测正常仅是未复现，不改变报告性质。","difficulty":"medium"}
+{"issue_number":15420,"labels_gold":["feature"],"triage_rationale":"kind/enhancement，正文以 Problem 与 Expected behavior 结构提出统一改进 Skill ZIP 上传对非法版本的处理以优化体验，属增强诉求，PR #15421 已修复。","difficulty":"easy"}
+{"issue_number":15529,"labels_gold":["question"],"triage_rationale":"标题与正文均为请教式咨询（mcp tools 如何配置图片二进制转发、当前配置为何不行），维护者仅推测是 higress 网关不支持二进制转发，无产品缺陷证据。","difficulty":"easy"}
+{"issue_number":15675,"labels_gold":["feature"],"triage_rationale":"正文请求 MCP Tool outputSchema 编辑器支持可空类型组合（如 object 与 null）以描述返回 null 的字段，属明确的新能力诉求，kind/feature。","difficulty":"easy"}
+{"issue_number":15812,"labels_gold":["bug","needs-more-info"],"triage_rationale":"正文完整复现网卡断开加 VIP 漂移后客户端健康检查持续失败且不进入重连、重启可恢复的预期与实际差异，属缺陷；社区评估明确标注 Needs Info 并索要完整 thread dump 而用户已无法提供，附 needs-more-info；涉及 gRPC 重连与网络漂移的复杂根因判 hard。","difficulty":"hard"}
+{"issue_number":13837,"labels_gold":["question"],"triage_rationale":"正文自问 add_mcp_server 失败是什么原因、address 是否不支持域名访问，属排障咨询；维护者分析报错来自后端 MCP 服务的 400 bad request 并建议排查后端是否支持 streamable，无 Nacos 缺陷证据。","difficulty":"medium"}
+{"issue_number":13913,"labels_gold":["duplicate"],"triage_rationale":"正文虽为 gRPC 10M 消息上限导致集群同步报错的回归报告，但该 issue 被维护者以 status/duplicate 标签关闭（修复指向 PR #13394），原重复 issue 号未指明，按规则采用 duplicate。","difficulty":"medium"}
+{"issue_number":13976,"labels_gold":["bug","needs-more-info"],"triage_rationale":"正文按缺陷模板给出预期（就绪检查通过）与实际（naming not in readiness），属缺陷报告；维护者多轮索要 naming-raft、protocol-distro、alipay-jraft 等日志仍信息不足即以 status/need feedback 状态关闭，附 needs-more-info。","difficulty":"medium"}
+{"issue_number":14065,"labels_gold":["question"],"triage_rationale":"用户咨询 nacos-client 使用 jdk8 的 javax.annotation 导致安全扫描不通过官方是否有解决办法，维护者解释 2.x 因依赖基线不可能升级 JDK 并推荐使用 3.x，属兼容性使用咨询。","difficulty":"medium"}
+{"issue_number":14423,"labels_gold":["bug"],"triage_rationale":"标题与正文指出表单超过 Tomcat 限制时没有触发应有的异常（预期抛错与实际未抛），kind/discussion 按内容判仍为缺陷，评论区围绕在 AuthFilter 等位置增加请求体大小判断展开修复讨论。","difficulty":"medium"}
+{"issue_number":14437,"labels_gold":["invalid"],"triage_rationale":"正文为瑞士航空客服电话的 unicode 混排营销垃圾内容，与项目无关且被施加 spam 标签，判无效。","difficulty":"easy"}
+{"issue_number":14739,"labels_gold":["feature"],"triage_rationale":"正文提出 MCP Resource Registry 完整链路（resource spec 独立存储、绑定、detail 注入与级联清理）的新能力诉求，维护者邀请其设计并最终由 #14796 实现。","difficulty":"easy"}
+{"issue_number":14981,"labels_gold":["bug"],"triage_rationale":"正文明确预期（publishConfig 幂等更新）与实际（并发下 500 及唯一约束冲突），维护者确认 insertOrUpdate 先查后插模式的根因并在 #15465 完善，属并发场景缺陷。","difficulty":"medium"}
+{"issue_number":15143,"labels_gold":["feature"],"triage_rationale":"用户上传嵌套 SKILL 出现文件缺失与命名错乱并询问是否支持嵌套 SKILL，维护者答复目前不支持该形式、可以讨论这个需求并认可规范未禁止子目录 SKILL.md，kind/feature，性质为编排式嵌套 SKILL 的新形态支持诉求而非已支持功能的缺陷。","difficulty":"medium"}
+{"issue_number":15444,"labels_gold":["bug","needs-more-info"],"triage_rationale":"正文报告 A2A list API 间歇 503 而后端日志为 findConfigInfoLike4Page 的 MySQLTimeoutException（预期正常返回与实际超时），属缺陷；维护者追问为何 A2A list 会查询 mcp-version group 并请求进一步反馈，issue 因无回应过期关闭，附 needs-more-info。","difficulty":"medium"}
+{"issue_number":15495,"labels_gold":["feature"],"triage_rationale":"正文以 feature 模板请求提供不含 MCP、Skill、AI 组件的轻量版本，维护者告知可用 -f microservice 启动参数并欢迎完善文档（area/Document），性质为轻量化能力诉求而非使用缺陷。","difficulty":"medium"}
+{"issue_number":15683,"labels_gold":["invalid"],"triage_rationale":"正文报告两个 console 接口未授权可访问疑似信息泄露，维护者说明这两个 API 按官方文档定义为 public api 属设计行为，status/invalid 标签信号一致，依规则按设计工作判 invalid。","difficulty":"hard"}
+{"issue_number":15801,"labels_gold":["bug"],"triage_rationale":"正文为附带利用脚本的 JDBC 连接串注入 SSRF 漏洞分析（预期 ip 按单一地址校验与实际可注入多主机列表），安全漏洞按规则判 bug；维护者虽有属正常功能的辩解但未打 status/invalid 标签，且回复请升级到最新版本。","difficulty":"hard"}

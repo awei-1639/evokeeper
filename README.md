@@ -76,8 +76,8 @@ pnpm --filter @evokeeper/agent dev              # → http://localhost:8787/webh
 - [x] 睡眠整理管线 v1（聚类 + 归纳）+ 评测门禁五条 + 影子回放 + 发布回滚状态机
 - [x] 对抗样本集 30 条（防线实测 30/30 通过）
 - [x] 管理台 v1（七页只读）
-- [ ] **第二轮盲标 60 条 → κ≥0.75 → holdout 40 条落锁**（门禁可信的前提）
-- [ ] 真实流量（GitHub App 注册 + 部署）→ 影子回放真实数据 → 第一个经验发布（W6 里程碑）
+- [x] 数据集 v1 定稿：两轮盲标 κ=0.894 达标，holdout 40 条锁定（dev 260 + holdout 40 + 扩充池 100）
+- [ ] holdout 首评（DeepSeek 充值后）→ 真实流量（GitHub App 注册 + 部署）→ 第一个经验发布（W6 里程碑）
 - [ ] Postgres/BullMQ/Langfuse 适配器（等 Docker infra）
 
 ## 设计红线（先于一切功能）

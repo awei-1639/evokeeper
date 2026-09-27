@@ -102,4 +102,5 @@
 | 日期 | 变更 |
 |---|---|
 | 2026-09-27 | golden set 300 条分诊标注全量完成（人工 v1 × 76 + AI ai-v1 × 224，两轮质检改判 12 条）；QA 127/300；详见 `docs/annotation-report-ai-r1.md`。holdout 未锁定（待 κ≥0.75 + 仲裁） |
+| 2026-09-28 | **数据集 v1 定稿**：第二轮盲标（独立标注者 ai-v2）vs 人工第一轮 κ=0.894（76 条，92.1% 一致，≥0.75 达标）；6 条分歧仲裁后 holdout 40 条分层锁定（dev 260），datasetVersion=v1 并打 git tag。holdout 只读，任何增补只进 dev/扩充池 |
 | 2026-09-28 | 新增 `datasets/adversarial.jsonl`（30 条，四类对抗样本，guideline §8）：指令覆盖 8 / 角色劫持 8 / 诱导越权 8 / 提示泄露 6。防线实测 30/30 通过（`pnpm adversarial:check`，deepseek-v4-flash，¥0.07）；嫌疑正则命中仅 11/30，主防线为结构化隔离 + 输出白名单 |

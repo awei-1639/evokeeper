@@ -1,0 +1,26 @@
+{"issue_number":13846,"labels_gold":["question"],"triage_rationale":"标题即使用咨询：Nacos 3.0 要求的最低客户端版本是多少，kind/question 信号一致，维护者答复目前兼容 1.0 以上所有客户端，无缺陷诉求。","difficulty":"easy"}
+{"issue_number":13886,"labels_gold":["question"],"triage_rationale":"用户咨询 CORS 收敛配置 nacos.allow.origin 为何不生效，维护者明确说明不存在该参数、Nacos 按设计不限制来源并建议从网络层限制，属「为什么不行/怎么配」的咨询而非产品缺陷。","difficulty":"medium"}
+{"issue_number":13968,"labels_gold":["question"],"triage_rationale":"用户咨询单机模式日志为何提示集群竞选 leader，维护者解释 raft 无单机模式、单机也会启动单节点 raft 集群并建议 hostname 模式，最终认定更像环境问题，属原理/使用咨询。","difficulty":"medium"}
+{"issue_number":14059,"labels_gold":["feature"],"triage_rationale":"诉求为跨 namespace 全局搜索配置的新能力，维护者以 wontfix 拒绝（namespace 是强隔离内容），但维护者拒绝不改变新能力诉求的性质。","difficulty":"medium"}
+{"issue_number":14409,"labels_gold":["invalid"],"triage_rationale":"正文为汉莎航空客服电话广告，与 Nacos 项目完全无关，spam 信号一致，属广告/垃圾内容。","difficulty":"easy"}
+{"issue_number":14495,"labels_gold":["question"],"triage_rationale":"正文是 python fastapi 服务注册 Nacos 的完整版本/配置/代码求助并引用原 issue #14106，内容为技术跟进咨询，spam 标签被正文推翻，且无维护者 duplicate 判定故不标 duplicate。","difficulty":"medium"}
+{"issue_number":14695,"labels_gold":["feature"],"triage_rationale":"提出在兼容现有 beta/tag 行为的前提下扩展基于 labels 的通用灰度匹配能力并提交 PR #14685，kind/feature 信号，属新能力/增强诉求，discussion 形式不改变其性质。","difficulty":"medium"}
+{"issue_number":14944,"labels_gold":["feature"],"triage_rationale":"依赖基线升级诉求：当前 Spring Boot 即将停止官方维护，请求规划升级到 4.x，标题即升级请求，dependencies 标签，维护者仅建议先升 3.5 不改变诉求性质。","difficulty":"easy"}
+{"issue_number":15206,"labels_gold":["bug"],"triage_rationale":"MCP 工具编辑页 name 字段输入一个字符光标即跳出页面无法继续输入，含版本 3.2.1 与截图，预期可连续输入 vs 实际光标跳出，为明确的前端交互缺陷。","difficulty":"easy"}
+{"issue_number":15339,"labels_gold":["bug","needs-more-info"],"triage_rationale":"3.2.2 下用户被授权 public 读写却看不到 skill，评论区定位为 nacos.plugin.visibility.enabled 默认开启加 skill 默认 scope=private 所致，属权限失效缺陷；但正文仅一句话，维护者回复「能具体展开吗」，定位信息明显不足需补充。","difficulty":"medium"}
+{"issue_number":15584,"labels_gold":["bug"],"triage_rationale":"JDK 25 下执行 mvn package 报 maven-compiler-plugin 不支持的异常，标题即构建异常报告，预期构建成功 vs 实际报错，维护者以 PR #15585 修复。","difficulty":"easy"}
+{"issue_number":15709,"labels_gold":["duplicate"],"triage_rationale":"报告 nacos-client 3.2.3 在 JDK 25 上 Unsafe 告警仍复现，维护者明确回复 duplicate with #15708，与既有 issue 重复。","difficulty":"easy"}
+{"issue_number":15823,"labels_gold":["invalid"],"triage_rationale":"auth 插件缺失时 @Secured 静默 fail-open 属维护者解释的设计权衡（插件非强制、无法自动 fail-close 以保可用性），报告者接受解释并主动关闭，status/invalid 信号与维护者设计解释一致，按「按设计工作」判 invalid。","difficulty":"hard"}
+{"issue_number":13851,"labels_gold":["invalid"],"triage_rationale":"标题仅为 na，正文为空模板无任何信息，维护者回复 No meaningful title and content，status/invalid 一致，属无意义内容。","difficulty":"easy"}
+{"issue_number":13903,"labels_gold":["question"],"triage_rationale":"用户自述功能一切正常，仅咨询 goldendb 下为何每隔 10 秒报 master db down，维护者解释为异步检查任务查询 config_info_beta 表所致（3.1.0 起改用 config_info_gray），属报错原理咨询而非功能失效。","difficulty":"medium"}
+{"issue_number":13952,"labels_gold":["bug"],"triage_rationale":"按官网最新 K8s 部署文档部署失败并附 Spring 启动报错栈，维护者确认官方 nacos/nacos-mysql:5.7 镜像已不再维护并欢迎 PR 更换镜像，说明官方部署物料本身有缺陷，非单纯使用咨询。","difficulty":"medium"}
+{"issue_number":14070,"labels_gold":["bug"],"triage_rationale":"nacos-client 3.1.1 每次启动触发 sun.misc.Unsafe 终端弃用告警，预期无告警 vs 实际反复出现，维护者按缺陷处理并升级 grpc 至 3.1.2，属异常行为报告。","difficulty":"medium"}
+{"issue_number":14254,"labels_gold":["question"],"triage_rationale":"正文为空但标题本身即完整问题：CP 模式如何配合外置数据库存储配置，维护者两轮解答 CP/AP 与数据库无关，不满足 invalid 所需的标题无信息条件，属原理咨询。","difficulty":"easy"}
+{"issue_number":14452,"labels_gold":["question"],"triage_rationale":"以「咨询下」开头，问集群中一台机器 instanceCount 与其他节点不一致一般是什么原因，维护者猜测节点断连同步缺失并请用户协助分析，属使用咨询。","difficulty":"medium"}
+{"issue_number":14806,"labels_gold":["feature"],"triage_rationale":"维护者说明该 API 本就有意隐藏节点信息、不应返回节点错误，最终共识是在响应中增加 complete:false 标志，kind/enhancement 信号，诉求落点为响应语义增强而非缺陷修复。","difficulty":"medium"}
+{"issue_number":14949,"labels_gold":["bug"],"triage_rationale":"SKILL.md frontmatter 的 name 字段可整行删除并成功保存草稿，前后端均无存在性与一致性校验，预期应校验 vs 实际未校验，kind/discussion 按内容判仍属校验缺失缺陷，维护者随后进入修复规则讨论。","difficulty":"medium"}
+{"issue_number":15236,"labels_gold":["bug","needs-more-info"],"triage_rationale":"服务端将存活客户端的 gRPC 长连接判为 outdated 并删除实例、客户端不自动重注册需重启恢复，预期自动重注册 vs 实际不能；维护者反问客户端是否重连且作者未再回复（expired/need feedback），关键定位信息始终缺失。","difficulty":"medium"}
+{"issue_number":15414,"labels_gold":["duplicate"],"triage_rationale":"正文描述 MCP 下拉仅加载前 100 个服务且无分页的缺陷，但维护者回复「看到有存在的issue了」并于当日关闭，确认与已有 issue 重复，原 issue 号未指明。","difficulty":"medium"}
+{"issue_number":15567,"labels_gold":["bug"],"triage_rationale":"protectThreshold=0、全部实例健康却在服务列表误显示红色「触发保护阈值」标签，附 API 返回数据验证非脏数据，标题即明确误显示缺陷，维护者回复将修复。","difficulty":"easy"}
+{"issue_number":15674,"labels_gold":["bug"],"triage_rationale":"UI 查询订阅者列表无法指定 group、固定默认 DEFAULT_GROUP，自定义 group 的部署查询不到任何订阅者，预期可按实际 group 查询 vs 实际失败，属现有查询功能对自定义 group 失效。","difficulty":"medium"}
+{"issue_number":15802,"labels_gold":["bug"],"triage_rationale":"配置持久化 targetFile() 对 namespaceId/groupName/dataId 拼接路径未做归一化校验，group 设为 .. 即可路径穿越逃出目录，属安全漏洞报告（安全漏洞算 bug）且附完整危害分析，维护者引导提交至官方安全渠道。","difficulty":"hard"}
