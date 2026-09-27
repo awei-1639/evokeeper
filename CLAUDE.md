@@ -29,8 +29,8 @@ CI（`.github/workflows/ci.yml`）只跑 `pnpm -r typecheck` + `pnpm -r test`。
 
 ## 已实现 vs 占位
 
-- **已实现**：`packages/core`（全部领域类型）、`packages/llm`（路由/计价/结构化输出/缓存，全绿 vitest）、`apps/agent`（分诊链路 + RAG 回答链路 + Inbox webhook 幂等接入 + TraceStore 轨迹库）、`packages/memory`（四操作记忆层）、`apps/worker`（失败判别器 jrv-1.0 + 睡眠整理管线 v1；门禁/发布仍占位）。
-- **占位待实现**（文件头注释标了周次 W3–W8）：`apps/web`、`packages/eval`、`packages/gateway`；`apps/worker` 的 consolidate/replay/gate/release；记忆层/轨迹库/队列的 Postgres/BullMQ 适配器（等 Docker infra）。改这些时先读其 index.ts 顶部的实现说明与 `docs/design.md` 对应章节。
+- **已实现**：`packages/core`（全部领域类型）、`packages/llm`（路由/计价/结构化输出/缓存，全绿 vitest）、`apps/agent`（分诊链路 + RAG 回答链路 + Inbox webhook 幂等接入 + TraceStore 轨迹库）、`packages/memory`（四操作记忆层）、`packages/eval`（指标 + bootstrap CI + 门禁五条判定）、`apps/worker`（失败判别器 jrv-1.0 + 睡眠整理管线 v1；影子回放/发布仍占位）。
+- **占位待实现**（文件头注释标了周次 W3–W8）：`apps/web`、`packages/gateway`；eval 的真实 runner 集成（eval:run/eval:gate 接执行入口）与影子回放；`apps/worker` 的 release/rollback；记忆层/轨迹库/队列的 Postgres/BullMQ 适配器（等 Docker infra）。改这些时先读其 index.ts 顶部的实现说明与 `docs/design.md` 对应章节。
 
 ## 架构
 
