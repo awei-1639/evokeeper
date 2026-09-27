@@ -245,9 +245,21 @@ issues/issue_comment 事件映射 + 1m/5m/30m 重试与死信回调 + `X-Hub-Sig
 `webhook-server.ts`（HTTP 接入，`pnpm --filter @evokeeper/agent dev` 启动于 :8787）。
 队列当前为进程内 scheduler 注入 + `MemoryInboxStore`（容量淘汰），接口已按 BullMQ/Postgres
 适配器形状设计，装 Redis/PG 后只换实现不改策略。单测 13 例锁死去重/重试/映射/验签契约。
-验证方式：`pnpm test`（54 个用例）；`pnpm triage:dryrun -- --limit 300` 离线审阅提示词；
+验证方式：`pnpm test`（70 个用例）；`pnpm triage:dryrun -- --limit 300` 离线审阅提示词；
 `pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-n300` 真实跑批并写报告到 `datasets/pilot/`。
 golden set 已全量标注 300 条（AI r1 + 两轮质检，见 `docs/annotation-report-ai-r1.md`）。
+
+**回答链路（W2 RAG）落地（2026-09-27）**：`apps/agent/src/retrieval.ts`（零依赖 BM25，
+CJK bigram + ASCII 词含点分 token 分段，社区语料 = 300 条 issue + 维护者回复；W4 换
+embedding + pgvector 时 EvidenceDoc 形状不变）+ `answer.ts`（prompt ap-1.0：证据消费 +
+引用纪律 + 结构化隔离；parseAnswer 校验；**引用护栏** enforceCitationGuardrail——回答与
+citations 中的 issue 号必须在证据中存在，否则剥离，§3.2.3 落地）+ `pilot:answer` 基线脚本。
+pilot 试跑（30 条，answer 档按 §9.1 用备选 deepseek-v4-pro）：检索命中源 issue 30/30，
+完成的 17 条全部带真实引用、0 处臆造引用，单条成本约 ¥0.0095、p50 ≈8.3s——**但 13/30
+因 DeepSeek 余额耗尽（402 Insufficient Balance）失败，报告文件被重跑覆盖、本次数据无效，
+基线待充值后 `pnpm pilot:answer -- --limit=30` 重跑**；要点覆盖率（LLM-judge 五维）待
+judge 档 key（GLM）就绪后评测。W2 DoD 状态：分诊 ✓ / 注入防护 ✓ / triage 基线记录 ✓ /
+RAG 问答链路 ✓（回答基线数字待充值后补记）。
 
 **分诊 pilot 结果（2026-09-19，golden set 前 50 条，`pnpm pilot:triage`）**：
 

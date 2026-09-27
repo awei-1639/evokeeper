@@ -15,6 +15,7 @@
     "test:watch": "vitest",
     "triage:dryrun": "tsx scripts/dryrun-triage.mts",
     "pilot:triage": "tsx scripts/pilot-triage.mts",
+    "pilot:answer": "tsx scripts/pilot-answer.mts",
     "lint": "pnpm -r lint",
     "eval:run": "pnpm --filter @evokeeper/eval run eval:run",
     "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate"
