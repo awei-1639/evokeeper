@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
 
 jobs:
@@ -26,5 +26,6 @@ jobs:
       - name: Typecheck
         run: pnpm -r typecheck
 
+      # 根级 vitest 是真实测试套件（各包 test 脚本为占位），不要改成 pnpm -r test
       - name: Test
-        run: pnpm -r test
+        run: pnpm test

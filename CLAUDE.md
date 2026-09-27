@@ -17,7 +17,10 @@ pnpm test:watch                      # vitest watch
 pnpm -r typecheck                    # 逐包 tsc --noEmit（CI 的主关卡）
 pnpm triage:dryrun                   # 离线装配并打印分诊提示词（不联网）
 pnpm triage:dryrun -- --limit 20 --call   # 真实跑批（需 DEEPSEEK_API_KEY）
-pnpm pilot:triage -- --limit 50 --model deepseek-v4-pro  # 分诊模型选型 pilot 评测
+pnpm pilot:triage -- --limit 50 --model deepseek-v4-pro  # 分诊 pilot
+pnpm eval:run -- --tag=baseline --split=dev --ds=v1-draft-n300  # 评测 → EvalRun（含轨迹落库）
+pnpm eval:gate -- --baseline=<run.json> --candidate=<run.json>  # 门禁判定（退出码可挂 CI）
+pnpm adversarial:check  # 对抗样本防线检查（30 条，¥0.07）
 docker compose -f infra/docker-compose.yml up -d  # pgvector:5432 / redis:6379 / langfuse:3001
 
 # 跑单个测试文件 / 单条用例：
@@ -25,7 +28,7 @@ pnpm exec vitest run apps/agent/src/agent.test.ts
 pnpm exec vitest run -t "关键字"
 ```
 
-CI（`.github/workflows/ci.yml`）只跑 `pnpm -r typecheck` + `pnpm -r test`。注意：各包 `package.json` 里的 `dev`/`build` 及多数 `test` 目前是 `echo` 占位符，真实测试只在根级 `pnpm test`（vitest）里；`pnpm dev` 不会启动任何真实服务。
+CI（`.github/workflows/ci.yml`）跑 `pnpm -r typecheck` + 根级 `pnpm test`（真实 vitest 套件；不要改回 `pnpm -r test`——各包 test 脚本多为 echo 占位）；触发分支含 master。`pnpm dev` 会并行启动 webhook 服务(8787)与管理台(3000)。
 
 ## 已实现 vs 占位
 

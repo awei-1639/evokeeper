@@ -16,17 +16,17 @@
       }
     },
     "metrics": {
-      "triageAccuracy": 0.6866666666666666,
-      "triageMacroF1": 0.5915904916733041,
+      "triageAccuracy": 0.6766666666666666,
+      "triageMacroF1": 0.5874233288975875,
       "answerQuality": 0,
-      "p50LatencyMs": 1450,
-      "p95LatencyMs": 5490,
-      "costPerIssue": 0.0019098461666666674,
+      "p50LatencyMs": 1554,
+      "p95LatencyMs": 7376,
+      "costPerIssue": 0.002020747166666665,
       "adversarialPassRate": null
     },
     "ci95": {
-      "lower": 0.63,
-      "upper": 0.74
+      "lower": 0.6233333333333333,
+      "upper": 0.73
     },
     "perCase": [
       {
@@ -79,8 +79,8 @@
       },
       {
         "caseId": "gs-0009",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -157,8 +157,8 @@
       },
       {
         "caseId": "gs-0022",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -181,8 +181,8 @@
       },
       {
         "caseId": "gs-0026",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -194,7 +194,7 @@
       {
         "caseId": "gs-0028",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -206,7 +206,7 @@
       {
         "caseId": "gs-0030",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -259,8 +259,8 @@
       },
       {
         "caseId": "gs-0039",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -272,13 +272,13 @@
       {
         "caseId": "gs-0041",
         "passed": false,
-        "triageCorrect": null,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
         "caseId": "gs-0042",
-        "passed": false,
-        "triageCorrect": false,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -373,8 +373,8 @@
       },
       {
         "caseId": "gs-0058",
-        "passed": false,
-        "triageCorrect": false,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -440,7 +440,7 @@
       {
         "caseId": "gs-0069",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -613,8 +613,8 @@
       },
       {
         "caseId": "gs-0098",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -632,7 +632,7 @@
       {
         "caseId": "gs-0101",
         "passed": false,
-        "triageCorrect": null,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -644,7 +644,7 @@
       {
         "caseId": "gs-0103",
         "passed": false,
-        "triageCorrect": null,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -715,8 +715,8 @@
       },
       {
         "caseId": "gs-0115",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -781,8 +781,8 @@
       },
       {
         "caseId": "gs-0126",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -884,7 +884,7 @@
       {
         "caseId": "gs-0143",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -896,7 +896,7 @@
       {
         "caseId": "gs-0145",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -950,7 +950,7 @@
       {
         "caseId": "gs-0154",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -997,8 +997,8 @@
       },
       {
         "caseId": "gs-0162",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1021,8 +1021,8 @@
       },
       {
         "caseId": "gs-0166",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -1057,8 +1057,8 @@
       },
       {
         "caseId": "gs-0172",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1087,8 +1087,8 @@
       },
       {
         "caseId": "gs-0177",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1159,8 +1159,8 @@
       },
       {
         "caseId": "gs-0189",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1195,8 +1195,8 @@
       },
       {
         "caseId": "gs-0195",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1279,8 +1279,8 @@
       },
       {
         "caseId": "gs-0209",
-        "passed": false,
-        "triageCorrect": false,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1429,26 +1429,26 @@
       },
       {
         "caseId": "gs-0234",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
         "caseId": "gs-0235",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
         "caseId": "gs-0236",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
         "caseId": "gs-0237",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1471,8 +1471,8 @@
       },
       {
         "caseId": "gs-0241",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1519,8 +1519,8 @@
       },
       {
         "caseId": "gs-0249",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -1549,8 +1549,8 @@
       },
       {
         "caseId": "gs-0254",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1585,8 +1585,8 @@
       },
       {
         "caseId": "gs-0260",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1598,7 +1598,7 @@
       {
         "caseId": "gs-0262",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1615,8 +1615,8 @@
       },
       {
         "caseId": "gs-0265",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1633,14 +1633,14 @@
       },
       {
         "caseId": "gs-0268",
-        "passed": true,
-        "triageCorrect": true,
+        "passed": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
         "caseId": "gs-0269",
-        "passed": false,
-        "triageCorrect": null,
+        "passed": true,
+        "triageCorrect": true,
         "answerScore": null
       },
       {
@@ -1682,7 +1682,7 @@
       {
         "caseId": "gs-0276",
         "passed": false,
-        "triageCorrect": null,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -1730,7 +1730,7 @@
       {
         "caseId": "gs-0284",
         "passed": false,
-        "triageCorrect": false,
+        "triageCorrect": null,
         "answerScore": null
       },
       {
@@ -1802,7 +1802,7 @@
       {
         "caseId": "gs-0296",
         "passed": false,
-        "triageCorrect": null,
+        "triageCorrect": false,
         "answerScore": null
       },
       {
@@ -1830,7 +1830,7 @@
         "answerScore": null
       }
     ],
-    "ranAt": "2026-09-27T17:51:13.601Z"
+    "ranAt": "2026-09-27T18:39:07.044Z"
   },
   "nmi": {
     "hit": 1,
@@ -1845,7 +1845,7 @@
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
       "costAmount": 0.0006361,
-      "durationMs": 912
+      "durationMs": 1500
     },
     {
       "caseId": "gs-0002",
@@ -1853,17 +1853,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012425,
-      "durationMs": 1581
+      "costAmount": 0.0022285,
+      "durationMs": 2647
     },
     {
       "caseId": "gs-0003",
       "goldMain": "bug",
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
-      "predNeedsMoreInfo": false,
-      "costAmount": 0.0047434999999999995,
-      "durationMs": 4498
+      "predNeedsMoreInfo": true,
+      "costAmount": 0.011823,
+      "durationMs": 12577
     },
     {
       "caseId": "gs-0004",
@@ -1871,8 +1871,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006525999999999999,
-      "durationMs": 1039
+      "costAmount": 0.0013232,
+      "durationMs": 1839
     },
     {
       "caseId": "gs-0005",
@@ -1880,8 +1880,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0004959,
-      "durationMs": 490
+      "costAmount": 0.0005589,
+      "durationMs": 811
     },
     {
       "caseId": "gs-0006",
@@ -1889,8 +1889,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0040625,
-      "durationMs": 4459
+      "costAmount": 0.002213,
+      "durationMs": 2213
     },
     {
       "caseId": "gs-0007",
@@ -1898,8 +1898,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016007999999999999,
-      "durationMs": 1915
+      "costAmount": 0.0007194,
+      "durationMs": 838
     },
     {
       "caseId": "gs-0008",
@@ -1907,17 +1907,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006154999999999999,
-      "durationMs": 973
+      "costAmount": 0.001114,
+      "durationMs": 1293
     },
     {
       "caseId": "gs-0009",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0024314999999999996,
-      "durationMs": 2939
+      "costAmount": 0.000809,
+      "durationMs": 1101
     },
     {
       "caseId": "gs-0010",
@@ -1925,8 +1925,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0040156,
-      "durationMs": 4032
+      "costAmount": 0.0025756,
+      "durationMs": 2740
     },
     {
       "caseId": "gs-0011",
@@ -1934,8 +1934,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.004811,
-      "durationMs": 4929
+      "costAmount": 0.0019445,
+      "durationMs": 1975
     },
     {
       "caseId": "gs-0012",
@@ -1943,8 +1943,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0026435,
-      "durationMs": 2806
+      "costAmount": 0.0025535,
+      "durationMs": 2638
     },
     {
       "caseId": "gs-0013",
@@ -1952,8 +1952,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008810000000000001,
-      "durationMs": 1009
+      "costAmount": 0.0025395,
+      "durationMs": 3363
     },
     {
       "caseId": "gs-0014",
@@ -1961,8 +1961,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005870000000000001,
-      "durationMs": 941
+      "costAmount": 0.0006455,
+      "durationMs": 834
     },
     {
       "caseId": "gs-0015",
@@ -1970,8 +1970,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.004214000000000001,
-      "durationMs": 4561
+      "costAmount": 0.0010505000000000002,
+      "durationMs": 1088
     },
     {
       "caseId": "gs-0016",
@@ -1979,8 +1979,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002326,
-      "durationMs": 2702
+      "costAmount": 0.0015185,
+      "durationMs": 1554
     },
     {
       "caseId": "gs-0017",
@@ -1988,8 +1988,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003773,
-      "durationMs": 4350
+      "costAmount": 0.0064075,
+      "durationMs": 7449
     },
     {
       "caseId": "gs-0018",
@@ -1997,8 +1997,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011851,
-      "durationMs": 1366
+      "costAmount": 0.0011491000000000001,
+      "durationMs": 1362
     },
     {
       "caseId": "gs-0019",
@@ -2006,8 +2006,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022247,
-      "durationMs": 2647
+      "costAmount": 0.0008221,
+      "durationMs": 1060
     },
     {
       "caseId": "gs-0020",
@@ -2015,8 +2015,8 @@
       "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002589,
-      "durationMs": 3296
+      "costAmount": 0.002328,
+      "durationMs": 3388
     },
     {
       "caseId": "gs-0021",
@@ -2024,17 +2024,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013174999999999999,
-      "durationMs": 1753
+      "costAmount": 0.0006785,
+      "durationMs": 1176
     },
     {
       "caseId": "gs-0022",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008866,
-      "durationMs": 1190
+      "costAmount": 0.0028082999999999997,
+      "durationMs": 3684
     },
     {
       "caseId": "gs-0023",
@@ -2042,8 +2042,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0015805,
-      "durationMs": 1944
+      "costAmount": 0.001531,
+      "durationMs": 1668
     },
     {
       "caseId": "gs-0024",
@@ -2051,8 +2051,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0025182,
-      "durationMs": 3072
+      "costAmount": 0.0017133,
+      "durationMs": 1859
     },
     {
       "caseId": "gs-0025",
@@ -2060,17 +2060,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012230000000000001,
-      "durationMs": 1478
+      "costAmount": 0.0078675,
+      "durationMs": 8967
     },
     {
       "caseId": "gs-0026",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0031469999999999996,
-      "durationMs": 3061
+      "costAmount": 0.00122,
+      "durationMs": 1406
     },
     {
       "caseId": "gs-0027",
@@ -2078,17 +2078,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000959,
-      "durationMs": 1009
+      "costAmount": 0.000887,
+      "durationMs": 1086
     },
     {
       "caseId": "gs-0028",
       "goldMain": "invalid",
-      "predMain": "question",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.009216299999999998,
-      "durationMs": 9116
+      "costAmount": 0.0063453,
+      "durationMs": 6540
     },
     {
       "caseId": "gs-0029",
@@ -2096,17 +2096,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007715,
-      "durationMs": 837
+      "costAmount": 0.0007850000000000001,
+      "durationMs": 883
     },
     {
       "caseId": "gs-0030",
       "goldMain": "question",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0040728,
-      "durationMs": 4068
+      "costAmount": 0.0038433,
+      "durationMs": 3930
     },
     {
       "caseId": "gs-0031",
@@ -2114,8 +2114,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0019490000000000002,
-      "durationMs": 1900
+      "costAmount": 0.001706,
+      "durationMs": 1871
     },
     {
       "caseId": "gs-0032",
@@ -2123,8 +2123,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009305000000000001,
-      "durationMs": 1520
+      "costAmount": 0.0012545,
+      "durationMs": 1258
     },
     {
       "caseId": "gs-0033",
@@ -2132,8 +2132,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0015711999999999998,
-      "durationMs": 1841
+      "costAmount": 0.0022372000000000004,
+      "durationMs": 2458
     },
     {
       "caseId": "gs-0034",
@@ -2141,8 +2141,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0020175,
-      "durationMs": 1968
+      "costAmount": 0.0006905000000000001,
+      "durationMs": 756
     },
     {
       "caseId": "gs-0035",
@@ -2150,8 +2150,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009669,
-      "durationMs": 1008
+      "costAmount": 0.0008499,
+      "durationMs": 995
     },
     {
       "caseId": "gs-0036",
@@ -2159,8 +2159,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009319999999999999,
-      "durationMs": 1366
+      "costAmount": 0.0008915000000000001,
+      "durationMs": 1263
     },
     {
       "caseId": "gs-0037",
@@ -2168,8 +2168,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009485000000000001,
-      "durationMs": 1291
+      "costAmount": 0.001142,
+      "durationMs": 1307
     },
     {
       "caseId": "gs-0038",
@@ -2177,17 +2177,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006740000000000001,
-      "durationMs": 681
+      "costAmount": 0.0007865000000000001,
+      "durationMs": 1014
     },
     {
       "caseId": "gs-0039",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008739,
-      "durationMs": 1133
+      "costAmount": 0.0021627,
+      "durationMs": 2536
     },
     {
       "caseId": "gs-0040",
@@ -2195,26 +2195,26 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013310000000000002,
-      "durationMs": 1480
+      "costAmount": 0.0008495,
+      "durationMs": 985
     },
     {
       "caseId": "gs-0041",
       "goldMain": "duplicate",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003705,
-      "durationMs": 4280
+      "costAmount": 0.0011405,
+      "durationMs": 1164
     },
     {
       "caseId": "gs-0042",
       "goldMain": "bug",
-      "predMain": "question",
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0100005,
-      "durationMs": 10560
+      "costAmount": 0.0031385,
+      "durationMs": 3291
     },
     {
       "caseId": "gs-0043",
@@ -2222,8 +2222,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0035125,
-      "durationMs": 3911
+      "costAmount": 0.0014975000000000001,
+      "durationMs": 1559
     },
     {
       "caseId": "gs-0044",
@@ -2231,8 +2231,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012799999999999999,
-      "durationMs": 1331
+      "costAmount": 0.00119,
+      "durationMs": 1355
     },
     {
       "caseId": "gs-0045",
@@ -2240,8 +2240,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005709,
-      "durationMs": 543
+      "costAmount": 0.0006069000000000001,
+      "durationMs": 989
     },
     {
       "caseId": "gs-0046",
@@ -2249,8 +2249,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000719,
-      "durationMs": 672
+      "costAmount": 0.0007819999999999999,
+      "durationMs": 671
     },
     {
       "caseId": "gs-0047",
@@ -2258,8 +2258,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0014275,
-      "durationMs": 1684
+      "costAmount": 0.0021390000000000003,
+      "durationMs": 2468
     },
     {
       "caseId": "gs-0048",
@@ -2267,8 +2267,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010584000000000001,
-      "durationMs": 1450
+      "costAmount": 0.0006849,
+      "durationMs": 1066
     },
     {
       "caseId": "gs-0049",
@@ -2276,8 +2276,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0043395,
-      "durationMs": 4938
+      "costAmount": 0.001271,
+      "durationMs": 1406
     },
     {
       "caseId": "gs-0050",
@@ -2285,8 +2285,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000689,
-      "durationMs": 776
+      "costAmount": 0.0008060000000000001,
+      "durationMs": 994
     },
     {
       "caseId": "gs-0051",
@@ -2294,8 +2294,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0018505000000000001,
-      "durationMs": 2078
+      "costAmount": 0.0019675,
+      "durationMs": 2040
     },
     {
       "caseId": "gs-0052",
@@ -2303,8 +2303,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009759,
-      "durationMs": 952
+      "costAmount": 0.0010434,
+      "durationMs": 1097
     },
     {
       "caseId": "gs-0053",
@@ -2312,8 +2312,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016445000000000001,
-      "durationMs": 1912
+      "costAmount": 0.0014645,
+      "durationMs": 1805
     },
     {
       "caseId": "gs-0054",
@@ -2321,8 +2321,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0037139999999999994,
-      "durationMs": 4067
+      "costAmount": 0.001055,
+      "durationMs": 1161
     },
     {
       "caseId": "gs-0055",
@@ -2330,8 +2330,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013610000000000002,
-      "durationMs": 1345
+      "costAmount": 0.0014464999999999999,
+      "durationMs": 1469
     },
     {
       "caseId": "gs-0056",
@@ -2339,8 +2339,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006770000000000001,
-      "durationMs": 1095
+      "costAmount": 0.000533,
+      "durationMs": 520
     },
     {
       "caseId": "gs-0057",
@@ -2348,17 +2348,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0029625000000000003,
-      "durationMs": 3344
+      "costAmount": 0.0008960000000000001,
+      "durationMs": 748
     },
     {
       "caseId": "gs-0058",
       "goldMain": "bug",
-      "predMain": "feature",
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.004334,
-      "durationMs": 4370
+      "costAmount": 0.000869,
+      "durationMs": 1122
     },
     {
       "caseId": "gs-0059",
@@ -2366,8 +2366,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.004405,
-      "durationMs": 4807
+      "costAmount": 0.0022475,
+      "durationMs": 2534
     },
     {
       "caseId": "gs-0060",
@@ -2375,8 +2375,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001718,
-      "durationMs": 1636
+      "costAmount": 0.002321,
+      "durationMs": 2328
     },
     {
       "caseId": "gs-0061",
@@ -2384,8 +2384,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012948,
-      "durationMs": 1728
+      "costAmount": 0.0013443,
+      "durationMs": 1890
     },
     {
       "caseId": "gs-0062",
@@ -2393,8 +2393,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002293,
-      "durationMs": 3178
+      "costAmount": 0.0012455,
+      "durationMs": 1416
     },
     {
       "caseId": "gs-0063",
@@ -2402,8 +2402,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005870000000000001,
-      "durationMs": 586
+      "costAmount": 0.0011020000000000001,
+      "durationMs": 1324
     },
     {
       "caseId": "gs-0064",
@@ -2411,8 +2411,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007925,
-      "durationMs": 858
+      "costAmount": 0.000869,
+      "durationMs": 833
     },
     {
       "caseId": "gs-0065",
@@ -2420,8 +2420,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006920000000000001,
-      "durationMs": 688
+      "costAmount": 0.0006965000000000001,
+      "durationMs": 844
     },
     {
       "caseId": "gs-0066",
@@ -2429,8 +2429,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001616,
-      "durationMs": 1949
+      "costAmount": 0.0009275000000000002,
+      "durationMs": 1170
     },
     {
       "caseId": "gs-0067",
@@ -2438,8 +2438,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016696,
-      "durationMs": 1711
+      "costAmount": 0.0030377,
+      "durationMs": 2948
     },
     {
       "caseId": "gs-0068",
@@ -2447,17 +2447,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003722,
-      "durationMs": 3874
+      "costAmount": 0.0014495,
+      "durationMs": 1615
     },
     {
       "caseId": "gs-0069",
       "goldMain": "bug",
-      "predMain": "question",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002912,
-      "durationMs": 2938
+      "costAmount": 0.0080295,
+      "durationMs": 8488
     },
     {
       "caseId": "gs-0070",
@@ -2465,8 +2465,8 @@
       "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.008016,
-      "durationMs": 8103
+      "costAmount": 0.008137499999999999,
+      "durationMs": 9592
     },
     {
       "caseId": "gs-0071",
@@ -2474,8 +2474,8 @@
       "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.015058499999999999,
-      "durationMs": 15206
+      "costAmount": 0.009798,
+      "durationMs": 10650
     },
     {
       "caseId": "gs-0072",
@@ -2483,8 +2483,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008734999999999999,
-      "durationMs": 1068
+      "costAmount": 0.0028989999999999997,
+      "durationMs": 3632
     },
     {
       "caseId": "gs-0073",
@@ -2492,8 +2492,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006815,
-      "durationMs": 746
+      "costAmount": 0.000704,
+      "durationMs": 1107
     },
     {
       "caseId": "gs-0074",
@@ -2501,8 +2501,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006575,
-      "durationMs": 883
+      "costAmount": 0.0015040000000000001,
+      "durationMs": 1823
     },
     {
       "caseId": "gs-0075",
@@ -2510,8 +2510,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008919,
-      "durationMs": 1019
+      "costAmount": 0.0009594,
+      "durationMs": 1232
     },
     {
       "caseId": "gs-0076",
@@ -2519,8 +2519,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001663,
-      "durationMs": 2004
+      "costAmount": 0.000665,
+      "durationMs": 1063
     },
     {
       "caseId": "gs-0077",
@@ -2528,8 +2528,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022426,
-      "durationMs": 1906
+      "costAmount": 0.0019591,
+      "durationMs": 1959
     },
     {
       "caseId": "gs-0078",
@@ -2537,8 +2537,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001085,
-      "durationMs": 1166
+      "costAmount": 0.0016385,
+      "durationMs": 1994
     },
     {
       "caseId": "gs-0079",
@@ -2546,8 +2546,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006609,
-      "durationMs": 824
+      "costAmount": 0.0013308,
+      "durationMs": 1751
     },
     {
       "caseId": "gs-0080",
@@ -2555,8 +2555,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0030545,
-      "durationMs": 3137
+      "costAmount": 0.0050065,
+      "durationMs": 5297
     },
     {
       "caseId": "gs-0081",
@@ -2564,8 +2564,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012965,
-      "durationMs": 1424
+      "costAmount": 0.004739500000000001,
+      "durationMs": 5399
     },
     {
       "caseId": "gs-0082",
@@ -2573,8 +2573,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016719999999999999,
-      "durationMs": 2108
+      "costAmount": 0.001007,
+      "durationMs": 1292
     },
     {
       "caseId": "gs-0083",
@@ -2582,8 +2582,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0023045,
-      "durationMs": 2663
+      "costAmount": 0.0078675,
+      "durationMs": 8859
     },
     {
       "caseId": "gs-0084",
@@ -2591,8 +2591,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016805000000000001,
-      "durationMs": 1720
+      "costAmount": 0.003694,
+      "durationMs": 4287
     },
     {
       "caseId": "gs-0085",
@@ -2600,8 +2600,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0014379000000000002,
-      "durationMs": 1614
+      "costAmount": 0.0009384,
+      "durationMs": 954
     },
     {
       "caseId": "gs-0086",
@@ -2609,17 +2609,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007340000000000001,
-      "durationMs": 712
+      "costAmount": 0.001621,
+      "durationMs": 2009
     },
     {
       "caseId": "gs-0087",
       "goldMain": "feature",
-      "predMain": "question",
+      "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0035240000000000002,
-      "durationMs": 4179
+      "costAmount": 0.0042445,
+      "durationMs": 4770
     },
     {
       "caseId": "gs-0088",
@@ -2627,8 +2627,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008675,
-      "durationMs": 1118
+      "costAmount": 0.000728,
+      "durationMs": 1074
     },
     {
       "caseId": "gs-0089",
@@ -2636,8 +2636,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002018,
-      "durationMs": 1954
+      "costAmount": 0.0021845,
+      "durationMs": 2620
     },
     {
       "caseId": "gs-0090",
@@ -2645,8 +2645,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013295,
-      "durationMs": 1203
+      "costAmount": 0.0013745,
+      "durationMs": 1557
     },
     {
       "caseId": "gs-0091",
@@ -2654,8 +2654,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001717,
-      "durationMs": 1868
+      "costAmount": 0.0008855000000000001,
+      "durationMs": 958
     },
     {
       "caseId": "gs-0092",
@@ -2663,8 +2663,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0021505000000000005,
-      "durationMs": 2559
+      "costAmount": 0.0019075000000000001,
+      "durationMs": 2245
     },
     {
       "caseId": "gs-0093",
@@ -2672,8 +2672,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0051032000000000004,
-      "durationMs": 5441
+      "costAmount": 0.004491200000000001,
+      "durationMs": 5296
     },
     {
       "caseId": "gs-0094",
@@ -2681,8 +2681,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0027362999999999997,
-      "durationMs": 2933
+      "costAmount": 0.0007876,
+      "durationMs": 1009
     },
     {
       "caseId": "gs-0095",
@@ -2690,8 +2690,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.005447499999999999,
-      "durationMs": 6250
+      "costAmount": 0.0027979999999999997,
+      "durationMs": 3283
     },
     {
       "caseId": "gs-0096",
@@ -2699,8 +2699,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008105,
-      "durationMs": 779
+      "costAmount": 0.0017875,
+      "durationMs": 2346
     },
     {
       "caseId": "gs-0097",
@@ -2708,17 +2708,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009695,
-      "durationMs": 1158
+      "costAmount": 0.000929,
+      "durationMs": 1270
     },
     {
       "caseId": "gs-0098",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008469,
-      "durationMs": 1335
+      "costAmount": 0.0025452,
+      "durationMs": 3378
     },
     {
       "caseId": "gs-0099",
@@ -2726,8 +2726,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0035510000000000003,
-      "durationMs": 3920
+      "costAmount": 0.001688,
+      "durationMs": 1733
     },
     {
       "caseId": "gs-0100",
@@ -2735,17 +2735,17 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007565,
-      "durationMs": 948
+      "costAmount": 0.000878,
+      "durationMs": 903
     },
     {
       "caseId": "gs-0101",
       "goldMain": "duplicate",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0101895,
-      "durationMs": 11024
+      "costAmount": 0.0024844999999999997,
+      "durationMs": 2997
     },
     {
       "caseId": "gs-0102",
@@ -2753,17 +2753,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011700999999999999,
-      "durationMs": 1243
+      "costAmount": 0.0052878,
+      "durationMs": 5641
     },
     {
       "caseId": "gs-0103",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0056760000000000005,
-      "durationMs": 5866
+      "costAmount": 0.0011225,
+      "durationMs": 1257
     },
     {
       "caseId": "gs-0104",
@@ -2771,8 +2771,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000644,
-      "durationMs": 913
+      "costAmount": 0.0007115,
+      "durationMs": 656
     },
     {
       "caseId": "gs-0105",
@@ -2780,8 +2780,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006635,
-      "durationMs": 1014
+      "costAmount": 0.000587,
+      "durationMs": 940
     },
     {
       "caseId": "gs-0106",
@@ -2789,8 +2789,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013096,
-      "durationMs": 1312
+      "costAmount": 0.0012645999999999998,
+      "durationMs": 1110
     },
     {
       "caseId": "gs-0107",
@@ -2798,8 +2798,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0033425,
-      "durationMs": 3615
+      "costAmount": 0.0112245,
+      "durationMs": 12898
     },
     {
       "caseId": "gs-0108",
@@ -2807,8 +2807,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009170000000000001,
-      "durationMs": 933
+      "costAmount": 0.0009125000000000001,
+      "durationMs": 1361
     },
     {
       "caseId": "gs-0109",
@@ -2816,8 +2816,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0028995,
-      "durationMs": 3501
+      "costAmount": 0.0011825,
+      "durationMs": 2031
     },
     {
       "caseId": "gs-0110",
@@ -2825,8 +2825,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000617,
-      "durationMs": 1006
+      "costAmount": 0.000887,
+      "durationMs": 962
     },
     {
       "caseId": "gs-0111",
@@ -2834,8 +2834,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001061,
-      "durationMs": 1317
+      "costAmount": 0.0009395,
+      "durationMs": 1164
     },
     {
       "caseId": "gs-0112",
@@ -2843,8 +2843,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0019698000000000003,
-      "durationMs": 2419
+      "costAmount": 0.0012909,
+      "durationMs": 1346
     },
     {
       "caseId": "gs-0113",
@@ -2852,8 +2852,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007085,
-      "durationMs": 763
+      "costAmount": 0.0008345000000000001,
+      "durationMs": 793
     },
     {
       "caseId": "gs-0114",
@@ -2861,17 +2861,17 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009965,
-      "durationMs": 1208
+      "costAmount": 0.001676,
+      "durationMs": 1634
     },
     {
       "caseId": "gs-0115",
       "goldMain": "question",
-      "predMain": "question",
+      "predMain": null,
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0067245000000000004,
-      "durationMs": 7836
+      "costAmount": 0.0068145,
+      "durationMs": 7938
     },
     {
       "caseId": "gs-0116",
@@ -2879,8 +2879,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0040623000000000005,
-      "durationMs": 4234
+      "costAmount": 0.0016284,
+      "durationMs": 2087
     },
     {
       "caseId": "gs-0117",
@@ -2888,8 +2888,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009815,
-      "durationMs": 1218
+      "costAmount": 0.0030885,
+      "durationMs": 3824
     },
     {
       "caseId": "gs-0118",
@@ -2897,8 +2897,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001409,
-      "durationMs": 1643
+      "costAmount": 0.0019445,
+      "durationMs": 2449
     },
     {
       "caseId": "gs-0119",
@@ -2906,8 +2906,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000512,
-      "durationMs": 443
+      "costAmount": 0.000575,
+      "durationMs": 694
     },
     {
       "caseId": "gs-0120",
@@ -2915,8 +2915,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0029,
-      "durationMs": 2908
+      "costAmount": 0.0019055,
+      "durationMs": 1744
     },
     {
       "caseId": "gs-0121",
@@ -2924,8 +2924,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001742,
-      "durationMs": 1827
+      "costAmount": 0.0034835,
+      "durationMs": 3590
     },
     {
       "caseId": "gs-0122",
@@ -2933,8 +2933,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001819,
-      "durationMs": 2580
+      "costAmount": 0.0006575000000000001,
+      "durationMs": 836
     },
     {
       "caseId": "gs-0123",
@@ -2942,8 +2942,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006889999999999999,
-      "durationMs": 1232
+      "costAmount": 0.00145,
+      "durationMs": 1906
     },
     {
       "caseId": "gs-0124",
@@ -2951,8 +2951,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007640000000000001,
-      "durationMs": 801
+      "costAmount": 0.0006154999999999999,
+      "durationMs": 703
     },
     {
       "caseId": "gs-0125",
@@ -2960,17 +2960,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002382,
-      "durationMs": 3017
+      "costAmount": 0.00249,
+      "durationMs": 2799
     },
     {
       "caseId": "gs-0126",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010265,
-      "durationMs": 1060
+      "costAmount": 0.0026745,
+      "durationMs": 3071
     },
     {
       "caseId": "gs-0127",
@@ -2978,17 +2978,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.005486500000000001,
-      "durationMs": 6117
+      "costAmount": 0.0019535,
+      "durationMs": 1876
     },
     {
       "caseId": "gs-0128",
       "goldMain": "invalid",
       "predMain": "question",
       "goldNeedsMoreInfo": false,
-      "predNeedsMoreInfo": true,
-      "costAmount": 0.006085,
-      "durationMs": 6188
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.009361499999999998,
+      "durationMs": 10349
     },
     {
       "caseId": "gs-0129",
@@ -2996,8 +2996,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007325000000000001,
-      "durationMs": 955
+      "costAmount": 0.0008990000000000001,
+      "durationMs": 1138
     },
     {
       "caseId": "gs-0130",
@@ -3005,8 +3005,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005514000000000001,
-      "durationMs": 490
+      "costAmount": 0.0005919,
+      "durationMs": 684
     },
     {
       "caseId": "gs-0131",
@@ -3014,8 +3014,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0038389999999999995,
-      "durationMs": 4022
+      "costAmount": 0.0023950000000000004,
+      "durationMs": 2589
     },
     {
       "caseId": "gs-0132",
@@ -3023,8 +3023,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012485,
-      "durationMs": 1449
+      "costAmount": 0.0021325,
+      "durationMs": 2312
     },
     {
       "caseId": "gs-0133",
@@ -3032,8 +3032,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008724,
-      "durationMs": 896
+      "costAmount": 0.0019473,
+      "durationMs": 2338
     },
     {
       "caseId": "gs-0134",
@@ -3041,8 +3041,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0018785,
-      "durationMs": 2155
+      "costAmount": 0.0044165,
+      "durationMs": 5065
     },
     {
       "caseId": "gs-0135",
@@ -3050,8 +3050,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002416,
-      "durationMs": 2925
+      "costAmount": 0.0017274999999999999,
+      "durationMs": 2218
     },
     {
       "caseId": "gs-0136",
@@ -3059,8 +3059,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009935,
-      "durationMs": 1236
+      "costAmount": 0.0013535,
+      "durationMs": 1624
     },
     {
       "caseId": "gs-0137",
@@ -3068,8 +3068,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012025,
-      "durationMs": 1237
+      "costAmount": 0.0006575000000000001,
+      "durationMs": 865
     },
     {
       "caseId": "gs-0138",
@@ -3077,8 +3077,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006646,
-      "durationMs": 650
+      "costAmount": 0.0008626,
+      "durationMs": 889
     },
     {
       "caseId": "gs-0139",
@@ -3086,8 +3086,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011439,
-      "durationMs": 1198
+      "costAmount": 0.0009098999999999999,
+      "durationMs": 1138
     },
     {
       "caseId": "gs-0140",
@@ -3095,8 +3095,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0021669999999999997,
-      "durationMs": 2551
+      "costAmount": 0.001385,
+      "durationMs": 1631
     },
     {
       "caseId": "gs-0141",
@@ -3104,8 +3104,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0072865000000000004,
-      "durationMs": 7692
+      "costAmount": 0.0041860000000000005,
+      "durationMs": 4262
     },
     {
       "caseId": "gs-0142",
@@ -3113,17 +3113,17 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005829,
-      "durationMs": 708
+      "costAmount": 0.0010893,
+      "durationMs": 1282
     },
     {
       "caseId": "gs-0143",
       "goldMain": "duplicate",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009005,
-      "durationMs": 1034
+      "costAmount": 0.0037905000000000005,
+      "durationMs": 4212
     },
     {
       "caseId": "gs-0144",
@@ -3131,17 +3131,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0028525,
-      "durationMs": 3199
+      "costAmount": 0.0038064999999999996,
+      "durationMs": 4462
     },
     {
       "caseId": "gs-0145",
       "goldMain": "question",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0051045,
-      "durationMs": 6132
+      "costAmount": 0.008547,
+      "durationMs": 9810
     },
     {
       "caseId": "gs-0146",
@@ -3149,8 +3149,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012315999999999998,
-      "durationMs": 1392
+      "costAmount": 0.0011416,
+      "durationMs": 1349
     },
     {
       "caseId": "gs-0147",
@@ -3158,8 +3158,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009605000000000001,
-      "durationMs": 1292
+      "costAmount": 0.0011584999999999998,
+      "durationMs": 1494
     },
     {
       "caseId": "gs-0148",
@@ -3167,8 +3167,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0025125,
-      "durationMs": 2748
+      "costAmount": 0.0008705000000000001,
+      "durationMs": 1015
     },
     {
       "caseId": "gs-0149",
@@ -3176,8 +3176,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000686,
-      "durationMs": 865
+      "costAmount": 0.0007310000000000001,
+      "durationMs": 1003
     },
     {
       "caseId": "gs-0150",
@@ -3185,17 +3185,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002831,
-      "durationMs": 2995
+      "costAmount": 0.0019625000000000003,
+      "durationMs": 2009
     },
     {
       "caseId": "gs-0151",
       "goldMain": "duplicate",
-      "predMain": "question",
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003989400000000001,
-      "durationMs": 4298
+      "costAmount": 0.0014828999999999999,
+      "durationMs": 1488
     },
     {
       "caseId": "gs-0152",
@@ -3203,8 +3203,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008345,
-      "durationMs": 766
+      "costAmount": 0.0015565000000000002,
+      "durationMs": 1803
     },
     {
       "caseId": "gs-0153",
@@ -3212,17 +3212,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022998,
-      "durationMs": 2859
+      "costAmount": 0.0007365999999999999,
+      "durationMs": 710
     },
     {
       "caseId": "gs-0154",
       "goldMain": "invalid",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001172,
-      "durationMs": 1282
+      "costAmount": 0.003813,
+      "durationMs": 4392
     },
     {
       "caseId": "gs-0155",
@@ -3230,8 +3230,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006264,
-      "durationMs": 854
+      "costAmount": 0.0005724,
+      "durationMs": 642
     },
     {
       "caseId": "gs-0156",
@@ -3239,8 +3239,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0046725000000000004,
-      "durationMs": 5159
+      "costAmount": 0.0010865,
+      "durationMs": 921
     },
     {
       "caseId": "gs-0157",
@@ -3248,8 +3248,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012931,
-      "durationMs": 1805
+      "costAmount": 0.0024226,
+      "durationMs": 2557
     },
     {
       "caseId": "gs-0158",
@@ -3257,8 +3257,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000728,
-      "durationMs": 775
+      "costAmount": 0.002023,
+      "durationMs": 2661
     },
     {
       "caseId": "gs-0159",
@@ -3266,8 +3266,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008449999999999999,
-      "durationMs": 789
+      "costAmount": 0.0008990000000000001,
+      "durationMs": 1293
     },
     {
       "caseId": "gs-0160",
@@ -3275,8 +3275,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000593,
-      "durationMs": 1008
+      "costAmount": 0.0007235000000000001,
+      "durationMs": 773
     },
     {
       "caseId": "gs-0161",
@@ -3284,17 +3284,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005495000000000001,
-      "durationMs": 566
+      "costAmount": 0.0007655,
+      "durationMs": 823
     },
     {
       "caseId": "gs-0162",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011825,
-      "durationMs": 1038
+      "costAmount": 0.0026655,
+      "durationMs": 2934
     },
     {
       "caseId": "gs-0163",
@@ -3302,8 +3302,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008011,
-      "durationMs": 771
+      "costAmount": 0.0008371,
+      "durationMs": 904
     },
     {
       "caseId": "gs-0164",
@@ -3311,8 +3311,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013265,
-      "durationMs": 1302
+      "costAmount": 0.003373,
+      "durationMs": 3583
     },
     {
       "caseId": "gs-0165",
@@ -3320,17 +3320,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005675000000000001,
-      "durationMs": 849
+      "costAmount": 0.0005585,
+      "durationMs": 764
     },
     {
       "caseId": "gs-0166",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": "invalid",
       "goldNeedsMoreInfo": true,
-      "predNeedsMoreInfo": true,
-      "costAmount": 0.005365,
-      "durationMs": 5490
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.006481,
+      "durationMs": 6898
     },
     {
       "caseId": "gs-0167",
@@ -3338,8 +3338,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002236,
-      "durationMs": 2421
+      "costAmount": 0.0013025,
+      "durationMs": 1573
     },
     {
       "caseId": "gs-0168",
@@ -3347,8 +3347,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001166,
-      "durationMs": 1196
+      "costAmount": 0.001031,
+      "durationMs": 1209
     },
     {
       "caseId": "gs-0169",
@@ -3356,8 +3356,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016518000000000001,
-      "durationMs": 2588
+      "costAmount": 0.0010644,
+      "durationMs": 1275
     },
     {
       "caseId": "gs-0170",
@@ -3365,8 +3365,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001571,
-      "durationMs": 1713
+      "costAmount": 0.0020705,
+      "durationMs": 2294
     },
     {
       "caseId": "gs-0171",
@@ -3374,17 +3374,17 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0024425000000000002,
-      "durationMs": 2666
+      "costAmount": 0.002753,
+      "durationMs": 2686
     },
     {
       "caseId": "gs-0172",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0026127,
-      "durationMs": 2996
+      "costAmount": 0.0007989,
+      "durationMs": 1020
     },
     {
       "caseId": "gs-0173",
@@ -3392,8 +3392,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003155,
-      "durationMs": 3183
+      "costAmount": 0.0056575,
+      "durationMs": 6018
     },
     {
       "caseId": "gs-0174",
@@ -3401,8 +3401,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009290000000000001,
-      "durationMs": 870
+      "costAmount": 0.001073,
+      "durationMs": 1487
     },
     {
       "caseId": "gs-0175",
@@ -3410,8 +3410,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0032852999999999997,
-      "durationMs": 3619
+      "costAmount": 0.0012031,
+      "durationMs": 1305
     },
     {
       "caseId": "gs-0176",
@@ -3419,17 +3419,17 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000839,
-      "durationMs": 1220
+      "costAmount": 0.0008975,
+      "durationMs": 1162
     },
     {
       "caseId": "gs-0177",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022437,
-      "durationMs": 2901
+      "costAmount": 0.0015678000000000003,
+      "durationMs": 2259
     },
     {
       "caseId": "gs-0178",
@@ -3437,8 +3437,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001475,
-      "durationMs": 1631
+      "costAmount": 0.0043035,
+      "durationMs": 5150
     },
     {
       "caseId": "gs-0179",
@@ -3446,8 +3446,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001022,
-      "durationMs": 1314
+      "costAmount": 0.0007700000000000001,
+      "durationMs": 1037
     },
     {
       "caseId": "gs-0180",
@@ -3455,8 +3455,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001031,
-      "durationMs": 1080
+      "costAmount": 0.001022,
+      "durationMs": 1217
     },
     {
       "caseId": "gs-0181",
@@ -3464,8 +3464,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000926,
-      "durationMs": 1198
+      "costAmount": 0.0008810000000000001,
+      "durationMs": 942
     },
     {
       "caseId": "gs-0182",
@@ -3473,8 +3473,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005510000000000001,
-      "durationMs": 734
+      "costAmount": 0.0005870000000000001,
+      "durationMs": 684
     },
     {
       "caseId": "gs-0183",
@@ -3482,8 +3482,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0018399999999999998,
-      "durationMs": 2558
+      "costAmount": 0.00083,
+      "durationMs": 1029
     },
     {
       "caseId": "gs-0184",
@@ -3491,8 +3491,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000665,
-      "durationMs": 1170
+      "costAmount": 0.0006739999999999999,
+      "durationMs": 1215
     },
     {
       "caseId": "gs-0185",
@@ -3500,8 +3500,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000638,
-      "durationMs": 661
+      "costAmount": 0.000566,
+      "durationMs": 737
     },
     {
       "caseId": "gs-0186",
@@ -3509,8 +3509,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010681,
-      "durationMs": 1022
+      "costAmount": 0.0013291,
+      "durationMs": 1491
     },
     {
       "caseId": "gs-0187",
@@ -3518,8 +3518,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007396,
-      "durationMs": 830
+      "costAmount": 0.0006541,
+      "durationMs": 1199
     },
     {
       "caseId": "gs-0188",
@@ -3527,17 +3527,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022877,
-      "durationMs": 2749
+      "costAmount": 0.0011101000000000001,
+      "durationMs": 1556
     },
     {
       "caseId": "gs-0189",
       "goldMain": "feature",
-      "predMain": null,
+      "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0020534999999999998,
-      "durationMs": 2999
+      "costAmount": 0.0006485,
+      "durationMs": 886
     },
     {
       "caseId": "gs-0190",
@@ -3545,8 +3545,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005844,
-      "durationMs": 578
+      "costAmount": 0.0011958,
+      "durationMs": 1459
     },
     {
       "caseId": "gs-0191",
@@ -3554,8 +3554,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008555,
-      "durationMs": 678
+      "costAmount": 0.0008285,
+      "durationMs": 921
     },
     {
       "caseId": "gs-0192",
@@ -3563,8 +3563,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005229,
-      "durationMs": 618
+      "costAmount": 0.0005499000000000001,
+      "durationMs": 980
     },
     {
       "caseId": "gs-0193",
@@ -3572,8 +3572,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012444,
-      "durationMs": 1598
+      "costAmount": 0.0011589,
+      "durationMs": 1591
     },
     {
       "caseId": "gs-0194",
@@ -3581,17 +3581,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002084,
-      "durationMs": 2582
+      "costAmount": 0.001238,
+      "durationMs": 1340
     },
     {
       "caseId": "gs-0195",
       "goldMain": "question",
-      "predMain": "question",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0067783,
-      "durationMs": 7890
+      "costAmount": 0.0065809499999999995,
+      "durationMs": 7696
     },
     {
       "caseId": "gs-0196",
@@ -3599,8 +3599,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006245000000000001,
-      "durationMs": 977
+      "costAmount": 0.00062,
+      "durationMs": 886
     },
     {
       "caseId": "gs-0197",
@@ -3608,8 +3608,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0027470000000000003,
-      "durationMs": 2983
+      "costAmount": 0.0013205,
+      "durationMs": 1580
     },
     {
       "caseId": "gs-0198",
@@ -3617,8 +3617,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009811,
-      "durationMs": 1084
+      "costAmount": 0.0008956000000000001,
+      "durationMs": 922
     },
     {
       "caseId": "gs-0199",
@@ -3626,8 +3626,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0024587,
-      "durationMs": 3369
+      "costAmount": 0.0030437000000000003,
+      "durationMs": 3574
     },
     {
       "caseId": "gs-0200",
@@ -3635,8 +3635,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.00074325,
-      "durationMs": 1238
+      "costAmount": 0.0017295,
+      "durationMs": 2281
     },
     {
       "caseId": "gs-0201",
@@ -3644,8 +3644,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010065999999999999,
-      "durationMs": 1057
+      "costAmount": 0.0006781000000000001,
+      "durationMs": 623
     },
     {
       "caseId": "gs-0202",
@@ -3653,8 +3653,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012155,
-      "durationMs": 1253
+      "costAmount": 0.001121,
+      "durationMs": 1203
     },
     {
       "caseId": "gs-0203",
@@ -3662,8 +3662,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010445,
-      "durationMs": 1374
+      "costAmount": 0.0011120000000000001,
+      "durationMs": 1069
     },
     {
       "caseId": "gs-0204",
@@ -3671,8 +3671,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007925,
-      "durationMs": 763
+      "costAmount": 0.0009500000000000001,
+      "durationMs": 921
     },
     {
       "caseId": "gs-0205",
@@ -3680,8 +3680,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001058,
-      "durationMs": 1082
+      "costAmount": 0.0019129999999999998,
+      "durationMs": 2021
     },
     {
       "caseId": "gs-0206",
@@ -3689,8 +3689,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007636,
-      "durationMs": 1242
+      "costAmount": 0.0008716,
+      "durationMs": 808
     },
     {
       "caseId": "gs-0207",
@@ -3698,8 +3698,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006575000000000001,
-      "durationMs": 789
+      "costAmount": 0.0007925,
+      "durationMs": 895
     },
     {
       "caseId": "gs-0208",
@@ -3707,17 +3707,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0015769999999999998,
-      "durationMs": 1654
+      "costAmount": 0.0035924999999999993,
+      "durationMs": 4033
     },
     {
       "caseId": "gs-0209",
       "goldMain": "feature",
-      "predMain": "bug",
+      "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0019584,
-      "durationMs": 2442
+      "costAmount": 0.0013284,
+      "durationMs": 1597
     },
     {
       "caseId": "gs-0210",
@@ -3725,8 +3725,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001331,
-      "durationMs": 1611
+      "costAmount": 0.0025505,
+      "durationMs": 2856
     },
     {
       "caseId": "gs-0211",
@@ -3734,8 +3734,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007620999999999999,
-      "durationMs": 676
+      "costAmount": 0.0007216,
+      "durationMs": 658
     },
     {
       "caseId": "gs-0212",
@@ -3743,8 +3743,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011484,
-      "durationMs": 1525
+      "costAmount": 0.0027467999999999998,
+      "durationMs": 3487
     },
     {
       "caseId": "gs-0213",
@@ -3752,8 +3752,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000869,
-      "durationMs": 846
+      "costAmount": 0.0007475000000000001,
+      "durationMs": 989
     },
     {
       "caseId": "gs-0214",
@@ -3761,8 +3761,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005664,
-      "durationMs": 814
+      "costAmount": 0.0006204,
+      "durationMs": 829
     },
     {
       "caseId": "gs-0215",
@@ -3770,8 +3770,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007865000000000001,
-      "durationMs": 822
+      "costAmount": 0.0008495000000000001,
+      "durationMs": 920
     },
     {
       "caseId": "gs-0216",
@@ -3779,8 +3779,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0025475,
-      "durationMs": 2702
+      "costAmount": 0.0038755000000000005,
+      "durationMs": 4202
     },
     {
       "caseId": "gs-0217",
@@ -3788,8 +3788,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006245000000000001,
-      "durationMs": 769
+      "costAmount": 0.000674,
+      "durationMs": 957
     },
     {
       "caseId": "gs-0218",
@@ -3797,8 +3797,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009365,
-      "durationMs": 948
+      "costAmount": 0.0015175000000000002,
+      "durationMs": 1479
     },
     {
       "caseId": "gs-0219",
@@ -3806,8 +3806,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011495,
-      "durationMs": 1119
+      "costAmount": 0.0013205,
+      "durationMs": 1272
     },
     {
       "caseId": "gs-0220",
@@ -3815,8 +3815,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007535,
-      "durationMs": 892
+      "costAmount": 0.000614,
+      "durationMs": 737
     },
     {
       "caseId": "gs-0221",
@@ -3824,8 +3824,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006095,
-      "durationMs": 726
+      "costAmount": 0.0017115,
+      "durationMs": 2482
     },
     {
       "caseId": "gs-0222",
@@ -3833,8 +3833,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013325000000000001,
-      "durationMs": 1213
+      "costAmount": 0.0013685,
+      "durationMs": 1464
     },
     {
       "caseId": "gs-0223",
@@ -3842,8 +3842,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006091,
-      "durationMs": 488
+      "costAmount": 0.0005551,
+      "durationMs": 551
     },
     {
       "caseId": "gs-0224",
@@ -3851,8 +3851,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000848,
-      "durationMs": 927
+      "costAmount": 0.001777,
+      "durationMs": 1823
     },
     {
       "caseId": "gs-0225",
@@ -3860,8 +3860,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000518,
-      "durationMs": 764
+      "costAmount": 0.000464,
+      "durationMs": 968
     },
     {
       "caseId": "gs-0226",
@@ -3869,8 +3869,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000668,
-      "durationMs": 827
+      "costAmount": 0.0006275,
+      "durationMs": 803
     },
     {
       "caseId": "gs-0227",
@@ -3878,8 +3878,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005379,
-      "durationMs": 606
+      "costAmount": 0.0005334000000000001,
+      "durationMs": 631
     },
     {
       "caseId": "gs-0228",
@@ -3887,8 +3887,8 @@
       "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0036228,
-      "durationMs": 3983
+      "costAmount": 0.0034563,
+      "durationMs": 3686
     },
     {
       "caseId": "gs-0229",
@@ -3896,8 +3896,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001124,
-      "durationMs": 1499
+      "costAmount": 0.0010565,
+      "durationMs": 1062
     },
     {
       "caseId": "gs-0230",
@@ -3905,8 +3905,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009905,
-      "durationMs": 1318
+      "costAmount": 0.0020350000000000004,
+      "durationMs": 2520
     },
     {
       "caseId": "gs-0231",
@@ -3914,8 +3914,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011169,
-      "durationMs": 1225
+      "costAmount": 0.0009639000000000002,
+      "durationMs": 1227
     },
     {
       "caseId": "gs-0232",
@@ -3923,8 +3923,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0011495,
-      "durationMs": 1338
+      "costAmount": 0.000848,
+      "durationMs": 1196
     },
     {
       "caseId": "gs-0233",
@@ -3932,44 +3932,44 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001454,
-      "durationMs": 1693
+      "costAmount": 0.0014225,
+      "durationMs": 1710
     },
     {
       "caseId": "gs-0234",
       "goldMain": "feature",
-      "predMain": "feature",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001978,
-      "durationMs": 2803
+      "costAmount": 0.003768,
+      "durationMs": 4514
     },
     {
       "caseId": "gs-0235",
       "goldMain": "feature",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022359,
-      "durationMs": 2642
+      "costAmount": 0.012224700000000002,
+      "durationMs": 13767
     },
     {
       "caseId": "gs-0236",
       "goldMain": "question",
-      "predMain": "question",
+      "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0017670999999999997,
-      "durationMs": 1614
+      "costAmount": 0.0028817,
+      "durationMs": 3303
     },
     {
       "caseId": "gs-0237",
       "goldMain": "question",
-      "predMain": "feature",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001259,
-      "durationMs": 1699
+      "costAmount": 0.008326499999999999,
+      "durationMs": 9576
     },
     {
       "caseId": "gs-0238",
@@ -3977,8 +3977,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006594,
-      "durationMs": 865
+      "costAmount": 0.0005964,
+      "durationMs": 551
     },
     {
       "caseId": "gs-0239",
@@ -3986,8 +3986,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013085,
-      "durationMs": 1419
+      "costAmount": 0.001061,
+      "durationMs": 1347
     },
     {
       "caseId": "gs-0240",
@@ -3995,17 +3995,17 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.00481,
-      "durationMs": 5250
+      "costAmount": 0.0016759999999999998,
+      "durationMs": 1913
     },
     {
       "caseId": "gs-0241",
       "goldMain": "question",
-      "predMain": "question",
+      "predMain": null,
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009721,
-      "durationMs": 1023
+      "costAmount": 0.0050493,
+      "durationMs": 5033
     },
     {
       "caseId": "gs-0242",
@@ -4013,8 +4013,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.001226,
-      "durationMs": 1702
+      "costAmount": 0.0012125,
+      "durationMs": 1607
     },
     {
       "caseId": "gs-0243",
@@ -4022,8 +4022,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0015951999999999997,
-      "durationMs": 2130
+      "costAmount": 0.0017347,
+      "durationMs": 1955
     },
     {
       "caseId": "gs-0244",
@@ -4031,8 +4031,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000719,
-      "durationMs": 869
+      "costAmount": 0.0012985000000000002,
+      "durationMs": 2019
     },
     {
       "caseId": "gs-0245",
@@ -4040,8 +4040,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0026314999999999997,
-      "durationMs": 2651
+      "costAmount": 0.002699,
+      "durationMs": 2953
     },
     {
       "caseId": "gs-0246",
@@ -4049,8 +4049,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006845,
-      "durationMs": 877
+      "costAmount": 0.0007520000000000001,
+      "durationMs": 738
     },
     {
       "caseId": "gs-0247",
@@ -4058,8 +4058,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007711,
-      "durationMs": 888
+      "costAmount": 0.0007620999999999999,
+      "durationMs": 832
     },
     {
       "caseId": "gs-0248",
@@ -4067,17 +4067,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0018618,
-      "durationMs": 2189
+      "costAmount": 0.0009129,
+      "durationMs": 1062
     },
     {
       "caseId": "gs-0249",
       "goldMain": "question",
-      "predMain": "question",
+      "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0038755,
-      "durationMs": 4334
+      "costAmount": 0.0029165,
+      "durationMs": 3263
     },
     {
       "caseId": "gs-0250",
@@ -4085,8 +4085,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006039,
-      "durationMs": 729
+      "costAmount": 0.0005679000000000001,
+      "durationMs": 751
     },
     {
       "caseId": "gs-0251",
@@ -4094,8 +4094,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0017690000000000002,
-      "durationMs": 1735
+      "costAmount": 0.0018995000000000001,
+      "durationMs": 2024
     },
     {
       "caseId": "gs-0252",
@@ -4103,8 +4103,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005274,
-      "durationMs": 610
+      "costAmount": 0.0005229,
+      "durationMs": 759
     },
     {
       "caseId": "gs-0253",
@@ -4112,17 +4112,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0019816,
-      "durationMs": 2067
+      "costAmount": 0.005395799999999999,
+      "durationMs": 5743
     },
     {
       "caseId": "gs-0254",
       "goldMain": "bug",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0022605,
-      "durationMs": 2467
+      "costAmount": 0.0008105,
+      "durationMs": 923
     },
     {
       "caseId": "gs-0255",
@@ -4130,8 +4130,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013595,
-      "durationMs": 1812
+      "costAmount": 0.0017465,
+      "durationMs": 2007
     },
     {
       "caseId": "gs-0256",
@@ -4139,8 +4139,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010145,
-      "durationMs": 998
+      "costAmount": 0.0011585,
+      "durationMs": 1359
     },
     {
       "caseId": "gs-0257",
@@ -4148,8 +4148,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008881,
-      "durationMs": 812
+      "costAmount": 0.0006540999999999999,
+      "durationMs": 640
     },
     {
       "caseId": "gs-0258",
@@ -4157,8 +4157,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.00116,
-      "durationMs": 1519
+      "costAmount": 0.002311,
+      "durationMs": 3102
     },
     {
       "caseId": "gs-0259",
@@ -4166,17 +4166,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016325,
-      "durationMs": 1631
+      "costAmount": 0.001637,
+      "durationMs": 1650
     },
     {
       "caseId": "gs-0260",
       "goldMain": "question",
-      "predMain": null,
+      "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0041685,
-      "durationMs": 4813
+      "costAmount": 0.0014615000000000001,
+      "durationMs": 1592
     },
     {
       "caseId": "gs-0261",
@@ -4184,17 +4184,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0008585,
-      "durationMs": 1115
+      "costAmount": 0.0009395,
+      "durationMs": 857
     },
     {
       "caseId": "gs-0262",
       "goldMain": "feature",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007205,
-      "durationMs": 800
+      "costAmount": 0.00213,
+      "durationMs": 2830
     },
     {
       "caseId": "gs-0263",
@@ -4202,8 +4202,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.002436,
-      "durationMs": 2870
+      "costAmount": 0.000794,
+      "durationMs": 741
     },
     {
       "caseId": "gs-0264",
@@ -4211,17 +4211,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009348,
-      "durationMs": 1000
+      "costAmount": 0.0030216,
+      "durationMs": 2787
     },
     {
       "caseId": "gs-0265",
       "goldMain": "feature",
-      "predMain": "feature",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010126,
-      "durationMs": 1084
+      "costAmount": 0.0039018,
+      "durationMs": 4358
     },
     {
       "caseId": "gs-0266",
@@ -4229,8 +4229,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009864000000000001,
-      "durationMs": 1449
+      "costAmount": 0.0011754,
+      "durationMs": 1531
     },
     {
       "caseId": "gs-0267",
@@ -4238,26 +4238,26 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0007545999999999999,
-      "durationMs": 1041
+      "costAmount": 0.0007725999999999999,
+      "durationMs": 862
     },
     {
       "caseId": "gs-0268",
       "goldMain": "bug",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013615,
-      "durationMs": 1895
+      "costAmount": 0.0020085,
+      "durationMs": 2942
     },
     {
       "caseId": "gs-0269",
       "goldMain": "question",
-      "predMain": null,
+      "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.011026500000000002,
-      "durationMs": 11698
+      "costAmount": 0.0035644999999999995,
+      "durationMs": 3554
     },
     {
       "caseId": "gs-0270",
@@ -4265,8 +4265,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013999999999999998,
-      "durationMs": 1525
+      "costAmount": 0.0034434999999999995,
+      "durationMs": 3725
     },
     {
       "caseId": "gs-0271",
@@ -4274,8 +4274,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0033495,
-      "durationMs": 3776
+      "costAmount": 0.0015439999999999998,
+      "durationMs": 2093
     },
     {
       "caseId": "gs-0272",
@@ -4283,8 +4283,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000722,
-      "durationMs": 885
+      "costAmount": 0.002173,
+      "durationMs": 2499
     },
     {
       "caseId": "gs-0273",
@@ -4292,8 +4292,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013535,
-      "durationMs": 1489
+      "costAmount": 0.003788,
+      "durationMs": 4627
     },
     {
       "caseId": "gs-0274",
@@ -4301,8 +4301,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010396,
-      "durationMs": 1303
+      "costAmount": 0.0011656000000000001,
+      "durationMs": 1192
     },
     {
       "caseId": "gs-0275",
@@ -4310,17 +4310,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009541,
-      "durationMs": 1065
+      "costAmount": 0.0010486,
+      "durationMs": 1397
     },
     {
       "caseId": "gs-0276",
       "goldMain": "feature",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.005076300000000001,
-      "durationMs": 5149
+      "costAmount": 0.0066198,
+      "durationMs": 7160
     },
     {
       "caseId": "gs-0277",
@@ -4328,8 +4328,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.003814,
-      "durationMs": 4639
+      "costAmount": 0.006306,
+      "durationMs": 7376
     },
     {
       "caseId": "gs-0278",
@@ -4337,8 +4337,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0012715,
-      "durationMs": 1211
+      "costAmount": 0.0006425000000000001,
+      "durationMs": 588
     },
     {
       "caseId": "gs-0279",
@@ -4346,8 +4346,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006961000000000001,
-      "durationMs": 844
+      "costAmount": 0.0006646,
+      "durationMs": 964
     },
     {
       "caseId": "gs-0280",
@@ -4355,8 +4355,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013895000000000001,
-      "durationMs": 1458
+      "costAmount": 0.002807,
+      "durationMs": 2860
     },
     {
       "caseId": "gs-0281",
@@ -4364,8 +4364,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000911,
-      "durationMs": 1157
+      "costAmount": 0.002533,
+      "durationMs": 2983
     },
     {
       "caseId": "gs-0282",
@@ -4373,8 +4373,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": true,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0029485,
-      "durationMs": 2866
+      "costAmount": 0.003601,
+      "durationMs": 3771
     },
     {
       "caseId": "gs-0283",
@@ -4382,17 +4382,17 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005618999999999999,
-      "durationMs": 969
+      "costAmount": 0.0006069000000000001,
+      "durationMs": 666
     },
     {
       "caseId": "gs-0284",
       "goldMain": "duplicate",
-      "predMain": "bug",
+      "predMain": null,
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0014954,
-      "durationMs": 1999
+      "costAmount": 0.0022791,
+      "durationMs": 3290
     },
     {
       "caseId": "gs-0285",
@@ -4400,8 +4400,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0016105000000000002,
-      "durationMs": 2139
+      "costAmount": 0.0009965,
+      "durationMs": 1475
     },
     {
       "caseId": "gs-0286",
@@ -4409,8 +4409,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0014206000000000002,
-      "durationMs": 1461
+      "costAmount": 0.0007141000000000001,
+      "durationMs": 947
     },
     {
       "caseId": "gs-0287",
@@ -4418,8 +4418,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006811,
-      "durationMs": 872
+      "costAmount": 0.0006136,
+      "durationMs": 553
     },
     {
       "caseId": "gs-0288",
@@ -4427,8 +4427,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.004196,
-      "durationMs": 4713
+      "costAmount": 0.0027154999999999996,
+      "durationMs": 3287
     },
     {
       "caseId": "gs-0289",
@@ -4436,8 +4436,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0020815,
-      "durationMs": 2210
+      "costAmount": 0.000944,
+      "durationMs": 1056
     },
     {
       "caseId": "gs-0290",
@@ -4445,8 +4445,8 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010650999999999998,
-      "durationMs": 1182
+      "costAmount": 0.0020222,
+      "durationMs": 2487
     },
     {
       "caseId": "gs-0291",
@@ -4454,8 +4454,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0013325,
-      "durationMs": 1393
+      "costAmount": 0.0017825,
+      "durationMs": 1666
     },
     {
       "caseId": "gs-0292",
@@ -4463,8 +4463,8 @@
       "predMain": "question",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0014101,
-      "durationMs": 1471
+      "costAmount": 0.0014056,
+      "durationMs": 1863
     },
     {
       "caseId": "gs-0293",
@@ -4472,17 +4472,17 @@
       "predMain": "feature",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0006230000000000001,
-      "durationMs": 1020
+      "costAmount": 0.0005825,
+      "durationMs": 762
     },
     {
       "caseId": "gs-0294",
       "goldMain": "question",
       "predMain": "question",
       "goldNeedsMoreInfo": false,
-      "predNeedsMoreInfo": false,
-      "costAmount": 0.001781,
-      "durationMs": 1881
+      "predNeedsMoreInfo": true,
+      "costAmount": 0.0036305,
+      "durationMs": 3490
     },
     {
       "caseId": "gs-0295",
@@ -4490,17 +4490,17 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0018005000000000002,
-      "durationMs": 2182
+      "costAmount": 0.005959000000000001,
+      "durationMs": 6102
     },
     {
       "caseId": "gs-0296",
       "goldMain": "feature",
-      "predMain": null,
+      "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0024135,
-      "durationMs": 2442
+      "costAmount": 0.0021704999999999997,
+      "durationMs": 2738
     },
     {
       "caseId": "gs-0297",
@@ -4508,8 +4508,8 @@
       "predMain": "invalid",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0005881,
-      "durationMs": 782
+      "costAmount": 0.0005071,
+      "durationMs": 1034
     },
     {
       "caseId": "gs-0298",
@@ -4517,8 +4517,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0010595000000000001,
-      "durationMs": 1171
+      "costAmount": 0.0012035000000000001,
+      "durationMs": 1147
     },
     {
       "caseId": "gs-0299",
@@ -4526,8 +4526,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.000722,
-      "durationMs": 662
+      "costAmount": 0.000857,
+      "durationMs": 1089
     },
     {
       "caseId": "gs-0300",
@@ -4535,8 +4535,8 @@
       "predMain": "bug",
       "goldNeedsMoreInfo": false,
       "predNeedsMoreInfo": false,
-      "costAmount": 0.0009609,
-      "durationMs": 1406
+      "costAmount": 0.0008664,
+      "durationMs": 1637
     }
   ]
 }

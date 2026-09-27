@@ -8,11 +8,12 @@
  *   pnpm eval:run -- --tag=baseline --split=dev --ds=v1-draft-n300
  *   pnpm eval:run -- --tag=cand-1 --split=dev --ds=v1-draft-n300 --limit=50
  */
-import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_MODEL_CONFIG, resolveModel, type ModelConfig } from "../packages/llm/src/index";
-import { handleIssueEvent } from "../apps/agent/src/index";
+import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
+import { buildTrace, JsonlTraceStore } from "../apps/agent/src/trace-store";
 import {
   bootstrapCI95,
   loadGoldenSet,
@@ -61,13 +62,23 @@ console.log(`== eval:run == tag=${TAG} split=${SPLIT} ds=${DS} 模型=${model} �
 
 const results: CaseResult[] = [];
 let totalCost = 0;
+// 轨迹持久化（默认开）：评测轨迹是影子回放与整理管线的离线输入
+const SAVE_TRACES = !argv.includes("--no-traces");
+if (SAVE_TRACES) mkdirSync(resolve(ROOT, "datasets/traces"), { recursive: true });
+const traceStore = SAVE_TRACES
+  ? new JsonlTraceStore(resolve(ROOT, "datasets/traces/traces.jsonl"))
+  : null;
+let savedTraces = 0;
+let duplicateTraces = 0;
+
 for (const c of cases) {
-  const res = await handleIssueEvent({
+  const event: IssueEvent = {
     repo: c.repo,
     issueNumber: c.issueNumber,
     title: c.title,
     body: c.bodyExcerpt,
-  });
+  };
+  const res = await handleIssueEvent(event);
   const step = res.steps[0];
   totalCost += step?.costAmount ?? 0;
   results.push({
@@ -79,6 +90,21 @@ for (const c of cases) {
     costAmount: step?.costAmount ?? 0,
     durationMs: step?.durationMs ?? 0,
   });
+  if (traceStore) {
+    // 确定性 id：同 tag/dataset/case 重跑不重复落库（幂等，R3）
+    const id = `trace-eval-${TAG}-${DS}-${c.id}`;
+    try {
+      await traceStore.append(buildTrace(event, res, { id }));
+      savedTraces++;
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      if (msg.includes("重复")) {
+        duplicateTraces++;
+      } else {
+        console.error(`  轨迹落库失败 ${c.id}: ${msg}`);
+      }
+    }
+  }
   const mark = results[results.length - 1]?.predMain === c.goldMain ? "✓" : "✗";
   console.log(
     `${mark} ${c.id} gold=${c.goldMain.padEnd(8)} pred=${(results[results.length - 1]?.predMain ?? "FAIL").padEnd(8)} ¥${(step?.costAmount ?? 0).toFixed(4)}`
@@ -102,6 +128,9 @@ console.log(`accuracy: ${(run.metrics.triageAccuracy * 100).toFixed(1)}% | 宏F1
 console.log(`nmi: 命中 ${nmi.hit}/${nmi.goldCount} | 误报 ${nmi.falsePositives}`);
 console.log(`CI95: [${((run.ci95?.lower ?? 0) * 100).toFixed(2)}pt, ${((run.ci95?.upper ?? 0) * 100).toFixed(2)}pt]`);
 console.log(`成本: ¥${totalCost.toFixed(4)} | p50 ${run.metrics.p50LatencyMs}ms / p95 ${run.metrics.p95LatencyMs}ms`);
+if (traceStore) {
+  console.log(`轨迹落库: 新增 ${savedTraces} 条${duplicateTraces > 0 ? `（重复跳过 ${duplicateTraces}）` : ""}`);
+}
 
 // ---- 落盘（防覆盖）----
 const outDir = resolve(ROOT, "datasets/eval");
