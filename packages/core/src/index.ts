@@ -56,6 +56,8 @@ export interface Trace {
   issueNumber: number;
   /** 产生该轨迹的 Agent 版本（经验集版本 + 代码版本） */
   agentVersion: string;
+  /** 脱敏后的 issue 摘要（前 500 字），供睡眠整理聚类与归纳（design.md §6） */
+  issueExcerpt: string | null;
   steps: TraceStep[];
   finalActions: AgentAction[];
   totalCost: number;

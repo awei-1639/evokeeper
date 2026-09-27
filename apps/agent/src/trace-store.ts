@@ -15,6 +15,17 @@ import type { HandleResult, IssueEvent } from "./index";
 /** 代码版本（经验集版本未发布前无后缀；W6 起形如 "0.1.0+exp-v2"） */
 export const AGENT_CODE_VERSION = "0.1.0";
 
+/** 落库的 issue 摘要最大长度（design.md §6：issue 前 500 字，脱敏） */
+export const TRACE_EXCERPT_MAX_CHARS = 500;
+
+/** 脱敏：邮箱 / 各类密钥 token 替换为占位符（与 fetch 脚本同规则） */
+export function maskSensitive(text: string): string {
+  return text
+    .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "<email>")
+    .replace(/gh[pousr]_[A-Za-z0-9]{20,}/g, "<token>")
+    .replace(/sk-[A-Za-z0-9]{20,}/g, "<token>");
+}
+
 /**
  * HandleResult → Trace 装配。
  * startedAt 取首步，finishedAt 取各步结束时刻的最大值；成本与 token 全量累加（R3）。
@@ -36,6 +47,7 @@ export function buildTrace(
     repo: event.repo,
     issueNumber: event.issueNumber,
     agentVersion: AGENT_CODE_VERSION,
+    issueExcerpt: maskSensitive(event.body).slice(0, TRACE_EXCERPT_MAX_CHARS) || null,
     steps,
     finalActions: result.actions,
     totalCost: steps.reduce((a, s) => a + s.costAmount, 0),

@@ -16,6 +16,7 @@ const TRACE: Trace = {
   repo: "alibaba/nacos",
   issueNumber: 1,
   agentVersion: "0.1.0",
+  issueExcerpt: null,
   steps: [],
   finalActions: [],
   totalCost: 0,

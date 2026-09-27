@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@evokeeper/core": "workspace:*",
-    "@evokeeper/eval": "workspace:*"
+    "@evokeeper/eval": "workspace:*",
+    "@evokeeper/llm": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^22.10.0",
     "typescript": "^5.7.0"
   }
 }
