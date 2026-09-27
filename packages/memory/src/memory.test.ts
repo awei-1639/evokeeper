@@ -8,7 +8,7 @@
  */
 import { describe, expect, it } from "vitest";
 import type { MemoryItem } from "./index";
-import { MemoryLayer, InMemoryMemoryStore, decideMemoryOp } from "./index";
+import { MemoryLayer, InMemoryMemoryStore, JsonlMemoryStore, decideMemoryOp } from "./index";
 
 const REPO = "alibaba/nacos";
 const NOW = "2026-09-28T10:00:00.000Z";
@@ -246,5 +246,45 @@ describe("MemoryLayer 读路径", () => {
     const updated = await layer.update("mem-1", { confidence: 0.93 });
     expect(updated.version).toBe("2");
     expect(updated.confidence).toBe(0.93);
+  });
+});
+
+describe("JsonlMemoryStore（持久化）", () => {
+  it("跨实例恢复 + 软删状态保留", async () => {
+    const { mkdtempSync, writeFileSync } = await import("node:fs");
+    const { tmpdir } = await import("node:os");
+    const { join } = await import("node:path");
+    const dir = mkdtempSync(join(tmpdir(), "evokeeper-mem-"));
+    const file = join(dir, "memory.jsonl");
+
+    const layer1 = new MemoryLayer({ store: new JsonlMemoryStore(file) });
+    await layer1.write({
+      id: "mem-1",
+      repo: REPO,
+      kind: "semantic",
+      content: "Nacos 客户端注册实例用 registerInstance 接口，支持临时与持久节点",
+      confidence: 0.8,
+      evidenceRefs: ["trace-1"],
+    });
+    await layer1.write({
+      id: "mem-2",
+      repo: REPO,
+      kind: "semantic",
+      content: "Nacos 2.x 的 beta 灰度配置功能已在后续版本移除",
+      confidence: 0.9,
+      evidenceRefs: ["trace-2"],
+      invalidates: false,
+    });
+    // 软删 mem-2 的既有记录（用 update 不行——用直写模拟 judge 后失效）
+    const store1 = new JsonlMemoryStore(file);
+    await store1.softDelete("mem-2", "2026-09-28T00:00:00.000Z");
+
+    // 新实例（模拟重启）读回
+    const store2 = new JsonlMemoryStore(file);
+    const layer2 = new MemoryLayer({ store: store2 });
+    const visible = await layer2.query({ repo: REPO, now: "2026-09-29T00:00:00.000Z" });
+    expect(visible.map((v) => v.id)).toEqual(["mem-1"]);
+    const all = await store2.listByRepo(REPO);
+    expect(all).toHaveLength(2); // 软删保留审计链
   });
 });

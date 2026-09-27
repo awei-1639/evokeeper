@@ -3,9 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "echo \"W7: Next.js 管理台（轨迹查看器/记忆时间线/评测报告/回滚控制台）\" && exit 0",
-    "build": "echo \"W7\" && exit 0",
-    "typecheck": "echo \"W7\" && exit 0",
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "typecheck": "tsc --noEmit",
     "test": "echo \"no tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
   }
 }

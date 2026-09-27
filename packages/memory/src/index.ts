@@ -13,6 +13,7 @@
  * 失效策略按 kind（design.md §4）：episodic 随 Trace 归档、semantic 靠 validUntil、
  * procedural 版本化随 ReleaseVersion 回滚（W5 技能文件化）、preference 长期人工修订。
  */
+import { existsSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import type { MemoryItem, MemoryKind } from "@evokeeper/core";
 
 export type MemoryWriteOp = "ADD" | "UPDATE" | "DELETE" | "NONE";
@@ -191,6 +192,52 @@ export class InMemoryMemoryStore implements MemoryStore {
 
   get size(): number {
     return this.items.size;
+  }
+}
+
+/** JSONL 落盘实现：一行一条记忆（含软删后的 validUntil 状态），启动时加载，写入同步刷盘 */
+export class JsonlMemoryStore implements MemoryStore {
+  private readonly items = new Map<string, MemoryItem>();
+
+  constructor(private readonly filePath: string) {
+    if (existsSync(filePath)) {
+      for (const line of readFileSync(filePath, "utf8").trim().split("\n")) {
+        if (!line) continue;
+        const item = JSON.parse(line) as MemoryItem;
+        this.items.set(item.id, item);
+      }
+    }
+  }
+
+  async get(id: string): Promise<MemoryItem | null> {
+    return this.items.get(id) ?? null;
+  }
+
+  async listByRepo(repo: string): Promise<MemoryItem[]> {
+    return [...this.items.values()].filter((i) => i.repo === repo);
+  }
+
+  async save(item: MemoryItem): Promise<void> {
+    this.items.set(item.id, item);
+    this.flush();
+  }
+
+  async softDelete(id: string, validUntil: string): Promise<void> {
+    const item = this.items.get(id);
+    if (!item) throw new Error(`记忆不存在：${id}`);
+    this.items.set(id, { ...item, validUntil });
+    this.flush();
+  }
+
+  /** 整文件重写（W3 规模下足够；PG 版替换为 UPDATE 语句） */
+  private flush(): void {
+    const tmp = `${this.filePath}.tmp`;
+    writeFileSync(
+      tmp,
+      [...this.items.values()].map((i) => JSON.stringify(i)).join("\n") + "\n",
+      "utf8"
+    );
+    renameSync(tmp, this.filePath);
   }
 }
 

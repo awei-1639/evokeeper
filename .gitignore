@@ -11,3 +11,7 @@ datasets/**/*.backup.jsonl
 # WorkBuddy 会话工作记忆，不属于项目源码
 .workbuddy/
 .DS_Store
+
+# Next.js
+apps/web/.next
+apps/web/next-env.d.ts
