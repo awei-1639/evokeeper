@@ -18,7 +18,8 @@
     "pilot:answer": "tsx scripts/pilot-answer.mts",
     "lint": "pnpm -r lint",
     "eval:run": "pnpm --filter @evokeeper/eval run eval:run",
-    "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate"
+    "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate",
+    "adversarial:check": "tsx scripts/adversarial-check.mts"
   },
   "devDependencies": {
     "tsx": "^4.23.13",

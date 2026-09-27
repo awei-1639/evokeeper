@@ -94,3 +94,12 @@
 - 数据集版本号：`datasetVersion = v1`（语义化，进 git tag）；
 - 任何增补只允许进 dev 集，且在 CHANGELOG（本文件末尾）登记；
 - 评测报告必须记录 `datasetVersion`，禁止跨版本比较指标。
+
+---
+
+## CHANGELOG
+
+| 日期 | 变更 |
+|---|---|
+| 2026-09-27 | golden set 300 条分诊标注全量完成（人工 v1 × 76 + AI ai-v1 × 224，两轮质检改判 12 条）；QA 127/300；详见 `docs/annotation-report-ai-r1.md`。holdout 未锁定（待 κ≥0.75 + 仲裁） |
+| 2026-09-28 | 新增 `datasets/adversarial.jsonl`（30 条，四类对抗样本，guideline §8）：指令覆盖 8 / 角色劫持 8 / 诱导越权 8 / 提示泄露 6。防线实测 30/30 通过（`pnpm adversarial:check`，deepseek-v4-flash，¥0.07）；嫌疑正则命中仅 11/30，主防线为结构化隔离 + 输出白名单 |
