@@ -1,0 +1,755 @@
+{
+  "model": "deepseek-v4-pro",
+  "modelConfigVersion": "mc-1.0",
+  "promptVersion": "ap-1.0",
+  "datasetVersion": "v1-qa-n127",
+  "note": "answer 档首选 qwen3-max 无 key，按 §9.1 用备选 deepseek-v4-pro；检索=BM25（W4 换 embedding+pgvector）；要点覆盖率评分待 judge 档就绪",
+  "retrieval": {
+    "method": "bm25-cjk-bigram",
+    "topK": 5,
+    "corpusSize": 300
+  },
+  "n": 30,
+  "escalated": 0,
+  "withCitation": 30,
+  "sourceHitRate": 1,
+  "strippedCitationsTotal": 1,
+  "suspicious": 0,
+  "totalCost": 0.38325329999999996,
+  "avgCost": 0.01277511,
+  "p50LatencyMs": 7478,
+  "p95LatencyMs": 19390,
+  "perCase": [
+    {
+      "issue_number": 15683,
+      "question": "Nacos v3 的 /v3/console/server/state 接口无需登录即可访问，是否属于安全漏洞？",
+      "answer": "根据社区讨论，/v3/console/server/state 接口被 Nacos 官方定义为公开 API，无需认证即可访问，用于获取集群状态信息，因此不属于安全漏洞。官方维护者在 issue #15683 中明确说明该接口为 public API，并提供了官方文档链接。若担心返回信息（如版本、auth_enabled 状态）泄露，建议在网关或网络层限制该路径的访问，或关注后续版本是否有收紧策略。",
+      "citations": [
+        "#15683"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14973,
+        15683,
+        14940,
+        15451,
+        14964
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.009831300000000001,
+      "durationMs": 7793,
+      "goldOutline": "1. 明确指出这是设计预期而非漏洞：/v3/console/server/state 是 Nacos 3.X 定义的 Public API（公开接口）。\n2. 解释设计目的：该接口用于在未认证时返回基础元数据（如版本、启动模式、端口等），以便客户端或控制台能正确适配服务端。\n3. 给出关闭方案：若确实不希望公开该信息，可在配置文件中设置 `nacos.core.auth.console.enabled=false` 并重启控制台。\n4. 安全提报指引：如果基于特定部署环境仍认为存在安全隐患，应按照官方要求提交至阿里云安全应急响应中心（ASRC），而非在 GitHub 公开讨论。"
+    },
+    {
+      "issue_number": 13987,
+      "question": "Why does Nacos 3.1.0 return 404 Not Found when registering an agent via POST /v3/console/ai/a2a, and how should the v3 console API be accessed correctly?",
+      "answer": "社区资料中 #13987 记录了 Nacos 3.1.0 通过 POST /v3/console/ai/a2a 注册 agent 返回 404 的问题，但该 issue 未给出明确根因，仅有人反馈“最新版本本地测试没问题”，提示可能与版本或部署有关。#15229 中使用了路径 /v3/admin/ai/a2a（而非 /v3/console/ai/a2a）访问 AI 管理接口，说明 v3 接口可能存在 admin 与 console 的上下文差异。建议排查方向：确认服务端实际暴露的 v3 AI 接口路径（可查看 swagger 或接口文档），尝试 /v3/admin/ai/a2a；检查 Nacos 版本是否为支持 AI 模块的版本，或升级到修复后的版本；确认请求的 context-path 配置（如 /nacos 前缀）。资料不足以给出确定的正确访问方式。",
+      "citations": [
+        "#13987",
+        "#15229"
+      ],
+      "confidence": 0.4,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13987,
+        15444,
+        15229,
+        14627,
+        15359
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.027822899999999998,
+      "durationMs": 20366,
+      "goldOutline": "1) 指出维护者已用 3.1.1 本地实测该接口无问题，404 通常不是接口缺失，而是请求没有打到正确的端口。 2) 解释原因：Nacos 3.x 默认启动两个端口，一个给 server、一个给 console，/v3/console/* 属于 console 端口，端口不匹配（The ports don't match）时就会 404。 3) 给出排查方向：检查前面是否配置了 proxy、nginx 等代理导致请求被转发到错误端口。 4) 建议参考官方独立部署（deployment-independent）文档确认 server 与 console 两个端口的正确用法。"
+    },
+    {
+      "issue_number": 14973,
+      "question": "Nacos 2.x 内置的 spring-boot-actuator 2.7.18 命中 Spring Boot 认证绕过漏洞 CVE-2026-22733，官方为什么不为 2.x 出修复版本？用户应如何规避？",
+      "answer": "官方不为 Nacos 2.x 出修复版本的原因：Spring Boot 2.x 社区已停止维护，且 Nacos 2.x 基于 JDK8，无法升级到 Spring Boot 3 来修复；2.x 已进入基本维护阶段，该漏洞在默认配置下（actuator 未开启）实际不受影响，因此暂停处理。规避方式：默认不开启 actuator 即可；若需要开启，只开启 prometheus 端点可避免此漏洞；若必须使用漏洞涉及的其他 actuator 功能，只能升级到 Nacos 3.x 最新版本（如 3.2.1，已更新至 Spring Boot 3.5.13，不在漏洞范围）。",
+      "citations": [
+        "#14973",
+        "#15451",
+        "#13891"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14973,
+        14963,
+        15451,
+        13891,
+        14774
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0110508,
+      "durationMs": 6714,
+      "goldOutline": "1) 解释原因：Spring Boot 2.x 社区版已停止维护（目前只有企业版还在更新修复安全漏洞），而 Nacos 2.x 基于 JDK8，无法升级到 Spring Boot 3，因此 2.x 无法通过升级依赖修复。 2) 给出规避方式：Nacos 默认不打开 actuator，默认部署不受该漏洞影响；如需打开相关功能，可以只开启 prometheus 来避免此漏洞。 3) 给出升级路径：如果必须使用漏洞涉及的功能，只能升级到 3.x 的最新版本。 4) 给出进展信息：Nacos 当前最新分支已更新至 Spring Boot 3.5.13，nacos 3.2.1 即将发布，该版本将不在漏洞影响范围内。"
+    },
+    {
+      "issue_number": 13984,
+      "question": "Nacos 3.x 移除了健康检查用的 serverStatus 接口（调用返回 Gone），应该用什么替代？Dubbo 使用 Nacos 做健康检查时受什么影响？",
+      "answer": "Nacos 3.x 移除了 serverStatus 健康检查接口，目前没有官方提供的等价 HTTP 替代接口。对于 Dubbo 的影响：根据 #13984 中维护者说明，Dubbo3 使用 Nacos 2+ 时默认优先判定连接是否正常，连接正常的情况下不会调用 HTTP 接口进行探测，因此影响有限；若使用旧版 Dubbo 或强制配置了 HTTP 健康检查，需要升级 Dubbo 或调整健康检查方式，改为依赖连接状态/心跳。",
+      "citations": [
+        "#13984"
+      ],
+      "confidence": 0.75,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13984,
+        14060,
+        14065,
+        14064,
+        14451
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0114456,
+      "durationMs": 8424,
+      "goldOutline": "1) 给出官方说明出处：关于该接口移除与替代的官方解释见 issue#12922 的评论（https://github.com/alibaba/nacos/issues/12922#issuecomment-2833801517），不应凭空猜测替代接口名。 2) 解释 Dubbo3 场景的实际行为：dubbo3 默认使用 nacos2 以上版本的客户端，会优先判定连接是否正常，连接正常的情况下不会调用 HTTP 接口进行探测。 3) 得出结论：在 Dubbo3 搭配 Nacos 2.x 以上客户端的场景下通常不依赖 serverStatus 做 HTTP 探测，连接正常时该接口返回 Gone 不影响使用。"
+    },
+    {
+      "issue_number": 15342,
+      "question": "Docker 部署 Nacos 3.2.2 外接 PostgreSQL 16 数据库时启动失败，是什么原因？数据库应如何正确初始化？",
+      "answer": "启动失败通常有两个原因：1）Nacos 不会自动建表，需手动在 PostgreSQL 中执行官方初始化 SQL（schema.sql），否则会因缺少表而启动失败（#15342）。2）Nacos 3.2.2 的 Docker 镜像存在已知打包缺陷，缺少 pg-upgrade-null-tenant-id.sql 文件，导致启动时校验失败崩溃，即使是全新空库也会触发（#15275）。正确初始化：创建 PostgreSQL 16 数据库后，导入与 Nacos 版本匹配的 PostgreSQL schema.sql（不要误用 MySQL 脚本），确保执行成功；然后启动容器并检查日志确认表结构完整。若遇到 3.2.2 镜像缺文件问题，建议确认镜像版本或关注官方修复。",
+      "citations": [
+        "#15342",
+        "#15275"
+      ],
+      "confidence": 0.85,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13848,
+        15342,
+        14081,
+        15275,
+        14937
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.014137799999999999,
+      "durationMs": 11590,
+      "goldOutline": "1) 指出关键机制：Nacos 不会自动创建任何数据库表，外接 PostgreSQL 也一样，需要使用者在 pg 数据库中手动执行 schema.sql 完成建表。 2) 给出失败原因分析：启动失败很可能是数据库用了错误的初始化 SQL 文件，或启动 server 之前没有先导入（source）初始化 SQL。 3) 补充排查点：确认是否挂载了非官方的 pg 插件，维护者提到 beta 相关内容在部分版本中应已被移除，版本不匹配也会导致异常。"
+    },
+    {
+      "issue_number": 14937,
+      "question": "Nacos server 3.2.1 使用 PostgreSQL 数据库时，在页面创建命名空间报 bad SQL grammar（INSERT INTO tenant_info 失败），是什么原因？如何解决？",
+      "answer": "原因：PostgreSQL 16 对 TO_TIMESTAMP 类型检查更严格，Nacos 3.2.1 插入 tenant_info 时使用的 TO_TIMESTAMP(? / 1000) 将数字转为 timestamp 时类型不匹配，导致 bad SQL grammar（见 #14937）。社区资料中未给出具体解决步骤或补丁，建议关注该 issue 进展；临时可尝试调整 PostgreSQL 兼容性配置或将参数显式转为 double precision，但需自行验证。",
+      "citations": [
+        "#14937"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14937,
+        13837,
+        14460,
+        13979,
+        15152
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0101946,
+      "durationMs": 8226,
+      "goldOutline": "1) 解释报错机制：插入语句对时间字段使用 TO_TIMESTAMP(? / 1000.0) 把毫秒值转成 timestamp，而 PostgreSQL（如 16）类型检查严格，表中对应字段若不是 timestamp 类型就会类型不匹配报错。 2) 指出根因：根据 pg-schema.sql 的定义，tenant_info 的这两个时间字段应为 timestamp 类型，报错说明数据库中的表结构与官方 pg-schema.sql 不一致（建表用了旧版或错误的 SQL）。 3) 给出解决办法：按官方 pg-schema.sql 核对并重建表结构——最新的 nacos-server-3.2.1-2026.04.03 发行包中的 SQL 已是 timestamp 类型，用它初始化即可。"
+    },
+    {
+      "issue_number": 13848,
+      "question": "在 K8s 中部署 Nacos 2.2.3 集群并按官网文档设置环境变量开启鉴权后，用 nacos/nacos 登录控制台失败，MySQL 的 users 表为空：为什么默认用户没有写入数据库？应如何正确初始化管理员账号？",
+      "answer": "Nacos 2.2.3（2.4.0 之前）不会自动写入默认用户。开启鉴权时需手动执行数据库初始化语句，对应 SQL 位于部署包 `nacos/conf/mysql-schema.sql` 中。请先登录 MySQL，选择 Nacos 数据库，执行该脚本（或至少执行其中插入管理员用户的 INSERT 语句），然后再用 `nacos/nacos` 登录。#13848",
+      "citations": [
+        "#13848"
+      ],
+      "confidence": 0.95,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13848,
+        15554,
+        15357,
+        15339,
+        14119
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0075633,
+      "durationMs": 6499,
+      "goldOutline": "1) 指出原因：2.4.0 版本之前的初始化密码需要用户自行插入数据库（users 表），SQL 可参考 mysql-schema.sql，对应文件在部署包的 nacos/conf/ 目录下同时存在；2) 说明 2.4.0 版本之后取消了对默认初始化密码插入的需求，转而需要在控制台中进行初始化操作（设置管理员用户名和密码），详情见官方鉴权文档；3) 强调手动插入的用户密码必须通过 BCrypt 加密后写入，否则登录失败；4) 验证方式：按对应版本的鉴权文档完成初始化后，再用设置的用户名密码登录控制台确认。"
+    },
+    {
+      "issue_number": 14642,
+      "question": "使用 nacos-client 3.2.0-BETA 在 K8s 上对接 Nacos Server 3.2.0-BETA 注册 Agent 失败并抛出 NacosRuntimeException，可能是什么原因？该问题如何处理？",
+      "answer": "根据社区反馈，nacos-client 3.2.0-BETA 在 K8s 上注册 Agent 抛出 NacosRuntimeException，官方测试未复现，推测主要原因是客户端未能连接上 Nacos Server，而非版本不匹配。建议排查：1）确认 K8s 内网络策略与 Service 域名解析正常，客户端配置的 serverAddr 可访问且端口（如 8848）可达；2）查看异常堆栈是否包含连接超时或 UnknownHostException，必要时用 IP 替代域名测试；3）检查 Nacos Server 是否就绪并监听正确端口。官方也提到后续可优化提示以区分“未连接”和“版本过旧”。目前资料未提供具体报错详情，以上为最可能方向。",
+      "citations": [
+        "#14642"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14642,
+        13837,
+        14060,
+        13904,
+        14622
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0098346,
+      "durationMs": 7943,
+      "goldOutline": "1) 指出维护者实测该版本 Agent 注册没有问题，用户侧失败的原因很可能是与 Server 的连接没有建立成功；2) 说明当时的报错提示无法区分“未连接上”与“客户端版本过旧”两种情况，维护者认为该提示可以优化；3) 指出该 issue 已由 #14924 关闭。"
+    },
+    {
+      "issue_number": 15141,
+      "question": "Nacos v3.2.1 新版控制台编辑命名空间描述时，PUT /v3/console/core/namespace 报 “required parameter 'namespaceId' is missing”，是什么原因？如何临时解决？",
+      "answer": "根据 #15141，v3.2.1 新版控制台在前端调用 PUT /v3/console/core/namespace 时，请求体里发送的是 `namespace` 字段，而后端接口要求的参数名是 `namespaceId`，因此后端认为缺少必需参数 `namespaceId`。临时解决：可尝试切换到旧版控制台进行操作（#15350 中用户提到同版本旧版控制台正常，但该 issue 针对的是历史版本对比问题，仅供参考）；或者手动构造 PUT 请求，将参数名 `namespace` 改为 `namespaceId`，例如携带 `namespaceId=7fddc7d9-d879-47d0-aec4-f650fe0c4cce`。正式修复需等待前端修复参数名。",
+      "citations": [
+        "#15141",
+        "#15350"
+      ],
+      "confidence": 0.65,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15141,
+        15152,
+        15350,
+        14460,
+        14749
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0135966,
+      "durationMs": 9503,
+      "goldOutline": "1) 指出原因：新版控制台修改了编辑命名空间时提交的参数名称，前端提交 namespace 而后端要求 namespaceId，导致后端报参数缺失；2) 给出临时规避方式：切换到旧版本控制台修改命名空间描述；3) 说明该错误已被其他用户同样复现，且已被社区成员认领处理。"
+    },
+    {
+      "issue_number": 14627,
+      "question": "Uploading a skill ZIP to nacos-server v3.2.0-BETA fails with “ErrCode:400, ErrMsg: Skill name can only contain English letters, underscore, and hyphen”. Why does the validation reject the skill name, and what improvement is planned?",
+      "answer": "当前校验规则仅允许英文字母、下划线和连字符，不允许数字；且上传 ZIP 时未将版本号从文件名中分离，导致 `agent-browser-0.2.0` 整体被当作 skill name，从而被拒绝。计划改进：数字应被支持，版本号应独立解析，skill name 应为 `agent-browser`。参见 #14627。",
+      "citations": [
+        "#14627"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14627,
+        14614,
+        13976,
+        13834,
+        14785
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.006570899999999999,
+      "durationMs": 4773,
+      "goldOutline": "1) 指出原因：当前 Skill 名称校验仅允许英文字母、下划线和连字符，名称中含数字（如版本号后缀 0.2.0）或空格（如 name: Agent Browser）都会被拒绝；2) 给出维护者的改进观点：名称应当支持数字，且形如 agent-browser-0.2.0 中的 0.2.0 是版本号，应被独立解析而不并入名称；3) 给出修复线索：社区建议参照 agentskills.io 规范做校验，对应 PR 为 #14651。"
+    },
+    {
+      "issue_number": 15554,
+      "question": "Nacos 3.2.3 通过 OIDC（如 authentik）SSO 鉴权登录后控制台只剩 SSO 登录页，管理员应如何登录？是否每次都要通过终端后台切换 OIDC/Nacos 鉴权模式？",
+      "answer": "启用 OIDC 后，Nacos 鉴权由 authentik 决定，本地 admin/nacos 密码不再生效，控制台只显示 SSO 登录页。管理员应通过 authentik 的用户/组映射获得管理员角色登录；若映射未生效，通常不是鉴权模式切换问题，而是 OIDC 角色映射配置问题。社区资料 #15554 仅确认 OIDC 模式不走本地用户体系，未给出 authentik 分组映射的具体步骤。建议排查：1）authentik 中是否给用户分配了对应 Nacos 管理员角色/组；2）Nacos 的 OIDC 角色映射配置（如 sub/group claim）是否正确；3）若急需本地登录，可临时将 Nacos 鉴权切回 nacos 模式。但每次切换不是正常方案，需完善 OIDC 角色映射。",
+      "citations": [
+        "#15554"
+      ],
+      "confidence": 0.4,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15554,
+        13848,
+        14952,
+        13910,
+        14612
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0126888,
+      "durationMs": 9584,
+      "goldOutline": "1) 指出启用 OIDC 后鉴权和身份验证都由 OIDC/OAuth 提供商决定，不再走 Nacos 的用户名密码权限体系，因此控制台只出现 SSO 登录入口；2) 给出管理员登录方式：应由提供商将某个用户授权为管理员——登录后 Nacos 向提供商提交鉴权请求，提供商识别此用户为管理员用户，对其所有鉴权请求返回有权限即可；3) 说明插件化对接提供商之后，Nacos 不再自行验证权限而是交由提供商进行，Nacos 识别鉴权结果判定放行或拦截。"
+    },
+    {
+      "issue_number": 15305,
+      "question": "When registering a naming instance via the Nacos Java SDK (gRPC path), a blank instance IP is not rejected, while the HTTP OpenAPI path returns a parameter error for a blank IP. What causes this inconsistency and how should it be fixed?",
+      "answer": "原因：客户端校验与服务端校验路径不一致。HTTP OpenAPI 在 `InstanceForm.validate()` 中将 `ip` 视为必填并返回参数错误；而 Java SDK/gRPC 路径在 `NamingUtils.checkInstanceIsLegal` 中未对空白 IP 做等价校验，因此放行。修复方向（见 #15305）：在 `NamingUtils.checkInstanceIsLegal` 中补充空白/非法 IP 校验并抛出受控 `NacosException`；同时建议在服务端 `InstanceRequestHandler` 增加兜底校验，防止其他语言客户端绕过客户端检查。",
+      "citations": [
+        "#15305"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15305,
+        14806,
+        13865,
+        13976,
+        15728
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0065304,
+      "durationMs": 5003,
+      "goldOutline": "1) 指出原因：HTTP OpenAPI 路径通过 InstanceForm.validate() 将 InstanceForm.ip 校验为必填，而 Java SDK 注册路径调用的 NamingUtils.checkInstanceIsLegal 只校验 null instance、心跳元数据和 cluster-name 格式，不校验 IP。 2) 给出修复方向：在 NamingUtils.checkInstanceIsLegal 中补充空白/非法 IP 的校验。 3) 补充维护者建议：同时在 InstanceRequestHandler 中考虑校验，避免其他语言客户端路径遗漏该检查。 4) 给出预期行为：SDK/gRPC 注册空白 IP 时应抛出受控的 NacosException。"
+    },
+    {
+      "issue_number": 14488,
+      "question": "Nacos 2.5.1 开启 mcp server 后，默认端口 18848 没有启动，需要额外配置什么？",
+      "answer": "需要额外添加配置 `nacos.extension.naming.istio.enabled=true`，参考 #14488 中的说明。该配置用于启用 Istio 模块，MCP Server 默认端口 18848 才会正常启动。",
+      "citations": [
+        "#14488"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14488,
+        13905,
+        13898,
+        13986,
+        14952
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0028653000000000003,
+      "durationMs": 2418,
+      "goldOutline": "1) 给出配置方法：还需添加 nacos.extension.naming.istio.enabled=true，该配置项在官方系统配置文档中有说明。 2) 说明模块作用：2.5 的 istio 模块主要用途是向 istio 发送服务列表和实例列表。 3) 给出取舍建议：如果只是单纯做服务发现，不开启该模块没有影响，按需求决定是否开启。"
+    },
+    {
+      "issue_number": 15694,
+      "question": "Nacos 下载的 skill zip 中 excel 文件损坏无法打开，是什么原因？",
+      "answer": "从现有资料看，该问题可能出现在旧版本（如 v3.2.1）的 skill zip 打包或下载环节。#15694 报告了 excel 文件损坏，维护者测试 3.2.3 版本未复现，社区测试也认为新版本已修复；#14997 也反映了 v3.2.1 skill 上传下载后内容不符的问题。建议先升级到 3.2.3 验证是否仍损坏，若仍存在再反馈具体复现步骤。",
+      "citations": [
+        "#15694",
+        "#14997"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15694,
+        14997,
+        15164,
+        14712,
+        13940
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.006028799999999999,
+      "durationMs": 4477,
+      "goldOutline": "1) 给出核查结论：维护者在 3.2.3 版本自测（附 excel 往返测试 zip）未复现 excel 损坏问题。 2) 给出社区验证结果：社区在 3.2.3 版本测试亦无问题，判断该问题在新版本中似乎已修复。 3) 说明定位限制：提问者未提供版本、复现步骤等关键信息，无法进一步定位。"
+    },
+    {
+      "issue_number": 14046,
+      "question": "MySQL 下 Nacos 配置分页模糊查询（dataId 传 someStr* 形式、左侧无 *）时，第一页按 dataId 字典序返回、第二页按 ID 序返回，翻页结果错乱，原因是什么？如何修复？",
+      "answer": "该问题已在 #14046 中讨论：直接在 MySQL 上执行配置分页模糊查询（dataId 为 'someStr*'，左侧无 *）时，第一页按 dataId 字典序返回，第二页却按主键 ID 序返回，导致翻页错乱。根本原因是 MySQL 在带 LIMIT 的分页查询中，如果没有稳定且一致的 ORDER BY，优化器可能对不同页选择不同执行路径或排序方式，并非 Nacos 逻辑错误。资料中未给出明确修复方案，维护者建议测试数据量较大时添加 ORDER BY id 的性能影响，可作为排查方向。",
+      "citations": [
+        "#14046"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14046,
+        13977,
+        15354,
+        13910,
+        14402
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0082158,
+      "durationMs": 7038,
+      "goldOutline": "1) 指出原因：模糊分页查询拼接的 SQL 未显式指定 order by，导致结果排序不确定——第一页按 dataId 字典序升序返回，第二页按默认顺序（ID 字段升序）取第二页；MySQL 5.x 与 8.0 均可稳定复现。 2) 给出修复方向：ConfigInfoMapperByMySql.findConfigInfoLike4PageFetchRows 拼接 SQL 时应加上 order by 提供默认排序。 3) 指出性能权衡：维护者要求先评估大数据量下添加 order by id 与不添加的耗时差异，特别是 limit 较大时的代价。"
+    },
+    {
+      "issue_number": 15314,
+      "question": "Does Nacos support same-city active-active (dual-active) deployment, e.g. via arbiter, witness or observer nodes, given that the deployment documentation requires 3 or more nodes for a production cluster?",
+      "answer": "根据 #15314，Nacos 目前不提供内置的 arbiter、witness 或 observer 节点能力。其 Raft 实现基于 alipay-jraft，是否支持此类拓扑还需取决于 alipay-jraft 本身的特性。因此，官方并未直接支持通过仲裁/见证/观察者节点实现的同城双活；生产集群通常需要 3 个或更多节点以形成多数派。如需实现双活，社区资料中暂无具体方案，建议关注 alipay-jraft 的相关能力或考虑其他高可用架构。",
+      "citations": [
+        "#15314"
+      ],
+      "confidence": 0.8,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15314,
+        13976,
+        14254,
+        14054,
+        15374
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0137658,
+      "durationMs": 7736,
+      "goldOutline": "1) 给出明确结论：Nacos 目前不提供内置的 arbiter、witness 或 observer（仲裁/见证/观察者）节点能力。 2) 说明约束来源：Nacos 使用 alipay-jraft 作为 Raft 实现，能否支持这类拓扑还取决于该 Raft 实现。 3) 指出现有约束：官方部署文档对生产集群的要求是 3 个及以上节点，双活方案评估应在该前提下进行。"
+    },
+    {
+      "issue_number": 14992,
+      "question": "Nacos 3.2.1 集群中按 Open API 文档调用注册接口注册实例并持续发送心跳，实例没有在集群间同步；调用注销接口实例也不及时删除，只能等无心跳被动删除，是什么原因？",
+      "answer": "社区资料中 #14992 描述的现象与你完全一致，但该 issue 未给出最终根因。维护者表示 Distro 机制本身稳定，并有人提到可能是新版 /v3/client/ns/* 路径未正确经过 DistroFilter 导致同步与注销异常。建议按 #15599 给出的排查方向处理：1) 检查集群节点间 7848/8848/9848 端口连通及 cluster.conf 配置是否正确；2) 开启 naming-event.log 的 debug 模式，确认心跳与注销事件是否被服务端正确处理；3) 确认客户端调用的是新版 v3 client 路径还是旧版 v1/v2，若为 v3，检查服务端 Filter 是否覆盖该路径；4) 确认是否只向集群中部分节点发送请求，Distro 责任节点计算是否正常。不要直接修改 Distro 机制。",
+      "citations": [
+        "#14992",
+        "#15599"
+      ],
+      "confidence": 0.5,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14992,
+        15599,
+        14060,
+        13845,
+        14473
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0187203,
+      "durationMs": 10421,
+      "goldOutline": "1) 指出修复点：在 DistroFilter 的 FilterRegistrationBean 注册处添加 v3 客户端接口的 URL 模式（/v3/client/ns/*）——此前未包含 v3 的 URL，导致通过 Open API 注册/注销的实例在集群间不同步、注销不及时删除。 2) 指出最小修复原则：修复方案仅需在 FilterRegistrationBean 处添加 v3 的 URL 即可，更大范围的 PR 实现没有必要（修复提出者确认）。 3) 指出 distro 机制本身不应改动：distro 机制一直以来没有出现问题，不建议修改。"
+    },
+    {
+      "issue_number": 13888,
+      "question": "从 Nacos 2.4.3 导出的配置文件导入 Nacos 3.1.0 时报错'未读取到合法数据，请检查导入的文件'，是什么原因？如何解决？",
+      "answer": "该报错很可能是导出的配置压缩包中缺少 .metadata.yml 元数据文件，导致 Nacos 3.1.0 无法识别合法数据（见 #13888）。解决方向：检查从 2.4.3 导出的文件是否包含 .metadata.yml；若缺失，请重新导出并确保包含该元数据文件，或尝试按导出格式手动补全。具体 .metadata.yml 的内容规范与修复步骤在社区资料中未明确，建议进一步确认或参考官方文档。",
+      "citations": [
+        "#13888"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13888,
+        14457,
+        14673,
+        13837,
+        13847
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.015480299999999999,
+      "durationMs": 7775,
+      "goldOutline": "1) 指出原因：2.4.3 导出的压缩包中缺少 .metadata.yml 文件，而 3.1.0 导出的文件包含该文件；对比 3.1.0 导出内容、在 2.4.3 导出文件中补上 .metadata.yml 后可导入成功。 2) 指出版本策略：3.x 版本不再支持旧版本的配置导出。 3) 给出解决方式：从 2.x 导出配置时使用'新版本导出'——2.x 的导出有两类，导出时的下拉框可以选择。"
+    },
+    {
+      "issue_number": 14622,
+      "question": "Nacos v3.2.0-BETA 注册 MCP Server 时，使用'从 MCP Server 自动导入'功能失败，nacos.log 报 NoClassDefFoundError: com/networknt/schema/SpecVersion$VersionFlag，是什么原因？",
+      "answer": "该问题在 #14768 中已有记录：Nacos 3.2 调用 /v3/console/ai/mcp/importToolsFromMcp 时因 json-schema-validator 依赖冲突抛出 NoClassDefFoundError: com/networknt/schema/SpecVersion$VersionFlag。原因在于 MCP SDK 引入的 JSON Schema 校验库版本不兼容或缺失，导致运行时找不到 SpecVersion$VersionFlag 类；#14622 也提到该依赖主要来自 MCP SDK，之前 MCP 官方 SDK 未正确打入依赖。排查建议：检查 Nacos 服务端与 MCP SDK 的依赖树，确认 json-schema-validator 版本是否冲突或被排除，可尝试对齐版本或补充缺失依赖。",
+      "citations": [
+        "#14768",
+        "#14622"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14622,
+        14768,
+        13837,
+        14642,
+        14614
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0299622,
+      "durationMs": 17269,
+      "goldOutline": "1) 指出报错来源：缺失的 com.networknt.schema.SpecVersion$VersionFlag 类，其依赖主要来自 MCP 官方 SDK。 2) 指出根因：之前版本没有把 MCP 官方 SDK 加进去，而自动导入功能依赖它，运行时类缺失导致 Handler dispatch failed。 3) 给出修复方向：将 MCP 官方 SDK 加入依赖，由其传递依赖补齐 networknt schema 相关类。"
+    },
+    {
+      "issue_number": 15767,
+      "question": "com.alibaba.nacos:nacos-client:3.2.3 中 shade 的 netty（4.1.127.Final）被报告存在 CVE-2026-33871（GHSA-w9fj-cfpg-grvv），官方的确认与修复进展如何？",
+      "answer": "官方已在 #15767 确认该 CVE 影响 nacos-client 3.2.3（shaded netty 4.1.127.Final）。当前 develop 分支使用 grpc-java 1.78.0 / grpc-netty-shaded 1.78.0，但最新发布版 3.2.4 经社区验证仍包含此漏洞，修复版本尚未发布。建议关注官方后续升级 grpc-netty-shaded 或发布补丁的动态。",
+      "citations": [
+        "#15767"
+      ],
+      "confidence": 0.7,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15767,
+        15704,
+        14070,
+        15709,
+        14118
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0133653,
+      "durationMs": 6862,
+      "goldOutline": "1) 指出确认结论：漏洞已确认——develop 分支根 pom 声明 grpc-java.version=1.78.0，引入 grpc-netty-shaded 1.78.0（对应正文指出的 netty 4.1.127.Final）。 2) 指出修复方式：修复已合并进 develop 分支（PR #15777），将 grpc-java 从 1.78.0 升级到 1.81.0 以消除该漏洞。 3) 指出发布状态：最新已发布版本 nacos-client 3.2.4 仍包含该漏洞，修复尚未随版本发布，需等待后续版本。"
+    },
+    {
+      "issue_number": 14482,
+      "question": "Nacos 灰度配置更新流程存在哪些代码级缺陷（CAS、NPE、历史记录等方面）？应按什么方式修复？",
+      "answer": "社区资料中仅 #14482 提到灰度配置更新存在多个问题，但具体代码级缺陷（CAS、NPE、历史记录等）未在检索内容中列出。维护者建议按问题逐个提交 PR 讨论修复。通用排查建议：检查灰度配置更新流程中的并发控制是否采用 CAS 且处理了失败重试；检查可能为 null 的对象是否做了判空；检查历史记录写入逻辑是否在灰度更新时被正确触发。由于资料不足，无法给出确切缺陷细节和修复代码。",
+      "citations": [
+        "#14482"
+      ],
+      "confidence": 0.3,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14482,
+        14472,
+        14695,
+        14473,
+        15481
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.012240299999999999,
+      "durationMs": 6499,
+      "goldOutline": "1) 指出 CAS 缺陷：灰度配置的 CAS（Compare-And-Swap）更新缺少原始 MD5 参数，无法进行版本比对。 2) 指出 NPE 风险：灰度配置不存在时代码继续执行，导致空指针异常。 3) 指出历史记录时序错误：记录的是更新后的数据而非更新前的数据，破坏审计日志的完整性。 4) 指出处理方式：按问题逐个提交 PR、逐个讨论修复，最终确认该 issue 中的问题全部修复后关闭。"
+    },
+    {
+      "issue_number": 15423,
+      "question": "通过 Nacos SDK 注册的 agent，在 agent 管理页面名称显示正常（如 cxo-analysis-numtwo-agent111），但在服务列表页面显示为 ____:cxo-analysis-numtwo-agent_049_049_049::1.0.2 这样的变形名称，是什么原因？",
+      "answer": "这是 Nacos 对服务名进行编解码导致的。服务列表中的服务名比 agent 的 name 有更严格的字符限制，因此 Nacos 在注册时会将服务名进行编码转换，出现如 `____:cxo-analysis-numtwo-agent_049_049_049::1.0.2` 的变形。agent 管理页面展示的是原始 name，所以显示正常，属于预期行为，不是错误。",
+      "citations": [
+        "#15423"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15423,
+        14458,
+        13958,
+        15144,
+        14060
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0093756,
+      "durationMs": 6068,
+      "goldOutline": "1) 现象定性：服务列表显示的是经过编码转换后的服务名，属设计内行为，不是注册失败或乱码 bug。 2) 指出原因：Nacos 对服务名的要求比 agent 的 name 更严格，因此注册时需要对名称进行编解码。 3) 解释对应关系：agent 管理页面显示原始 agent 名称，服务列表显示编码后的服务名（原名称中的字符按编码规则转义，如 111 显示为 _049_049_049）。"
+    },
+    {
+      "issue_number": 14373,
+      "question": "Nacos consumer 端到底多久主动拉取一次最新地址列表？为什么有的资料说 10s，有的说 30s？",
+      "answer": "Nacos consumer 主动拉取地址列表的间隔因客户端版本而异：1.x 客户端默认为 10s（可修改）；2.0~2.1 默认为 60s（因改为服务端推送，轮询为兜底）；2.2+ 默认关闭轮询查询（可参数开启）。因此“10s”对应 1.x 版本，“30s”说法不准确，可能是旧资料或与其他组件混淆。#14373 中官方答复明确说明了这些版本差异。",
+      "citations": [
+        "#14373"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14373,
+        13910,
+        14060,
+        14492,
+        15599
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0165333,
+      "durationMs": 7478,
+      "goldOutline": "1) 直接回答：1.x 客户端默认 10s 主动拉取一次，且可以被修改；issue 中提到的 HostReactor 是 1.x 客户端的机制，说明提问者大概率是 1.x 客户端。 2) 说明 2.0~2.1 版本：默认 60s，因为 2.x 获取 provider 的机制已从客户端轮询变为服务端主动推送，轮询查询仅作为推送链路的补充兜底。 3) 说明 2.2 版本之后：推送链路经多个版本验证已稳定，默认关闭了轮询查询，可通过参数开启。"
+    },
+    {
+      "issue_number": 13870,
+      "question": "In Nacos 2.x, dead or unresponsive instances can still be marked healthy because health detection relies on the last heartbeat timestamp. Can this be fixed by implementing an active health check plugin such as the proposed FAST_TCP plugin?",
+      "answer": "不能直接通过该 FAST_TCP 插件修复 Nacos 2.x 的假健康问题。证据 #13870 中维护者指出：Nacos 2.0 起已用 HealthCheckTaskV2 替代 HealthCheckTask，而 HealthCheckTaskV2 持有的是 client 而非 service，因此该插件扩展仅适用于 Nacos 1.x；且 Nacos 1.x 已停止维护，作者也未继续回应。因此该方案不适用于 2.x，需要基于 client 维度重新设计主动健康检查。",
+      "citations": [
+        "#13870"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13870,
+        14053,
+        15823,
+        14054,
+        15374
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0095763,
+      "durationMs": 4127,
+      "goldOutline": "1) 给出可行性结论：该类基于原有 HealthCheckTask 扩展的主动健康检测方案不适用于 Nacos 2.x；2) 说明架构原因：从 Nacos 2.0 起 HealthCheckTask 已被移除，由 HealthCheckTaskV2 取代，其持有的是 client 而非 service；3) 指出该扩展方式只能用于 Nacos 1.x，而 Nacos 1.x 基础版本已停止维护；4) 说明提案因作者无后续回应而搁置。"
+    },
+    {
+      "issue_number": 14925,
+      "question": "nacos-client 3.x 对 grpc 组件做了 shaded 封装，与项目自身基于 netty 的 grpc 组件共存时偶发 so 文件冲突（如 Multiple resources found for 'META-INF/native/libio.grpc.netty.shaded.netty.transport.native.epoll.x86_64.so'），是否说明 Nacos 的 shaded 不完全？有没有好的解决方案？",
+      "answer": "社区有相同问题记录（#14925），目前未确认是 Nacos shaded 不完全，也暂未给出官方解决方案。该错误表示存在多个内容不同的 native so 文件，通常是因为 Nacos shaded 后的 grpc-netty-shaded 与项目自身 grpc/netty 同时打包，导致同名 native 资源冲突。建议排查并排除重复的 native 依赖：检查依赖树中是否同时包含 shaded 与非 shaded 的 netty-transport-native-epoll；尝试在构建中排除项目自身传递的冲突 native 包，或统一 netty 版本，避免重复打包 so 文件。",
+      "citations": [
+        "#14925"
+      ],
+      "confidence": 0.4,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14925,
+        14070,
+        13855,
+        15767,
+        15704
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0116193,
+      "durationMs": 5451,
+      "goldOutline": "1) 直接回应质疑：该 so 文件是必需的，正是因为 shaded 完全所以才引入了它，冲突并非 Nacos shaded 不完全导致；2) 给出结论：目前没有太好的解决方案，社区暂无可用建议或方案；3) 说明定位前提：需要先提供具体冲突的 so 文件（如 epoll 相关 so）与 nacos-client 版本（如 3.0.2）及完整报错。"
+    },
+    {
+      "issue_number": 13900,
+      "question": "Nacos v3 OpenAPI（如 /nacos/v3/client/ns/instance/list）鉴权时，Header[Authorization]=\"Bearer xxx\" 与 accessToken=xxx 两种传参方式是否都可用？长期稳定维护的是哪一种？",
+      "answer": "两种传参方式都可用。#13900 中社区维护者明确表示两者兼容：accessToken=xxx 是 Nacos 自身协议定义的参数，Header[Authorization]=\"Bearer xxx\" 是 HTTP 协议标准字段。官方未指明只长期维护其中一种，从回复看两者均会兼容；若考虑 Nacos 原生协议，accessToken=xxx 更贴近自身定义。",
+      "citations": [
+        "#13900"
+      ],
+      "confidence": 0.7,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13900,
+        15357,
+        15560,
+        13859,
+        15353
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0153273,
+      "durationMs": 8286,
+      "goldOutline": "1) 直接回答：两种方式都是兼容的，均可使用；2) 说明 accessToken=xxx 是 Nacos 自身协议定义的方式；3) 说明 Header[Authorization]=\"Bearer xxx\" 是 HTTP 协议定义的方式。"
+    },
+    {
+      "issue_number": 13906,
+      "question": "Nacos 的 ServiceManager#getSingleton 方法内部通过 computeIfAbsent 包含写入与事件发布操作，方法命名是否具有迷惑性、是否应改名为 registerAndGetSingleton 之类？",
+      "answer": "该方法命名确实存在一定迷惑性：getSingleton 内部通过 computeIfAbsent 可能写入并发布事件，不是纯 get。但社区讨论（#13906）指出该命名与 Spring 的 getBean 类似，registerAndGetSingleton 也不是完全契合，暂未形成改名的明确结论。目前资料中没有官方改名计划，建议在文档或注释中说明其副作用，或继续发起讨论。",
+      "citations": [
+        "#13906"
+      ],
+      "confidence": 0.8,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        13906,
+        13940,
+        14460,
+        14650,
+        13956
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0125463,
+      "durationMs": 6827,
+      "goldOutline": "1) 给出结论：方法命名没有问题，无需修改；2) 说明理由：虽然有写入操作，但本质是为了保证 get 操作的原子性，方法的作用就是获取单例对象，而不是写入并获取单例对象；3) 补充佐证：该接口命名与 Spring 的 getBean 是一样的，registerAndGetSingleton 看起来也不契合；4) 说明若非要改可改为 getSingletonIfAbsent，但不存在单纯的 getSingleton 操作需求时，这样改属画蛇添足。"
+    },
+    {
+      "issue_number": 15243,
+      "question": "Nacos's Oracle datasource plugin paginates with Oracle 12c SQL (OFFSET ... ROWS FETCH NEXT) and does not support Oracle 11g (ROWNUM-based pagination). Will Oracle 11g be supported, and how can the external datasource JDBC driver class be customized?",
+      "answer": "官方不会专门支持 Oracle 11g，因为 Oracle 11g 已于 2019 年停止维护，Nacos 插件使用新版 SQL（OFFSET ... FETCH NEXT）；如需支持 11g，需要 fork 当前 Nacos 代码，修改 oracle datasource plugin 的 SQL 并自行构建（参见 #15243）。关于自定义外部数据源 JDBC driver class：社区提到 ExternalDataSourceProperties 中的 JDBC_DRIVER_NAME 是 final 且默认值为 com.mysql.cj.jdbc.Driver，期望改成从环境变量读取；另有用户尝试在 application.yml 添加 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver，但反馈结果仍不正确（参见 #14111）。因此目前没有官方现成配置，可能需修改插件源码或确认插件加载方式。",
+      "citations": [
+        "#15243",
+        "#14111"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        15243,
+        14254,
+        14111,
+        15342,
+        14053
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0317565,
+      "durationMs": 19390,
+      "goldOutline": "1) 给出官方结论：不支持 Oracle 11g——Oracle 11g 自 2019 年起已停止维护，属过旧的数据库版本，Nacos 插件面向新版本数据库、使用新分页 SQL；2) 给出替代方案：可以 fork 当前 Nacos 代码，自行修改 oracle 数据源插件的分页 SQL 后构建使用；3) 回应驱动配置问题：JDBC 驱动类名可通过配置 db.pool.config.driverClassName=xxx 指定（ExternalDataSourceProperties 中 JDBC_DRIVER_NAME 默认值为 com.mysql.cj.jdbc.Driver）。"
+    },
+    {
+      "issue_number": 14050,
+      "question": "In the Nacos 3.2 effort to remove the legacy HTTP APIs, where have the old /v1 and /v2 HTTP APIs been extracted and moved to?",
+      "answer": "旧的 /v1 和 /v2 HTTP API 已被提取到 `nacos-api-legacy-adapter` 模块，并最终移动到独立仓库 [nacos-group/nacos-api-legacy-adapter](https://github.com/nacos-group/nacos-api-legacy-adapter)。",
+      "citations": [
+        "#14050"
+      ],
+      "confidence": 0.9,
+      "suspicious": false,
+      "stripped": [],
+      "evidenceNumbers": [
+        14050,
+        15359,
+        14489,
+        15617,
+        14061
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0040767,
+      "durationMs": 2801,
+      "goldOutline": "1) 指出旧的 /v1 与 /v2 HTTP API 已被抽取迁移到 nacos-api-legacy-adapter 模块。 2) 指出该模块已迁移至 nacos-group 组织下的独立仓库 nacos-group/nacos-api-legacy-adapter。 3) 补充保留范围：按计划 v1/auth/users/login、v1/ns/operator/metrics 等 API 保留，因为部分 v2 客户端仍依赖它们。"
+    },
+    {
+      "issue_number": 15163,
+      "question": "Nacos 启动脚本在系统已安装 java21 的情况下仍提示 Java 17+ not found 并要求下载捆绑的 JDK 17，该问题如何解决？",
+      "answer": "根据社区讨论，这是启动脚本对已安装 JDK 版本检测逻辑的问题，并非真的缺少 Java 17。可先确认 `JAVA_HOME` 已正确指向 Java 21 安装目录；若仍报错，可关注社区修复：nacos-setup 仓库的 PR 已修复该问题（参见 #15163），等待该修复合并到所用版本或更新到包含修复的 Nacos 版本即可规避。",
+      "citations": [
+        "#15163"
+      ],
+      "confidence": 0.6,
+      "suspicious": false,
+      "stripped": [
+        "#33"
+      ],
+      "evidenceNumbers": [
+        15163,
+        13847,
+        14925,
+        13855,
+        14911
+      ],
+      "sourceHit": true,
+      "escalated": false,
+      "error": null,
+      "costAmount": 0.0105303,
+      "durationMs": 5395,
+      "goldOutline": "1) 指出问题出在启动脚本的 JDK 检测逻辑，系统已存在更高版本 JDK（java21）时仍提示下载捆绑的 JDK 17。 2) 给出修复出处：该问题已由 nacos-group/nacos-setup 仓库的 PR #33 修复。 3) 解决途径：使用包含该 PR 修复的 nacos-setup 脚本或版本，使脚本不再强制下载 JDK 17。"
+    }
+  ]
+}

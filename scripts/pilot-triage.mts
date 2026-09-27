@@ -12,7 +12,7 @@
  *   pnpm pilot:triage -- --limit=50 --model deepseek-v4-pro   # 对比其他模型
  *   pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-300  # 基线跑批（独立报告文件）
  */
-import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
@@ -168,6 +168,11 @@ const outDir = resolve(ROOT, "datasets/pilot");
 mkdirSync(outDir, { recursive: true });
 const ds = DATASET_VERSION ?? `v1-draft-n${rows.length}`;
 const outFile = resolve(outDir, `${TAG}-${MODEL ?? resolveModel("triage")}-${DEFAULT_MODEL_CONFIG.version}-${PROMPT_VERSION}-${ds}.json`);
+// 防覆盖：有效报告不可被后续（可能失败的）运行覆盖
+if (existsSync(outFile) && !argv.includes("--force")) {
+  console.error(`报告已存在，拒绝覆盖（加 --force 强制）：${outFile}`);
+  process.exit(1);
+}
 writeFileSync(
   outFile,
   JSON.stringify(

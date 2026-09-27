@@ -12,7 +12,7 @@
  *   pnpm pilot:answer -- --limit=30            # 默认 30 条
  *   pnpm pilot:answer -- --limit=50 --k=8
  */
-import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -150,6 +150,11 @@ const outFile = resolve(
   outDir,
   `answer-baseline-${ANSWER_MODEL}-${DEFAULT_MODEL_CONFIG.version}-${PROMPT_VERSION}-v1-qa-n${n}-k${K}.json`
 );
+// 防覆盖：有效报告不可被后续（可能失败的）运行覆盖——余额/网络事故的教训
+if (existsSync(outFile) && !argv.includes("--force")) {
+  console.error(`报告已存在，拒绝覆盖（加 --force 强制）：${outFile}`);
+  process.exit(1);
+}
 writeFileSync(
   outFile,
   JSON.stringify(
