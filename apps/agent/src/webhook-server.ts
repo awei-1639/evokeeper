@@ -15,6 +15,7 @@ import {
   type InboxDeps,
   type InboxProcessor,
 } from "./inbox";
+import { buildTrace, type TraceStore } from "./trace-store";
 
 const MAX_BODY_BYTES = 1024 * 1024;
 
@@ -45,12 +46,25 @@ export interface WebhookServerOptions extends InboxDeps {
   port?: number;
   /** 未传时读 GITHUB_WEBHOOK_SECRET；为空则 dev 模式（不验签，仅本地调试） */
   secret?: string;
+  /** 轨迹库（R3）：传入后每次处理完成自动落库，trace id = GitHub delivery id */
+  traceStore?: TraceStore;
   log?: (msg: string) => void;
 }
 
 export function createWebhookServer(options: WebhookServerOptions = {}): Server {
   const log = options.log ?? (() => {});
-  const processor: InboxProcessor = createInboxProcessor(options);
+  const { traceStore, ...inboxDeps } = options;
+  const processor: InboxProcessor = createInboxProcessor({
+    ...inboxDeps,
+    onProcessed: (delivery, event, result) => {
+      inboxDeps.onProcessed?.(delivery, event, result);
+      if (traceStore) {
+        void traceStore
+          .append(buildTrace(event, result, { id: `trace-${delivery.eventId}` }))
+          .catch((err) => log(`[trace] 落库失败：${String(err)}`));
+      }
+    },
+  });
   const secret = options.secret ?? process.env.GITHUB_WEBHOOK_SECRET ?? "";
 
   return createServer(async (req, res) => {

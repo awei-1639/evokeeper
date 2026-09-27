@@ -142,8 +142,8 @@ export interface InboxDeps {
    * 测试则可手动驱动任务获得确定性。
    */
   schedule?: (delayMs: number, task: () => Promise<void> | void) => void;
-  /** R3 落库钩子：每次处理成功后回调，W3 轨迹库在此接入 */
-  onProcessed?: (delivery: WebhookDelivery, result: HandleResult) => void;
+  /** R3 落库钩子：每次处理成功后回调（携带事件与结果），轨迹库在此接入 */
+  onProcessed?: (delivery: WebhookDelivery, event: IssueEvent, result: HandleResult) => void;
   /** 重试耗尽回调（接告警/死信队列） */
   onDeadLetter?: (delivery: WebhookDelivery, error: Error, failedAttempts: number) => void;
 }
@@ -164,7 +164,7 @@ export function createInboxProcessor(deps: InboxDeps = {}) {
     try {
       const result = await handle(event);
       pending.delete(delivery.eventId);
-      deps.onProcessed?.(delivery, result);
+      deps.onProcessed?.(delivery, event, result);
     } catch (err) {
       const error = err instanceof Error ? err : new Error(String(err));
       const failedAttempts = attempt;

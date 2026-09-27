@@ -245,7 +245,7 @@ issues/issue_comment 事件映射 + 1m/5m/30m 重试与死信回调 + `X-Hub-Sig
 `webhook-server.ts`（HTTP 接入，`pnpm --filter @evokeeper/agent dev` 启动于 :8787）。
 队列当前为进程内 scheduler 注入 + `MemoryInboxStore`（容量淘汰），接口已按 BullMQ/Postgres
 适配器形状设计，装 Redis/PG 后只换实现不改策略。单测 13 例锁死去重/重试/映射/验签契约。
-验证方式：`pnpm test`（70 个用例）；`pnpm triage:dryrun -- --limit 300` 离线审阅提示词；
+验证方式：`pnpm test`（96 个用例）；`pnpm triage:dryrun -- --limit 300` 离线审阅提示词；
 `pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-n300` 真实跑批并写报告到 `datasets/pilot/`。
 golden set 已全量标注 300 条（AI r1 + 两轮质检，见 `docs/annotation-report-ai-r1.md`）。
 
@@ -336,3 +336,4 @@ v1.0 新增（已写入 core）：`JudgeRuleSet`（判别规则版本化）、`C
 | v1.1 | 2026-09-14 | 新增 §9.1 模型选型与成本基线（purpose→model 映射表、实测成本 ≈¥40-70/月、峰谷调度、跨厂商 judge）；`EvalRun` 补 `modelConfig` 快照（修复"换模型后评测不可比"的漏洞）；§7.1 增加换模型必须重跑基线的规则 |
 | v1.2 | 2026-09-14 | §3.1 新增**输入泄漏防护**：issue 已有标签默认不进上下文（否则 pilot/基线虚高）；§9.1 补落地状态与验证方式（41 个单测 + dry-run 命令 + 300 条体量实测） |
 | v1.3 | 2026-09-19 | §9.1 补分诊 pilot 三轮结果（tp-1.0/1.1/1.2），**triage 档选型锁定 deepseek-v4-flash + tp-1.2**；§12 待决问题 1 部分关闭；沉淀两条纪律（prompt 倾向性必须实测、pilot 过拟合警示）与遗留问题（间歇性解析失败） |
+| v1.4 | 2026-09-28 | **W3 存储与判别落地**：§4 记忆层四操作实现（`packages/memory`：ADD/UPDATE/DELETE/NONE + 冲突消解 + 软删失效 + 切片硬过滤，词法相似度 W4 换 embedding）；`MemoryItem` 补 `expectedSlice` 字段；§5 轨迹库接口 + 内存/JSONL 双实现（`TraceStore`，PG 适配器待 infra）+ 失败判别器 jrv-1.0（`judgeTrace` 纯函数 + unclear 不进整理管线）；Inbox `onProcessed` 携带事件，webhook 服务自动落库 trace（id=delivery id） |

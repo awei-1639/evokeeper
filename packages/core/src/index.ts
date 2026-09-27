@@ -104,6 +104,8 @@ export interface MemoryItem {
   confidence: number;
   /** 语义记忆可失效（如"X 功能在 v2 已废弃"） */
   validUntil: string | null;
+  /** 预期命中切片（如 labels=bug & topic=build-error），检索时硬过滤（design.md §4） */
+  expectedSlice: string | null;
   version: string;
   createdAt: string;
 }
