@@ -9,7 +9,10 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const DATA = path.join(ROOT, 'datasets', 'drafts', 'alibaba_nacos.jsonl');
+// ANNOTATE_DATA 可指向其他 JSONL（如盲标子集 datasets/review/blind-round2.jsonl），便于第二轮复标
+const DATA = process.env.ANNOTATE_DATA
+  ? path.resolve(ROOT, process.env.ANNOTATE_DATA)
+  : path.join(ROOT, 'datasets', 'drafts', 'alibaba_nacos.jsonl');
 const BACKUP = DATA + '.backup.jsonl';
 const HTML = path.join(__dirname, 'annotate.html');
 const PORT = 8765;

@@ -1,0 +1,177 @@
+[
+ {
+  "issue_number": 14451,
+  "id": "gs-0095",
+  "review": "question 与 invalid 边界，正文以请教口吻为主且附带改 warning 的小诉求，维护者回复内容未在数据中体现",
+  "resolved": true,
+  "resolution": "已终裁 invalid（回复证实 ConfigValidationUtils 属 dubbo 二方包，误发；此前无回复时曾改判 question，据新证据纠正）"
+ },
+ {
+  "issue_number": 15704,
+  "id": "gs-0101",
+  "review": "同类 Unsafe warning 报告（#15709）曾被判为与 #15708 重复，本条是否亦属重复在数据中无 duplicate 信号佐证，暂按内容判 question。",
+  "resolved": true,
+  "resolution": "已改判 duplicate（维护者回复 dupilicate with #15708）"
+ },
+ {
+  "issue_number": 13866,
+  "id": "gs-0102",
+  "review": "正文仅一张截图，'无法编辑'系能力缺失（feature）还是编辑功能失效（bug）无法确认，维护者同时标了 kind/enhancement 与 kind/bug",
+  "resolved": true,
+  "resolution": "已改判 bug（经 #13933 修复，证实为缺陷而非能力缺失）"
+ },
+ {
+  "issue_number": 14111,
+  "id": "gs-0106",
+  "review": "标题像使用咨询（How to adapt），正文为变更/贡献描述，feature 与 question 边界需人工复核",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14457,
+  "id": "gs-0107",
+  "review": "status/invalid 与正文报错现象并存，属用户侧数据源配置问题还是 nacos 缺陷从摘录无法完全确认，建议人工复查。",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14642,
+  "id": "gs-0120",
+  "review": "正文为注册失败异常报告，疑似 bug，但维护者标 kind/enhancement，缺陷与能力缺失的边界不确定",
+  "resolved": true,
+  "resolution": "已终裁 bug（注册失败附堆栈，预期 vs 实际明确）"
+ },
+ {
+  "issue_number": 13915,
+  "id": "gs-0127",
+  "review": "bug 与 invalid 边界，异常堆栈真实存在但维护者判 invalid 且具体回复内容未在数据中",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14774,
+  "id": "gs-0132",
+  "review": "bug 与 question 边界：有报错堆栈但缺缺陷证据，也可能是发行包/插件打包缺陷，需人工复核",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14963,
+  "id": "gs-0133",
+  "review": "维护者以 duplicate 关闭但未指明原 issue 编号，需人工核对原 issue。",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 15536,
+  "id": "gs-0136",
+  "review": "若视为对 AddressServerGeneratorManager 的改造方案则为 feature，与 invalid 存在边界",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14126,
+  "id": "gs-0154",
+  "review": "正文有敏感信息明文输出证据，与维护者 status/invalid 标签冲突，invalid（按设计/用户侧问题）与 bug 的边界需人工复核",
+  "resolved": true,
+  "resolution": "已改判 invalid（回复证实涉事类属 spring-cloud-alibaba 库）"
+ },
+ {
+  "issue_number": 14749,
+  "id": "gs-0168",
+  "review": "维护者引用了多个 issue，原重复 issue 号指向不明确",
+  "resolved": true,
+  "resolution": "原号回填 #9846（社区回复指明，维持 duplicate）"
+ },
+ {
+  "issue_number": 15151,
+  "id": "gs-0182",
+  "review": "维护者标 status/duplicate 但数据与时间线中均未指明原 issue 号",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 13990,
+  "id": "gs-0188",
+  "review": "invalid 与 question/feature 边界：内容亦可读作兼容性咨询或升级诉求，判 invalid 主要依据维护者 status/invalid 信号，建议人工复核",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 13888,
+  "id": "gs-0199",
+  "review": "正文为空，导入报错也可能是跨版本兼容缺陷，仅凭标题与 kind/question 标签判定，建议人工复核",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14942,
+  "id": "gs-0217",
+  "review": "维护者标 status/invalid 与正文明确的 feature 诉求冲突，若 invalid 系因功能已存在或与其他 issue 重复，则定性需修正",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 15159,
+  "id": "gs-0230",
+  "review": "维护者称大量重复但未在数据中指明具体原 issue 号",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 15494,
+  "id": "gs-0232",
+  "review": "标题为用法咨询，但维护者标 kind/bug，若正文实为配置不生效的缺陷则应为 bug",
+  "resolved": true,
+  "resolution": "已改判 bug（维护者确认新控制台遗漏 argsPosition 配置项）"
+ },
+ {
+  "issue_number": 14472,
+  "id": "gs-0239",
+  "review": "维护者标 spam 与正文技术内容矛盾，且同机多节点部署可能属使用不当，参照 gs-0006 判 bug，建议人工复核",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 13835,
+  "id": "gs-0246",
+  "review": "维护者以 wontfix+kind/question 同日关闭且数据中无解释文本，若实为 v3 有意的设计取舍则应判 invalid",
+  "resolved": true,
+  "resolution": "已改判 invalid（维护者明确 list 接口不含 content 系有意设计）"
+ },
+ {
+  "issue_number": 13940,
+  "id": "gs-0248",
+  "review": "正文为带根因分析的回归缺陷报告，但维护者标 kind/enhancement，bug 与 feature 边界存疑",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14471,
+  "id": "gs-0251",
+  "review": "kind/bug 标签但内容为代码优化（去装箱），无预期与实际行为偏差，主性质在 bug 与 feature 之间存疑，按增强判 feature，建议人工复查。",
+  "resolved": true,
+  "resolution": "已改判 bug（维护者以 bug 定性并经 #14475 修复）"
+ },
+ {
+  "issue_number": 13967,
+  "id": "gs-0270",
+  "review": "正文为空模板，仅凭标题'日志提示null'判 bug，也不排除是使用咨询",
+  "resolved": false,
+  "resolution": null
+ },
+ {
+  "issue_number": 14492,
+  "id": "gs-0284",
+  "review": "原 issue 号缺失，需人工核对重复对象",
+  "resolved": true,
+  "resolution": "理由回填 #13273（回复指明 2.5.2 已修复，维持 duplicate）"
+ },
+ {
+  "issue_number": 15603,
+  "id": "gs-0289",
+  "review": "维护者标 kind/enhancement，正文为新合入 PR 的边缘场景修正提案，bug 与 feature（增强非空资源场景支持）边界存在张力",
+  "resolved": false,
+  "resolution": null
+ }
+]
