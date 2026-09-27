@@ -35,6 +35,8 @@ export interface GoldenCase {
   id: string;
   repo: string;
   issueNumber: number;
+  title: string;
+  bodyExcerpt: string;
   labelsGold: string[];
   /** 分诊主标签（五类之一；invalid 为兜底） */
   goldMain: MainLabel;
@@ -71,6 +73,8 @@ export function loadGoldenSet(path: string, options: LoadGoldenSetOptions = {}):
       id: String(r["id"] ?? `unknown-${cases.length}`),
       repo: String(r["repo"] ?? ""),
       issueNumber: Number(r["issue_number"]),
+      title: typeof r["title"] === "string" ? (r["title"] as string) : "",
+      bodyExcerpt: typeof r["body_excerpt"] === "string" ? (r["body_excerpt"] as string) : "",
       labelsGold,
       goldMain: mainLabelOf(labelsGold),
       goldNeedsMoreInfo: labelsGold.includes("needs-more-info"),

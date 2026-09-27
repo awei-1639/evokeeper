@@ -17,8 +17,8 @@
     "pilot:triage": "tsx scripts/pilot-triage.mts",
     "pilot:answer": "tsx scripts/pilot-answer.mts",
     "lint": "pnpm -r lint",
-    "eval:run": "pnpm --filter @evokeeper/eval run eval:run",
-    "eval:gate": "pnpm --filter @evokeeper/eval run eval:gate",
+    "eval:run": "tsx scripts/run-eval.mts",
+    "eval:gate": "tsx scripts/gate-check.mts",
     "adversarial:check": "tsx scripts/adversarial-check.mts"
   },
   "devDependencies": {
