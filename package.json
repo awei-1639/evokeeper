@@ -19,7 +19,8 @@
     "lint": "pnpm -r lint",
     "eval:run": "tsx scripts/run-eval.mts",
     "eval:gate": "tsx scripts/gate-check.mts",
-    "adversarial:check": "tsx scripts/adversarial-check.mts"
+    "adversarial:check": "tsx scripts/adversarial-check.mts",
+    "scan:daily": "tsx scripts/scan-daily.mts"
   },
   "devDependencies": {
     "tsx": "^4.23.13",
