@@ -87,6 +87,20 @@ export const MODEL_SPECS: Record<string, ModelSpec> = {
     jsonMode: false,
   },
   /**
+   * deepseek-v4.1-flash（中转站"稳定版"线路当前提供的模型，v4.0-flash 已在该站下架）。
+   * 计价暂按 v4-flash 家族口径估（中转站免费额度，实价待核）；规格变更走 mc 版本管理。
+   */
+  "deepseek-v4.1-flash": {
+    provider: "deepseek",
+    inputPerMTok: 1.5,
+    cachedInputPerMTok: 0.05,
+    outputPerMTok: 4.5,
+    peakHours: [9, 10, 11, 14, 15, 16, 17],
+    contextWindow: 1_000_000,
+    maxOutputTokens: 8192,
+    jsonMode: true,
+  },
+  /**
    * claude-opus-4-8（用户中转站提供）——transport 走 DEEPSEEK_BASE_URL 指向的中转站
    * （provider 字段在此仅决定"用哪组环境变量取 base URL 与 Key"）。
    * 计价按 Opus 级官方价保守登记（$15/$75 × 7.15）；**中转站实际单价可能更低，
