@@ -78,12 +78,29 @@ export const MODEL_SPECS: Record<string, ModelSpec> = {
     jsonMode: true,
   },
   "text-embedding-v4": {
-    provider: "dashscope",
+    provider: "deepseek",
     inputPerMTok: 0.5,
     cachedInputPerMTok: 0.5,
     outputPerMTok: 0,
     contextWindow: 8192,
     maxOutputTokens: 0,
+    jsonMode: false,
+  },
+  /**
+   * claude-opus-4-8（用户中转站提供）——transport 走 DEEPSEEK_BASE_URL 指向的中转站
+   * （provider 字段在此仅决定"用哪组环境变量取 base URL 与 Key"）。
+   * 计价按 Opus 级官方价保守登记（$15/$75 × 7.15）；**中转站实际单价可能更低，
+   * 拿到中转站价目后必须修正此表**（宁可高估成本，不可低估）。
+   * jsonMode=false：Claude 原生无 response_format=json_object，中转站翻译行为不一，
+   * 关闭后依赖提示词纪律 + extractJson 兜底。
+   */
+  "claude-opus-4-8": {
+    provider: "deepseek",
+    inputPerMTok: 107.25,
+    cachedInputPerMTok: 107.25,
+    outputPerMTok: 536.25,
+    contextWindow: 200_000,
+    maxOutputTokens: 8192,
     jsonMode: false,
   },
 };
