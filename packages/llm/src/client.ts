@@ -111,7 +111,12 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
       try {
         const res = await fetchImpl(`${base}/chat/completions`, {
           method: "POST",
-          headers: { "content-type": "application/json", authorization },
+          headers: {
+            "content-type": "application/json",
+            authorization,
+            // 部分中转站在 Cloudflare 后开启 bot 防护，无 UA 的纯机器请求会被 403
+            "user-agent": "Mozilla/5.0 (compatible; evokeeper-llm/0.1)",
+          },
           body: JSON.stringify(body),
           signal: AbortSignal.timeout(timeoutMs),
         });

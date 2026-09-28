@@ -25,7 +25,7 @@ const DATA = resolve(ROOT, "datasets/drafts/alibaba_nacos.jsonl");
 // ---- 加载 .env.local（DEEPSEEK_API_KEY 等）----
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
 for (const line of envText.split("\n")) {
-  const m = /^([A-Z_]+)=(.*)$/.exec(line.trim());
+  const m = /^([A-Z_]+)s*=s*([^#]*?)s*(?:#.*)?$/.exec(line.trim());
   if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
 }
 if (!process.env.DEEPSEEK_API_KEY) {
