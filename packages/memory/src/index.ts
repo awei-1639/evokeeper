@@ -300,8 +300,22 @@ export class MemoryLayer {
     }
 
     if (decision.op === "DELETE" && decision.targetId) {
+      // 软删旧记忆 + 保留新事实本身（失效陈述也是新知识，不能随之丢弃）
       await this.store.softDelete(decision.targetId, now);
-      return { ...decision, itemId: null };
+      const item: MemoryItem = {
+        id: req.id ?? this.genId(),
+        repo: req.repo,
+        kind: req.kind,
+        content: req.content,
+        evidenceRefs: [...req.evidenceRefs],
+        confidence: req.confidence,
+        validUntil: req.validUntil ?? null,
+        expectedSlice: req.expectedSlice ?? null,
+        version: "1",
+        createdAt: now,
+      };
+      await this.store.save(item);
+      return { ...decision, itemId: item.id };
     }
 
     if (decision.op === "ADD") {

@@ -130,9 +130,17 @@ export function mapToSignals(
     }
   }
 
-  // 规则 5：作者追问 < 2 次不足以判 unsatisfied——从候选中剔除孤立追问
+  // 规则 5：作者追问 ≥2 次且未获维护者回应 → unsatisfied。
+  // 窗口内存在维护者侧评论（无论是否命中纠正线索）视为"已回应"，追问信号剔除。
+  const maintainerResponded = events.some(
+    (e) =>
+      e.event === "commented" &&
+      Date.parse(e.createdAt) >= since &&
+      e.actor !== processed.botLogin &&
+      MAINTAINER_ASSOCIATIONS.has(e.authorAssociation)
+  );
   const followups = signals.filter((s) => s.kind === "author_followup_unsatisfied");
-  if (followups.length > 0 && followups.length < 2) {
+  if (followups.length > 0 && (followups.length < 2 || maintainerResponded)) {
     return signals.filter((s) => s.kind !== "author_followup_unsatisfied");
   }
   return signals;

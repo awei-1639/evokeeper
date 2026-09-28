@@ -13,7 +13,7 @@
  * 接口不变。
  */
 import type { AgentAction } from "@evokeeper/core";
-import { evaluateActions, type ToolAuditEntry } from "@evokeeper/gateway";
+import { evaluateActions, JsonlAuditStore, type AuditStore, type ToolAuditEntry } from "@evokeeper/gateway";
 
 const GITHUB_API = "https://api.github.com";
 
@@ -147,6 +147,8 @@ export async function executeActions(args: {
   actions: readonly AgentAction[];
   history: readonly ToolAuditEntry[];
   github: GithubClient;
+  /** 审计持久化（R3）：传入则判定结果自动落库 */
+  auditStore?: AuditStore;
   now?: string;
 }): Promise<ExecuteActionsResult> {
   const { decisions, auditEntries } = evaluateActions({
@@ -171,6 +173,18 @@ export async function executeActions(args: {
     } else {
       // escalate：转人工动作，无外部写
       executed.push({ action: d.action, ok: true, detail: `escalated：${d.action.reason}` });
+    }
+  }
+  // R3：审计落库（允许与否都留痕）；失败不阻塞执行结果返回
+  if (args.auditStore) {
+    try {
+      await args.auditStore.append(auditEntries);
+    } catch (err) {
+      executed.push({
+        action: { kind: "escalate", reason: "audit 落库失败" },
+        ok: false,
+        detail: err instanceof Error ? err.message : String(err),
+      });
     }
   }
   return { executed, auditEntries };

@@ -49,7 +49,8 @@ describe("executeActions", () => {
       repo: "alibaba/nacos",
       issueNumber: 42,
       traceId: "trace-1",
-      actions: [COMMENT],
+      // 内容不同（同内容会先命中 replay）：1h 前已有评论 → 命中冷却
+      actions: [{ kind: "comment", body: "补充说明：请附上 naming.log 全文", quoteRefs: [] }],
       history: first.auditEntries,
       github: client,
       now: "2026-09-28T12:00:00.000Z", // 1h 后 → 冷却期内

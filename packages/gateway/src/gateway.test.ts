@@ -98,8 +98,9 @@ describe("evaluateActions", () => {
   });
 
   it("24h 评论冷却：23h 前评论过 → 拦截；25h 前 → 放行", () => {
+    // 旧评论内容不同（同内容会先命中 replay，见跨轨迹重放测试）
     const oldAudit = auditEntry({
-      idempotencyKey: actionIdempotencyKey("alibaba/nacos", 42, COMMENT, "trace-old"),
+      idempotencyKey: actionIdempotencyKey("alibaba/nacos", 42, { ...COMMENT, body: "上次请补充的信息还没看到" }),
       at: "2026-09-27T13:00:00.000Z", // 23h 前
     });
     const blocked = evaluateActions({
@@ -115,7 +116,7 @@ describe("evaluateActions", () => {
 
     const oldEnough = auditEntry({
       ...oldAudit,
-      idempotencyKey: actionIdempotencyKey("alibaba/nacos", 42, { ...COMMENT, body: "旧的另一条评论" }, "trace-older"),
+      idempotencyKey: actionIdempotencyKey("alibaba/nacos", 42, { ...COMMENT, body: "旧的另一条评论" }),
       at: "2026-09-27T11:00:00.000Z", // 25h 前
     });
     const allowed = evaluateActions({
@@ -166,5 +167,29 @@ describe("evaluateActions", () => {
       now: NOW,
     });
     expect(decisions[0]?.allowed).toBe(true);
+  });
+});
+
+describe("跨轨迹重放防护（content-only 幂等键）", () => {
+  it("不同轨迹、相同内容的评论 → 第二次仍被拦截", () => {
+    const first = evaluateActions({
+      repo: "alibaba/nacos",
+      issueNumber: 42,
+      traceId: "trace-A",
+      actions: [COMMENT],
+      history: [],
+      now: NOW,
+    });
+    // 重放场景：GitHub 重新投递 / 新轨迹生成同样内容
+    const second = evaluateActions({
+      repo: "alibaba/nacos",
+      issueNumber: 42,
+      traceId: "trace-B-完全不同的轨迹",
+      actions: [COMMENT],
+      history: first.auditEntries,
+      now: NOW,
+    });
+    expect(second.decisions[0]?.allowed).toBe(false);
+    expect(second.decisions[0]?.reason).toContain("replay");
   });
 });

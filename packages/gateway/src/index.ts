@@ -12,6 +12,8 @@
  * 可独立开源的副产品定位不变：本包不依赖 agent/llm，只依赖 core 类型与 node:crypto。
  */
 import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import type { AgentAction } from "@evokeeper/core";
 
 export type { AgentAction } from "@evokeeper/core";
@@ -40,12 +42,15 @@ function sha256(text: string): string {
   return createHash("sha256").update(text, "utf8").digest("hex").slice(0, 16);
 }
 
-/** 幂等键（§9）：(repo, issueNumber, actionKind, contentHash) */
+/**
+ * 幂等键（§9 契约）：(repo, issueNumber, actionKind, contentHash)。
+ * 纯内容寻址——同一 issue 上相同内容的动作无论从哪个轨迹/哪次重放发起，键都相同，
+ * 重放防护才真正生效（若混入 traceId，跨轨迹重复评论将绕过检测）。
+ */
 export function actionIdempotencyKey(
   repo: string,
   issueNumber: number,
-  action: AgentAction,
-  traceSalt = ""
+  action: AgentAction
 ): string {
   const content =
     action.kind === "addLabels"
@@ -53,7 +58,7 @@ export function actionIdempotencyKey(
       : action.kind === "comment"
         ? action.body
         : action.reason;
-  return `${repo}#${issueNumber}:${action.kind}:${sha256(content + traceSalt)}`;
+  return `${repo}#${issueNumber}:${action.kind}:${sha256(content)}`;
 }
 
 function permissionOf(action: AgentAction): ToolPermission {
@@ -106,7 +111,7 @@ export function evaluateActions(input: EvaluateActionsInput): {
   let commentCount = 0;
 
   for (const action of input.actions) {
-    const key = actionIdempotencyKey(input.repo, input.issueNumber, action, input.traceId);
+    const key = actionIdempotencyKey(input.repo, input.issueNumber, action);
     let allowed = true;
     let reason = "ok";
 
@@ -168,4 +173,49 @@ export function evaluateActions(input: EvaluateActionsInput): {
   }
 
   return { decisions, auditEntries };
+}
+
+// ---------- 审计持久化（R3：允许与否都留痕） ----------
+
+export interface AuditStore {
+  append(entries: readonly ToolAuditEntry[]): Promise<void>;
+  /** 某 issue 的历史审计（重放与冷却判定的输入） */
+  listByIssue(repo: string, issueNumber: number): Promise<ToolAuditEntry[]>;
+}
+
+/** JSONL 落盘：一行一条审计，追加写入。W4 Postgres 版替换实现，接口不变。 */
+export class JsonlAuditStore implements AuditStore {
+  constructor(private readonly filePath: string) {
+    mkdirSync(path.dirname(filePath), { recursive: true });
+  }
+
+  private load(): ToolAuditEntry[] {
+    if (!existsSync(this.filePath)) return [];
+    return readFileSync(this.filePath, "utf8")
+      .trim()
+      .split("\n")
+      .filter((l) => l.length > 0)
+      .map((l) => JSON.parse(l) as ToolAuditEntry);
+  }
+
+  async append(entries: readonly ToolAuditEntry[]): Promise<void> {
+    if (entries.length === 0) return;
+    // 追加语义：直接 appendFileSync 会导致重复键的多次判定混入历史，
+    // 这里按幂等键去重后整写（W4 规模足够；PG 版用唯一键 INSERT）
+    const existing = this.load();
+    const seen = new Set(existing.map((e) => `${e.idempotencyKey}:${e.at}`));
+    const merged = [...existing, ...entries.filter((e) => !seen.has(`${e.idempotencyKey}:${e.at}`))];
+    const tmp = `${this.filePath}.tmp`;
+    writeFileSync(
+      tmp,
+      merged.map((e) => JSON.stringify(e)).join("\n") + "\n",
+      "utf8"
+    );
+    renameSync(tmp, this.filePath);
+  }
+
+  async listByIssue(repo: string, issueNumber: number): Promise<ToolAuditEntry[]> {
+    const prefix = `${repo}#${issueNumber}:`;
+    return this.load().filter((e) => e.idempotencyKey.startsWith(prefix));
+  }
 }

@@ -120,3 +120,30 @@ describe("mapToSignals", () => {
     expect(judged.verdict).toBe("failure");
   });
 });
+
+describe("mapToSignals（追问的未采纳条件）", () => {
+  it("作者追问 ≥2 但维护者已回应 → 不判 unsatisfied", () => {
+    const s = mapToSignals(
+      ISSUE,
+      [
+        ev({ body: "还是有问题", createdAt: "2026-09-24T00:00:00.000Z" }),
+        ev({ actor: "komachi", authorAssociation: "MEMBER", body: "收到，我们在查", createdAt: "2026-09-25T00:00:00.000Z" }),
+        ev({ body: "依然复现", createdAt: "2026-09-26T00:00:00.000Z" }),
+      ],
+      PROCESSED
+    );
+    expect(s.filter((x) => x.kind === "author_followup_unsatisfied")).toHaveLength(0);
+  });
+
+  it("作者追问 ≥2 且窗口内无维护者回应 → unsatisfied 保留", () => {
+    const s = mapToSignals(
+      ISSUE,
+      [
+        ev({ body: "还是有问题", createdAt: "2026-09-24T00:00:00.000Z" }),
+        ev({ body: "依然复现", createdAt: "2026-09-26T00:00:00.000Z" }),
+      ],
+      PROCESSED
+    );
+    expect(s.filter((x) => x.kind === "author_followup_unsatisfied")).toHaveLength(2);
+  });
+});

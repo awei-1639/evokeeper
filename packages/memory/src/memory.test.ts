@@ -154,7 +154,7 @@ describe("MemoryLayer 写路径", () => {
     expect(got[0]?.evidenceRefs).toEqual(["trace-1", "trace-2"]);
   });
 
-  it("DELETE 软删：置 validUntil 后 query 不再返回，但记录仍在（审计链）", async () => {
+  it("DELETE 软删：旧记忆置 validUntil 且不再返回，新事实以 ADD 保留（失效陈述也是知识）", async () => {
     const store = new InMemoryMemoryStore();
     const layer = new MemoryLayer({ store });
     await layer.write({
@@ -176,11 +176,14 @@ describe("MemoryLayer 写路径", () => {
     expect(del.op).toBe("DELETE");
 
     const visible = await layer.query({ repo: REPO, now: NOW });
-    expect(visible).toHaveLength(0);
-    // 软删不是物理删除：审计链保留
-    expect(store.size).toBe(1);
+    // 旧记忆已失效不可见，但新事实（移除说明）应作为新记忆保留
+    expect(visible).toHaveLength(1);
+    expect(visible[0]?.content).toContain("已在后续版本移除");
+    // 软删不是物理删除：审计链保留（2 条 = 旧软删 + 新增）
+    expect(store.size).toBe(2);
     const all = await store.listByRepo(REPO);
-    expect(all[0]?.validUntil).toBe(NOW);
+    const softDeleted = all.find((x) => x.content.includes("beta 灰度配置发布方式"));
+    expect(softDeleted?.validUntil).toBe(NOW);
   });
 
   it("NONE 时存储不变", async () => {
