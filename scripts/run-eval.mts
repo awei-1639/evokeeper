@@ -74,6 +74,17 @@ const model = MODEL ?? resolveModel("triage", MODEL_OVERRIDE as ModelConfig);
 console.log(`== eval:run == tag=${TAG} split=${SPLIT} ds=${DS} 模型=${model} 样本=${cases.length}`);
 
 const results: CaseResult[] = [];
+/** 免费中转通道分钟级抖动：零成本传输失败时按 30s/60s/120s 退避重试整条 case */
+async function runWithRetry(event: IssueEvent) {
+  let res = await handleIssueEvent(event);
+  for (const delay of [30_000, 60_000, 120_000]) {
+    if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
+    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
+    await new Promise((r) => setTimeout(r, delay));
+    res = await handleIssueEvent(event);
+  }
+  return res;
+}
 let totalCost = 0;
 // 轨迹持久化（默认开）：评测轨迹是影子回放与整理管线的离线输入
 const SAVE_TRACES = !argv.includes("--no-traces");
@@ -91,7 +102,7 @@ for (const c of cases) {
     title: c.title,
     body: c.bodyExcerpt,
   };
-  const res = await handleIssueEvent(event);
+  const res = await runWithRetry(event);
   const step = res.steps[0];
   totalCost += step?.costAmount ?? 0;
   results.push({

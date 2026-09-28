@@ -1,0 +1,14 @@
+
+> evokeeper@0.1.0 pilot:triage D:\git\git_repo03\evokeeper
+> tsx scripts/pilot-triage.mts "--" "--model=deepseek-v4.1-flash" "--limit=50"
+
+== EvoKeeper 分诊 pilot ==
+模型: deepseek-v4.1-flash | prompt: tp-1.2 | 样本: 50
+
+    … 传输失败，30s 后重试
+    … 传输失败，60s 后重试
+    … 传输失败，120s 后重试
+✗ #13846  gold=question  pred=FAIL      conf=0.00  ¥0.00000 8585ms
+    … 传输失败，30s 后重试
+    … 传输失败，60s 后重试
+    … 传输失败，120s 后重试

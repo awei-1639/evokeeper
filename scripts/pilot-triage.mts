@@ -12,7 +12,7 @@
  *   pnpm pilot:triage -- --limit=50 --model deepseek-v4-pro   # 对比其他模型
  *   pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-300  # 基线跑批（独立报告文件）
  */
-import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, mkdirSync, writeFileSync, appendFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
@@ -94,7 +94,48 @@ interface PerCase {
 const perCase: PerCase[] = [];
 let totalCost = 0;
 
+// 断点续跑：逐 case 落盘（同时是进度观测文件），重启后跳过已完成并恢复统计
+const PARTIAL_FILE = resolve(
+  ROOT,
+  `datasets/pilot/.pilot-partial-${(MODEL ?? resolveModel("triage")).replace(/[^\w.-]/g, "_")}-${PROMPT_VERSION}.jsonl`
+);
+const partialRows: PerCase[] = existsSync(PARTIAL_FILE)
+  ? readFileSync(PARTIAL_FILE, "utf8")
+      .trim()
+      .split("\n")
+      .filter((l) => l.length > 0)
+      .map((l) => JSON.parse(l) as PerCase)
+  : [];
+const doneNumbers = new Set(partialRows.map((r) => r.issue_number));
+perCase.push(...partialRows);
+totalCost = partialRows.reduce((a, r) => a + r.costAmount, 0);
+if (partialRows.length > 0) {
+  console.log(`断点续跑：已完成 ${partialRows.length} 条，跳过继续`);
+}
+
+function appendPartial(entry: PerCase): void {
+  appendFileSync(PARTIAL_FILE, JSON.stringify(entry) + "\n", "utf8");
+}
+
+/** 免费中转通道分钟级抖动：零成本传输失败时按 30s/60s/120s 退避重试整条 case */
+async function runWithRetry(event) {
+  let res = await handleIssueEvent(event);
+  for (const delay of [30_000, 60_000, 120_000]) {
+    if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
+    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
+    await new Promise((r) => setTimeout(r, delay));
+    res = await handleIssueEvent(event);
+  }
+  return res;
+}
+
+let consecutiveTransportFails = 0;
 for (const row of rows) {
+  if (doneNumbers.has(row.issue_number)) continue; // 断点续跑：跳过已完成
+  if (consecutiveTransportFails >= 3) {
+    console.error("通道不可用（连续 3 条零成本传输失败），已熔断退出——稍后重跑（断点已保存）");
+    process.exit(1);
+  }
   const event: IssueEvent = {
     repo: row.repo,
     issueNumber: row.issue_number,
@@ -102,7 +143,7 @@ for (const row of rows) {
     body: row.body_excerpt,
     rawLabels: row.raw_labels,
   };
-  const res = await handleIssueEvent(event);
+  const res = await runWithRetry(event);
   const step = res.steps[0];
   totalCost += step?.costAmount ?? 0;
   const predMain = res.triage ? mainOf(res.triage.labels) : null;
@@ -121,7 +162,11 @@ for (const row of rows) {
     difficulty: row.difficulty,
     rationale: res.triage?.rationale ?? null,
   });
-  const mark = perCase[perCase.length - 1]?.correct ? "✓" : "✗";
+  const last = perCase[perCase.length - 1]!;
+  appendPartial(last);
+  if (last.escalated && last.costAmount === 0) consecutiveTransportFails++;
+  else consecutiveTransportFails = 0;
+  const mark = last.correct ? "✓" : "✗";
   const disp = predMain ?? "FAIL";
   console.log(
     `${mark} #${row.issue_number}  gold=${goldMain.padEnd(9)} pred=${disp.padEnd(9)} conf=${(res.triage?.confidence ?? 0).toFixed(2)}  ¥${(step?.costAmount ?? 0).toFixed(5)} ${step?.durationMs}ms`
@@ -199,4 +244,5 @@ writeFileSync(
   ),
   "utf8"
 );
+unlinkSync(PARTIAL_FILE); // 断点文件已完成使命
 console.log(`\n报告已写入: ${outFile}`);
