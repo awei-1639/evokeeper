@@ -15,3 +15,7 @@ datasets/**/*.backup.jsonl
 # Next.js
 apps/web/.next
 apps/web/next-env.d.ts
+
+# pilot 断点/运行日志（瞬态工件，由包装器管理）
+datasets/pilot/.pilot-partial-*.jsonl
+datasets/pilot/.pilot-run.log
