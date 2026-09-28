@@ -100,6 +100,20 @@ export const PROVIDER_BASE_URL: Record<Provider, string> = {
   zhipu: "https://open.bigmodel.cn/api/paas/v4",
 };
 
+/**
+ * base URL 解析：环境变量可按供应商覆盖（DEEPSEEK_BASE_URL / DASHSCOPE_BASE_URL /
+ * ZHIPU_BASE_URL），支持中转站 / 自建 OpenAI 兼容代理——只需换地址与 Key，模型名不变时
+ * ModelConfig 版本不变（同模型同行为，归因不受影响）。
+ */
+export function getBaseUrl(provider: Provider): string {
+  const override = process.env[`${provider.toUpperCase()}_BASE_URL`]?.trim();
+  if (override && override.length > 0) {
+    // 中转站地址常以 /v1 结尾或裸域名，统一去掉尾部斜杠后由传输层拼接路径
+    return override.replace(/\/+$/, "");
+  }
+  return PROVIDER_BASE_URL[provider];
+}
+
 /** 北京时间整点（0-23） */
 export function beijingHour(at: Date = new Date()): number {
   return new Date(at.getTime() + 8 * 3600_000).getUTCHours();

@@ -17,7 +17,7 @@ import {
   resolveModel,
 } from "./config";
 import { buildCacheKey, createMemoryCache, normalizeInput } from "./cache";
-import { createMockTransport } from "./client";
+import { createHttpTransport, createMockTransport } from "./client";
 import { extractJson } from "./structured";
 import { createLlm } from "./index";
 
@@ -218,5 +218,40 @@ describe("structured: completeJson 行为", () => {
     await llm.json(args);
     expect(calls).toBe(2);
     expect(MODEL_SPECS[resolveModel("judge")]?.provider).toBe("zhipu");
+  });
+});
+
+describe("base URL 环境变量覆盖（中转站支持）", () => {
+  it("设置 DEEPSEEK_BASE_URL 后请求发往中转站地址", async () => {
+    const captured: string[] = [];
+    const original = process.env["DEEPSEEK_BASE_URL"];
+    process.env["DEEPSEEK_BASE_URL"] = "https://relay.example.com/v1/";
+    try {
+      const transport = createHttpTransport({
+        apiKeys: { deepseek: "test-key" },
+        fetchImpl: (async (url: string | URL) => {
+          captured.push(String(url));
+          return new Response(JSON.stringify({ choices: [{ message: { content: "ok" } }], usage: { prompt_tokens: 1, completion_tokens: 1 } }), { status: 200 });
+        }) as typeof fetch,
+      });
+      await transport.chat({ model: "deepseek-v4-flash", system: "s", user: "u" });
+    } finally {
+      if (original === undefined) delete process.env["DEEPSEEK_BASE_URL"];
+      else process.env["DEEPSEEK_BASE_URL"] = original;
+    }
+    expect(captured[0]).toBe("https://relay.example.com/v1/chat/completions");
+  });
+
+  it("未设置覆盖时走官方端点", async () => {
+    const captured: string[] = [];
+    const transport = createHttpTransport({
+      apiKeys: { deepseek: "test-key" },
+      fetchImpl: (async (url: string | URL) => {
+        captured.push(String(url));
+        return new Response(JSON.stringify({ choices: [{ message: { content: "ok" } }], usage: { prompt_tokens: 1, completion_tokens: 1 } }), { status: 200 });
+      }) as typeof fetch,
+    });
+    await transport.chat({ model: "deepseek-v4-flash", system: "s", user: "u" });
+    expect(captured[0]).toBe("https://api.deepseek.com/chat/completions");
   });
 });

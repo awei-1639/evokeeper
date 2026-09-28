@@ -4,7 +4,7 @@
  *
  * 传输层与业务逻辑解耦：测试用 createMockTransport 注入，无需联网与 API Key。
  */
-import { PROVIDER_BASE_URL, PROVIDER_ENV_KEY, getSpec, type Provider } from "./config";
+import { PROVIDER_ENV_KEY, getBaseUrl, getSpec, type Provider } from "./config";
 
 export interface ChatRequest {
   model: string;
@@ -90,7 +90,7 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
 
   async function chat(req: ChatRequest): Promise<ChatResponse> {
     const spec = getSpec(req.model);
-    const base = PROVIDER_BASE_URL[spec.provider];
+    const base = getBaseUrl(spec.provider);
     const authorization = resolveAuth(spec.provider);
     const body: Record<string, unknown> = {
       model: req.model,
@@ -142,7 +142,7 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
 
   async function embed(req: EmbedRequest): Promise<EmbedResponse> {
     const spec = getSpec(req.model);
-    const base = PROVIDER_BASE_URL[spec.provider];
+    const base = getBaseUrl(spec.provider);
     const authorization = resolveAuth(spec.provider);
     const res = await fetchImpl(`${base}/embeddings`, {
       method: "POST",
