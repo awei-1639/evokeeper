@@ -12,7 +12,7 @@
  *   pnpm pilot:triage -- --limit=50 --model deepseek-v4-pro   # 对比其他模型
  *   pnpm pilot:triage -- --limit=300 --tag=baseline --ds=v1-draft-300  # 基线跑批（独立报告文件）
  */
-import { existsSync, readFileSync, mkdirSync, writeFileSync, appendFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
@@ -25,7 +25,7 @@ const DATA = resolve(ROOT, "datasets/drafts/alibaba_nacos.jsonl");
 // ---- 加载 .env.local（DEEPSEEK_API_KEY 等）----
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
 for (const line of envText.split("\n")) {
-  const m = /^([A-Z_]+)s*=s*([^#]*?)s*(?:#.*)?$/.exec(line.trim());
+  const m = /^([A-Z_]+)\s*=\s*([^#]*?)\s*(?:#.\*)?$/.exec(line.trim());
   if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
 }
 if (!process.env.DEEPSEEK_API_KEY) {
@@ -44,6 +44,14 @@ const MODEL = modelArg ? modelArg.split("=")[1] : undefined;
 const TAG = tagArg ? tagArg.split("=")[1] : "pilot"; // 报告文件名前缀，区分 pilot/baseline 等用途
 const DATASET_VERSION = dsArg ? dsArg.split("=")[1] : null; // 数据集版本快照标识，禁止跨版本比较
 const PROMPT_VERSION = "tp-1.2"; // prompt 升级时同步改这里，报告文件名随之区分
+
+// --model 覆盖路由（此前该旗标只改了报告文件名、从未传入 LLM——已修复）
+import { DEFAULT_MODEL_CONFIG, resolveModel, type ModelConfig } from "../packages/llm/src/index";
+import { createLlm, type Llm } from "../packages/llm/src/index";
+const MODEL_OVERRIDE: ModelConfig | undefined = MODEL
+  ? { ...DEFAULT_MODEL_CONFIG, routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: MODEL } }
+  : undefined;
+const llm: Llm | undefined = MODEL_OVERRIDE ? createLlm({ config: MODEL_OVERRIDE }) : undefined;
 
 const MAIN = ["bug", "feature", "question", "duplicate"] as const;
 type Main = (typeof MAIN)[number] | "invalid";
@@ -106,12 +114,17 @@ const partialRows: PerCase[] = existsSync(PARTIAL_FILE)
       .filter((l) => l.length > 0)
       .map((l) => JSON.parse(l) as PerCase)
   : [];
-const doneNumbers = new Set(partialRows.map((r) => r.issue_number));
+const seen = new Set<number>();
+const deduped = partialRows.filter((r) => (seen.has(r.issue_number) ? false : (seen.add(r.issue_number), true)));
+perCase.length = 0;
+perCase.push(...deduped);
+const doneNumbers = new Set(deduped.map((r) => r.issue_number));
 perCase.push(...partialRows);
 totalCost = partialRows.reduce((a, r) => a + r.costAmount, 0);
 if (partialRows.length > 0) {
   console.log(`断点续跑：已完成 ${partialRows.length} 条，跳过继续`);
 }
+console.log("[调试] loader 后 key:", (process.env.DEEPSEEK_API_KEY??"(无)").length, "字符, sk-开头:", (process.env.DEEPSEEK_API_KEY??"").startsWith("sk-"));
 
 function appendPartial(entry: PerCase): void {
   appendFileSync(PARTIAL_FILE, JSON.stringify(entry) + "\n", "utf8");
@@ -119,10 +132,11 @@ function appendPartial(entry: PerCase): void {
 
 /** 免费中转通道分钟级抖动：零成本传输失败时按 30s/60s/120s 退避重试整条 case */
 async function runWithRetry(event) {
-  let res = await handleIssueEvent(event);
+  let res = await handleIssueEvent(event, { llm });
   for (const delay of [30_000, 60_000, 120_000]) {
     if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
-    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
+    const why = res.actions[0]?.kind === "escalate" ? (res.actions[0] as { reason: string }).reason : "";
+    console.log(`    … 传输失败，${delay / 1000}s 后重试：${why.slice(0, 120)}`);
     await new Promise((r) => setTimeout(r, delay));
     res = await handleIssueEvent(event);
   }
@@ -163,9 +177,17 @@ for (const row of rows) {
     rationale: res.triage?.rationale ?? null,
   });
   const last = perCase[perCase.length - 1]!;
+  if (last.escalated && last.costAmount === 0) {
+    // 传输失败不落断点：该 case 留给下一个窗口重试，断点只累积有效结果
+    consecutiveTransportFails++;
+    if (consecutiveTransportFails >= 3) {
+      console.error(`通道不可用（连续 3 条零成本传输失败），本轮完成 ${perCase.length}/${rows.length}——退出等下个窗口`);
+      process.exit(1);
+    }
+    continue;
+  }
+  consecutiveTransportFails = 0;
   appendPartial(last);
-  if (last.escalated && last.costAmount === 0) consecutiveTransportFails++;
-  else consecutiveTransportFails = 0;
   const mark = last.correct ? "✓" : "✗";
   const disp = predMain ?? "FAIL";
   console.log(
@@ -175,6 +197,10 @@ for (const row of rows) {
 
 // ---- 汇总 ----
 const n = perCase.length;
+if (n < rows.length) {
+  console.error(`本轮完成 ${n}/${rows.length}（通道窗口不足），断点已保存——再次运行继续`);
+  process.exit(1);
+}
 const correct = perCase.filter((c) => c.correct).length;
 const accuracy = n ? correct / n : 0;
 
