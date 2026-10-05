@@ -87,17 +87,6 @@ console.log(`== eval:run == tag=${TAG} split=${SPLIT} ds=${DS} 模型=${model} �
 
 const llm: Llm | undefined = JSON.stringify(MODEL_OVERRIDE) !== JSON.stringify(DEFAULT_MODEL_CONFIG) ? createLlm({ config: MODEL_OVERRIDE }) : undefined;
 const results: CaseResult[] = [];
-/** 免费中转通道分钟级抖动：零成本传输失败时按 30s/60s/120s 退避重试整条 case */
-async function runWithRetry(event: IssueEvent) {
-  let res = await handleIssueEvent(event);
-  for (const delay of [30_000, 60_000, 120_000]) {
-    if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
-    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
-    await new Promise((r) => setTimeout(r, delay));
-    res = await handleIssueEvent(event);
-  }
-  return res;
-}
 let totalCost = 0;
 // 轨迹持久化（默认开）：评测轨迹是影子回放与整理管线的离线输入
 const SAVE_TRACES = !argv.includes("--no-traces");
@@ -108,14 +97,43 @@ const traceStore = SAVE_TRACES
 let savedTraces = 0;
 let duplicateTraces = 0;
 
+// 断点续跑：从轨迹库恢复已完成 case 的预测（通道中断不丢进度）
+const resumedCases = new Map<string, CaseResult>();
+if (traceStore) {
+  for (const t of await traceStore.all()) {
+    const m = new RegExp(`^trace-eval-${TAG}-${DS}-(.+)$`).exec(t.id);
+    if (!m || !m[1]) continue;
+    const caseId = m[1];
+    const labels = t.finalActions.flatMap((a) => (a.kind === "addLabels" ? a.labels : []));
+    resumedCases.set(caseId, {
+      caseId,
+      goldMain: "invalid", // 占位：恢复行不参与指标（下方按需重算 gold）
+      predMain: labels.length > 0 ? mainLabelOf(labels) : null,
+      goldNeedsMoreInfo: false,
+      predNeedsMoreInfo: false,
+      costAmount: t.totalCost,
+      durationMs: 0,
+    });
+  }
+  if (resumedCases.size > 0) {
+    console.log(`断点续跑：轨迹库中已有 ${resumedCases.size} 条本 run 的 case，跳过重跑`);
+  }
+}
+
 for (const c of cases) {
+  const resumed = resumedCases.get(c.id);
+  if (resumed) {
+    // 断点恢复：预测来自轨迹库，gold 从 golden set 补齐后计入结果
+    results.push({ ...resumed, goldMain: c.goldMain, goldNeedsMoreInfo: c.goldNeedsMoreInfo });
+    continue;
+  }
   const event: IssueEvent = {
     repo: c.repo,
     issueNumber: c.issueNumber,
     title: c.title,
     body: c.bodyExcerpt,
   };
-  const res = await runWithRetry(event);
+  const res = await runWithRetry(event, llm);
   const step = res.steps[0];
   totalCost += step?.costAmount ?? 0;
   results.push({

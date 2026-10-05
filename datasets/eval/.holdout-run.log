@@ -1,0 +1,23 @@
+
+> evokeeper@0.1.0 eval:run D:\git\git_repo03\evokeeper
+> tsx scripts/run-eval.mts "--" "--tag=final-holdout" "--split=holdout" "--ds=v1"
+
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+D:\git\git_repo03\evokeeper\scripts\run-eval.ts:91:15: ERROR: The symbol "runWithRetry" has already been declared
+    at failureErrorWithLog (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:1752:15)
+    at D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:1019:50
+    at responseCallbacks.<computed> (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:886:9)
+    at handleIncomingPacket (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:941:12)
+    at Socket.readFromStdout (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:864:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v22.17.0
+ ELIFECYCLE  Command failed with exit code 1.
