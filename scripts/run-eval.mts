@@ -29,7 +29,7 @@ const DATA = resolve(ROOT, "datasets/drafts/alibaba_nacos.jsonl");
 
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
 for (const line of envText.split("\n")) {
-  const m = /^([A-Z_]+)\s*=\s*([^#]*?)\s*(?:#.\*)?$/.exec(line.trim());
+  const m = /^([A-Z_]+)\s*=\s*([^#]*?)\s*(?:#.*)?$/.exec(line.trim());
   if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
 }
 if (!process.env.DEEPSEEK_API_KEY) {
@@ -50,6 +50,18 @@ const MODEL_OVERRIDE = MODEL
   ? { ...DEFAULT_MODEL_CONFIG, routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: MODEL } }
   : DEFAULT_MODEL_CONFIG;
 const PROMPT_VERSION = "tp-1.2";
+
+// 免费中转通道分钟级抖动：零成本传输失败时退避重试整条 case
+async function runWithRetry(event: IssueEvent, llm: Llm | undefined) {
+  let res = await handleIssueEvent(event, { llm });
+  for (const delay of [30_000, 60_000, 120_000]) {
+    if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
+    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
+    await new Promise((r) => setTimeout(r, delay));
+    res = await handleIssueEvent(event, { llm });
+  }
+  return res;
+}
 
 // ---- 执行 ----
 const cases = loadGoldenSet(DATA, { split: SPLIT }).slice(0, LIMIT);
@@ -73,6 +85,7 @@ if (cases.length === 0) {
 const model = MODEL ?? resolveModel("triage", MODEL_OVERRIDE as ModelConfig);
 console.log(`== eval:run == tag=${TAG} split=${SPLIT} ds=${DS} 模型=${model} 样本=${cases.length}`);
 
+const llm: Llm | undefined = JSON.stringify(MODEL_OVERRIDE) !== JSON.stringify(DEFAULT_MODEL_CONFIG) ? createLlm({ config: MODEL_OVERRIDE }) : undefined;
 const results: CaseResult[] = [];
 /** 免费中转通道分钟级抖动：零成本传输失败时按 30s/60s/120s 退避重试整条 case */
 async function runWithRetry(event: IssueEvent) {

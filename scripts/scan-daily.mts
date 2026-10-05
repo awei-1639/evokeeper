@@ -26,7 +26,7 @@ const OUT_FILE = resolve(ROOT, "datasets/judged/judged.jsonl");
 
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
 for (const line of envText.split("\n")) {
-  const m = /^([A-Z_]+)\s*=\s*([^#]*?)\s*(?:#.\*)?$/.exec(line.trim());
+  const m = /^([A-Z_]+)\s*=\s*([^#]*?)\s*(?:#.*)?$/.exec(line.trim());
   if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
 }
 if (!process.env.GITHUB_TOKEN) {

@@ -62,9 +62,9 @@ describe("config: 峰谷计价", () => {
   });
 
   it("purpose 路由与配置版本快照", () => {
-    expect(resolveModel("triage")).toBe("deepseek-v4-flash");
+    expect(resolveModel("triage")).toBe("deepseek-v4.1-flash");
     expect(resolveModel("judge")).toBe("glm-4.6");
-    expect(DEFAULT_MODEL_CONFIG.version).toBe("mc-1.0");
+    expect(DEFAULT_MODEL_CONFIG.version).toBe("mc-1.1");
     // judge 与 answer 必须跨厂商，防自偏好偏差（design.md §7.1）
     expect(MODEL_SPECS[resolveModel("judge")]?.provider).not.toBe(
       MODEL_SPECS[resolveModel("answer")]?.provider
@@ -155,7 +155,7 @@ describe("structured: completeJson 行为", () => {
       validate: validator,
     });
     expect(res.ok).toBe(true);
-    expect(res.meta.model).toBe("deepseek-v4-flash");
+    expect(res.meta.model).toBe("deepseek-v4.1-flash");
     expect(res.meta.promptVersion).toBe("tp-1.0");
     expect(res.meta.inputTokens).toBe(1200);
     expect(res.meta.costAmount).toBeGreaterThan(0);
