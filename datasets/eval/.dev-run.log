@@ -2,81 +2,22 @@
 > evokeeper@0.1.0 eval:run D:\git\git_repo03\evokeeper
 > tsx scripts/run-eval.mts "--" "--tag=baseline-mc11" "--split=dev" "--ds=v1"
 
-v1 口径过滤: 260 → 160（排除扩充池记录）
-== eval:run == tag=baseline-mc11 split=dev ds=v1 模型=deepseek-v4.1-flash 样本=160
-✗ gs-0003 gold=question pred=invalid  ¥0.0006
-✓ gs-0004 gold=feature  pred=feature  ¥0.0006
-✓ gs-0005 gold=invalid  pred=invalid  ¥0.0009
-✗ gs-0006 gold=bug      pred=question ¥0.0005
-✓ gs-0007 gold=feature  pred=feature  ¥0.0010
-✓ gs-0008 gold=feature  pred=feature  ¥0.0008
-✗ gs-0010 gold=bug      pred=FAIL     ¥0.0018
-✗ gs-0011 gold=bug      pred=question ¥0.0009
-✓ gs-0014 gold=invalid  pred=invalid  ¥0.0008
-✓ gs-0018 gold=question pred=question ¥0.0006
-✓ gs-0019 gold=question pred=question ¥0.0007
-✗ gs-0020 gold=feature  pred=bug      ¥0.0009
-✓ gs-0021 gold=bug      pred=bug      ¥0.0009
-✓ gs-0022 gold=bug      pred=bug      ¥0.0005
-✓ gs-0023 gold=bug      pred=bug      ¥0.0005
-✓ gs-0024 gold=bug      pred=bug      ¥0.0011
-✓ gs-0025 gold=bug      pred=bug      ¥0.0009
-✓ gs-0029 gold=feature  pred=feature  ¥0.0008
-✗ gs-0030 gold=question pred=bug      ¥0.0006
-✓ gs-0032 gold=feature  pred=feature  ¥0.0008
-✓ gs-0033 gold=question pred=question ¥0.0009
-✓ gs-0037 gold=question pred=question ¥0.0009
-✓ gs-0038 gold=feature  pred=feature  ¥0.0008
-✓ gs-0039 gold=bug      pred=bug      ¥0.0010
-✓ gs-0040 gold=question pred=question ¥0.0008
-✓ gs-0043 gold=question pred=question ¥0.0007
-✓ gs-0045 gold=invalid  pred=invalid  ¥0.0004
-✓ gs-0046 gold=feature  pred=feature  ¥0.0005
-✗ gs-0048 gold=feature  pred=bug      ¥0.0010
-✓ gs-0050 gold=feature  pred=feature  ¥0.0004
-✗ gs-0053 gold=question pred=FAIL     ¥0.0026
-✓ gs-0054 gold=question pred=question ¥0.0008
-✓ gs-0058 gold=bug      pred=bug      ¥0.0008
-✗ gs-0059 gold=question pred=bug      ¥0.0008
-✗ gs-0060 gold=duplicate pred=bug      ¥0.0009
-✓ gs-0063 gold=invalid  pred=invalid  ¥0.0008
-✓ gs-0067 gold=question pred=question ¥0.0006
-✓ gs-0068 gold=question pred=question ¥0.0009
-✗ gs-0070 gold=bug      pred=question ¥0.0010
-✗ gs-0071 gold=duplicate pred=question ¥0.0009
-✓ gs-0075 gold=bug      pred=bug      ¥0.0009
-✗ gs-0078 gold=feature  pred=question ¥0.0008
-✓ gs-0079 gold=question pred=question ¥0.0009
-✓ gs-0080 gold=question pred=question ¥0.0009
-✓ gs-0081 gold=question pred=question ¥0.0009
-✓ gs-0083 gold=question pred=question ¥0.0009
-✓ gs-0086 gold=feature  pred=feature  ¥0.0009
-✗ gs-0087 gold=feature  pred=invalid  ¥0.0007
-✗ gs-0089 gold=question pred=FAIL     ¥0.0026
-✓ gs-0092 gold=question pred=question ¥0.0009
-✗ gs-0094 gold=question pred=feature  ¥0.0006
-✓ gs-0096 gold=bug      pred=bug      ¥0.0009
-✓ gs-0097 gold=feature  pred=feature  ¥0.0008
-✓ gs-0098 gold=bug      pred=bug      ¥0.0010
-✓ gs-0100 gold=invalid  pred=invalid  ¥0.0007
-✗ gs-0101 gold=duplicate pred=question ¥0.0009
-✗ gs-0102 gold=bug      pred=FAIL     ¥0.0021
-    … 传输失败，30s 后重试
-    … 传输失败，60s 后重试
-    … 传输失败，120s 后重试
-✗ gs-0103 gold=bug      pred=FAIL     ¥0.0000
-    … 传输失败，30s 后重试
-    … 传输失败，60s 后重试
-    … 传输失败，120s 后重试
-✗ gs-0104 gold=question pred=FAIL     ¥0.0000
-    … 传输失败，30s 后重试
-    … 传输失败，60s 后重试
-    … 传输失败，120s 后重试
-✗ gs-0105 gold=feature  pred=FAIL     ¥0.0000
-    … 传输失败，30s 后重试
-    … 传输失败，60s 后重试
-    … 传输失败，120s 后重试
-✗ gs-0106 gold=feature  pred=FAIL     ¥0.0000
-    … 传输失败，30s 后重试
-    … 传输失败，60s 后重试
-    … 传输失败，120s 后重试
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+D:\git\git_repo03\evokeeper\scripts\run-eval.ts:108:8: ERROR: Expected ")" but found "eval"
+    at failureErrorWithLog (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:1752:15)
+    at D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:1019:50
+    at responseCallbacks.<computed> (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:886:9)
+    at handleIncomingPacket (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:941:12)
+    at Socket.readFromStdout (D:\git\git_repo03\evokeeper\node_modules\.pnpm\esbuild@0.28.2\node_modules\esbuild\lib\main.js:864:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v22.17.0
+ ELIFECYCLE  Command failed with exit code 1.
