@@ -26,9 +26,9 @@ export interface ModelSpec {
 }
 
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.1",
+  version: "mc-1.0",
   routing: {
-    triage: "deepseek-v4.1-flash",
+    triage: "deepseek-v4-flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
