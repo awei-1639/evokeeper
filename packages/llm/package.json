@@ -10,7 +10,8 @@
     "test": "echo \"no tests yet\" && exit 0"
   },
   "dependencies": {
-    "@evokeeper/core": "workspace:*"
+    "@evokeeper/core": "workspace:*",
+    "undici": "^8.12.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "tsx": "^4.23.13",
+    "undici": "^8.12.2",
     "vitest": "^5.0.0"
   }
 }

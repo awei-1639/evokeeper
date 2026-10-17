@@ -35,11 +35,13 @@ const cases = loadGoldenSet(resolve(ROOT, "datasets/drafts/alibaba_nacos.jsonl")
 const argv2 = process.argv.slice(2);
 const stride = Number(argv2.find((a) => a.startsWith("--stride="))?.split("=")[1] ?? 8);
 const limit = Number(argv2.find((a) => a.startsWith("--limit="))?.split("=")[1] ?? 20);
+// 待检模型：默认基线模型；中转站模型名不同时用 --model= 显式指定
+const probeModel = argv2.find((a) => a.startsWith("--model="))?.split("=")[1] ?? "deepseek-v4-flash";
 const sampled = cases.filter((_, i) => i % stride === 0).slice(0, limit);
 
 const config: ModelConfig = {
   ...DEFAULT_MODEL_CONFIG,
-  routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: "deepseek-v4-flash" },
+  routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: probeModel },
 };
 const llm = createLlm({ config });
 
@@ -47,7 +49,12 @@ let same = 0;
 let sameGold = 0;
 let bothNonNull = 0;
 const diffs: string[] = [];
-for (const c of sampled) {
+const delayMs = Number(argv2.find((a) => a.startsWith("--delay-ms="))?.split("=")[1] ?? 0);
+for (const [idx, c] of sampled.entries()) {
+  if (delayMs > 0 && idx > 0) {
+    process.stdout.write(`  (${idx + 1}/${sampled.length} 等待 ${delayMs}ms…)\r`);
+    await new Promise((s) => setTimeout(s, delayMs));
+  }
   const res = await handleIssueEvent(
     { repo: c.repo, issueNumber: c.issueNumber, title: c.title, body: c.bodyExcerpt } as IssueEvent,
     { llm }
@@ -61,6 +68,8 @@ for (const c of sampled) {
   if (relayPred === c.goldMain) sameGold++;
   if (relayPred !== offPred) diffs.push(`${c.id} 官方=${offPred ?? "FAIL"} 中转=${relayPred ?? "FAIL"}`);
 }
+console.log('');
+console.log('待检模型:', process.argv.slice(2).find(a=>a.startsWith("--model="))?.split("=")[1] ?? "deepseek-v4-flash");
 console.log(`样本: ${sampled.length} | 双方有效: ${bothNonNull} | 预测一致: ${same}/${bothNonNull} = ${((same / Math.max(1, bothNonNull)) * 100).toFixed(0)}%`);
 console.log(`对 gold 一致率（中转）: ${sameGold}/${sampled.length}`);
 if (diffs.length) console.log("分歧明细:\n  " + diffs.join("\n  "));

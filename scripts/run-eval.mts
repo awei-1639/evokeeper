@@ -56,6 +56,8 @@ const MODEL_OVERRIDE = MODEL
   ? { ...DEFAULT_MODEL_CONFIG, routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: MODEL } }
   : DEFAULT_MODEL_CONFIG;
 const PROMPT_VERSION = "tp-1.2";
+// 批内调用间隔：中转站频控（约 19s/条 连续 25 条即触发 9 分钟冷却），30s+ 可避开
+const DELAY_MS = arg("delay-ms") ? Number(arg("delay-ms")) : 0;
 
 // 免费中转通道分钟级抖动：零成本传输失败时退避重试整条 case
 async function runWithRetry(event: IssueEvent, llm: Llm | undefined) {
@@ -130,6 +132,7 @@ if (traceStore) {
   }
 }
 
+let called = 0;
 for (const c of cases) {
   const resumed = resumedCases.get(c.id);
   if (resumed) {
@@ -137,6 +140,10 @@ for (const c of cases) {
     results.push({ ...resumed, goldMain: c.goldMain, goldNeedsMoreInfo: c.goldNeedsMoreInfo });
     continue;
   }
+  if (DELAY_MS > 0 && called > 0) {
+    await new Promise((r) => setTimeout(r, DELAY_MS));
+  }
+  called++;
   const event: IssueEvent = {
     repo: c.repo,
     issueNumber: c.issueNumber,
