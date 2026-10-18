@@ -19,6 +19,9 @@ import {
   type ModelConfig,
 } from "../packages/llm/src/index";
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
+import { TRIAGE_PROMPT_VERSION } from "../apps/agent/src/triage";
+import { createSimilarIssuesSearch } from "../apps/agent/src/similar-issues";
+import { PgIssueDocsStore } from "../apps/agent/src/pg/issue-docs-pg";
 import { buildTrace, JsonlTraceStore } from "../apps/agent/src/trace-store";
 import {
   bootstrapCI95,
@@ -55,18 +58,30 @@ const MODEL = arg("model");
 const MODEL_OVERRIDE = MODEL
   ? { ...DEFAULT_MODEL_CONFIG, routing: { ...DEFAULT_MODEL_CONFIG.routing, triage: MODEL } }
   : DEFAULT_MODEL_CONFIG;
-const PROMPT_VERSION = "tp-1.2";
+const PROMPT_VERSION = TRIAGE_PROMPT_VERSION; // 随 triage.ts 自动跟随（tp-1.2 → tp-1.3）
 // 批内调用间隔：中转站频控（约 19s/条 连续 25 条即触发 9 分钟冷却），30s+ 可避开
 const DELAY_MS = arg("delay-ms") ? Number(arg("delay-ms")) : 0;
+// --retrieve：开启相似 issue 检索证据（<similar_issues> 注入，duplicate 缺口修复的对照实验）。
+// 需要 DATABASE_URL（pgvector 向量库已回填）；检索自动排除 case 自身，防 gold 泄漏。
+const RETRIEVE = argv.includes("--retrieve");
+
+/** 全步成本合计（retrieve 开启后 steps 含检索 tool 步，不能只看 steps[0]） */
+function totalCostOf(steps: Array<{ costAmount: number }>): number {
+  return steps.reduce((s, x) => s + x.costAmount, 0);
+}
 
 // 免费中转通道分钟级抖动：零成本传输失败时退避重试整条 case
-async function runWithRetry(event: IssueEvent, llm: Llm | undefined) {
-  let res = await handleIssueEvent(event, { llm });
+async function runWithRetry(
+  event: IssueEvent,
+  llm: Llm | undefined,
+  deps: Parameters<typeof handleIssueEvent>[1] = {}
+) {
+  let res = await handleIssueEvent(event, { llm, ...deps });
   for (const delay of [30_000, 60_000, 120_000]) {
-    if (!res.escalated || (res.steps[0]?.costAmount ?? 0) > 0) return res;
+    if (!res.escalated || totalCostOf(res.steps) > 0) return res;
     console.log(`    … 传输失败，${delay / 1000}s 后重试`);
     await new Promise((r) => setTimeout(r, delay));
-    res = await handleIssueEvent(event, { llm });
+    res = await handleIssueEvent(event, { llm, ...deps });
   }
   return res;
 }
@@ -97,6 +112,32 @@ const llm: Llm | undefined =
   JSON.stringify(MODEL_OVERRIDE) !== JSON.stringify(DEFAULT_MODEL_CONFIG)
     ? createLlm({ config: MODEL_OVERRIDE })
     : undefined;
+
+// 检索证据（--retrieve）：pgvector 向量库 + embed 查询；评测检索排除 case 自身
+let pool: import("pg").Pool | null = null;
+let evalDeps: Parameters<typeof handleIssueEvent>[1] = {};
+if (RETRIEVE) {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    console.error("--retrieve 需要 DATABASE_URL（向量库未就绪）");
+    process.exit(1);
+  }
+  pool = new (require("pg") as typeof import("pg")).Pool({
+    connectionString,
+    options: "-c search_path=evokeeper,public",
+    max: 2,
+  });
+  const store = new PgIssueDocsStore(pool);
+  const docs = await store.count();
+  if (docs === 0) {
+    console.error("向量库为空：先跑 scripts/embed-backfill.mts 回填");
+    process.exit(1);
+  }
+  const similarSearch = createSimilarIssuesSearch({ llm: llm ?? createLlm(), store });
+  evalDeps = { similarSearch };
+  console.log(`检索证据: 开启（向量库 ${docs} 条，top-5，排除自身）`);
+}
+process.on("exit", () => void pool?.end());
 const results: CaseResult[] = [];
 let totalCost = 0;
 // 轨迹持久化（默认开）：评测轨迹是影子回放与整理管线的离线输入
@@ -150,17 +191,18 @@ for (const c of cases) {
     title: c.title,
     body: c.bodyExcerpt,
   };
-  const res = await runWithRetry(event, llm);
-  const step = res.steps[0];
-  totalCost += step?.costAmount ?? 0;
+  const res = await runWithRetry(event, llm, evalDeps);
+  const stepCost = totalCostOf(res.steps);
+  const stepDuration = res.steps.reduce((s, x) => s + x.durationMs, 0);
+  totalCost += stepCost;
   results.push({
     caseId: c.id,
     goldMain: c.goldMain,
     predMain: res.triage ? mainLabelOf(res.triage.labels) : null,
     goldNeedsMoreInfo: c.goldNeedsMoreInfo,
     predNeedsMoreInfo: res.triage?.labels.includes("needs-more-info") ?? false,
-    costAmount: step?.costAmount ?? 0,
-    durationMs: step?.durationMs ?? 0,
+    costAmount: stepCost,
+    durationMs: stepDuration,
   });
   if (traceStore) {
     // 确定性 id：同 tag/dataset/case 重跑不重复落库（幂等，R3）
@@ -179,7 +221,7 @@ for (const c of cases) {
   }
   const mark = results[results.length - 1]?.predMain === c.goldMain ? "✓" : "✗";
   console.log(
-    `${mark} ${c.id} gold=${c.goldMain.padEnd(8)} pred=${(results[results.length - 1]?.predMain ?? "FAIL").padEnd(8)} ¥${(step?.costAmount ?? 0).toFixed(4)}`
+    `${mark} ${c.id} gold=${c.goldMain.padEnd(8)} pred=${(results[results.length - 1]?.predMain ?? "FAIL").padEnd(8)} ¥${stepCost.toFixed(4)}`
   );
 }
 

@@ -43,7 +43,7 @@ const LIMIT = limitArg ? Number(limitArg.split("=")[1]) : 50;
 const MODEL = modelArg ? modelArg.split("=")[1] : undefined;
 const TAG = tagArg ? tagArg.split("=")[1] : "pilot"; // 报告文件名前缀，区分 pilot/baseline 等用途
 const DATASET_VERSION = dsArg ? dsArg.split("=")[1] : null; // 数据集版本快照标识，禁止跨版本比较
-const PROMPT_VERSION = "tp-1.2"; // prompt 升级时同步改这里，报告文件名随之区分
+const PROMPT_VERSION = "tp-1.3"; // prompt 升级时同步改这里，报告文件名随之区分
 
 // --model 覆盖路由（此前该旗标只改了报告文件名、从未传入 LLM——已修复）
 import { DEFAULT_MODEL_CONFIG, resolveModel, type ModelConfig } from "../packages/llm/src/index";
