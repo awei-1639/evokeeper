@@ -16,6 +16,7 @@ import {
   type InboxProcessor,
 } from "./inbox";
 import { buildTrace, type TraceStore } from "./trace-store";
+import type { TraceExporter } from "./observe/langfuse";
 
 const MAX_BODY_BYTES = 1024 * 1024;
 
@@ -48,20 +49,30 @@ export interface WebhookServerOptions extends InboxDeps {
   secret?: string;
   /** 轨迹库（R3）：传入后每次处理完成自动落库，trace id = GitHub delivery id */
   traceStore?: TraceStore;
+  /** 观测导出（W4）：传入后 Trace 落库同时上报（Langfuse 等；失败只打日志不影响主链路） */
+  traceExporter?: TraceExporter;
   log?: (msg: string) => void;
 }
 
 export function createWebhookServer(options: WebhookServerOptions = {}): Server {
   const log = options.log ?? (() => {});
-  const { traceStore, ...inboxDeps } = options;
+  const { traceStore, traceExporter, ...inboxDeps } = options;
   const processor: InboxProcessor = createInboxProcessor({
     ...inboxDeps,
     onProcessed: (delivery, event, result) => {
       inboxDeps.onProcessed?.(delivery, event, result);
-      if (traceStore) {
-        void traceStore
-          .append(buildTrace(event, result, { id: `trace-${delivery.eventId}` }))
-          .catch((err) => log(`[trace] 落库失败：${String(err)}`));
+      if (traceStore || traceExporter) {
+        const trace = buildTrace(event, result, { id: `trace-${delivery.eventId}` });
+        if (traceStore) {
+          void traceStore
+            .append(trace)
+            .catch((err) => log(`[trace] 落库失败：${String(err)}`));
+        }
+        if (traceExporter) {
+          void traceExporter
+            .export(trace)
+            .catch((err) => log(`[observe] Langfuse 上报失败：${String(err)}`));
+        }
       }
     },
   });
