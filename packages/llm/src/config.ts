@@ -9,7 +9,7 @@ import type { ModelConfig } from "@evokeeper/core";
 
 export type LlmPurpose = "triage" | "answer" | "judge" | "consolidate" | "embed";
 
-export type Provider = "deepseek" | "dashscope" | "zhipu";
+export type Provider = "deepseek" | "dashscope" | "zhipu" | "siliconflow";
 
 export interface ModelSpec {
   provider: Provider;
@@ -25,14 +25,21 @@ export interface ModelSpec {
   jsonMode: boolean;
 }
 
+/**
+ * mc-1.1：embed 路由 text-embedding-v4 → BAAI/bge-m3。
+ * 原因：中转站无任何 embedding 模型渠道（2026-10-18 实测 /v1/models 仅 2 个 chat 模型），
+ * 换用 design.md §9.1 既定备选 BGE-M3（SiliconFlow 免费档，1024 维，维度约定不变）。
+ * triage/answer/judge/consolidate 路由不变——基线可比性不受影响（embed 首次启用，
+ * 无历史基线需要重跑；今后 EvalRun 快照里 configVersion 自动区分）。
+ */
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.0",
+  version: "mc-1.1",
   routing: {
     triage: "deepseek-v4-flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
-    embed: "text-embedding-v4",
+    embed: "BAAI/bge-m3",
   },
 };
 
@@ -87,6 +94,20 @@ export const MODEL_SPECS: Record<string, ModelSpec> = {
     jsonMode: false,
   },
   /**
+   * BAAI/bge-m3（SiliconFlow 免费档）—— mc-1.1 起的 embed 默认。
+   * 1024 维（与 design.md §9.1 维度约定、infra/migrations vector(1024) 一致），
+   * 8192 token 上下文。免费档计价按 0 登记限速额度内（超出再修正）。
+   */
+  "BAAI/bge-m3": {
+    provider: "siliconflow",
+    inputPerMTok: 0,
+    cachedInputPerMTok: 0,
+    outputPerMTok: 0,
+    contextWindow: 8192,
+    maxOutputTokens: 0,
+    jsonMode: false,
+  },
+  /**
    * deepseek-v4.1-flash（中转站"稳定版"线路当前提供的模型，v4.0-flash 已在该站下架）。
    * 计价暂按 v4-flash 家族口径估（中转站免费额度，实价待核）；规格变更走 mc 版本管理。
    */
@@ -123,12 +144,14 @@ export const PROVIDER_ENV_KEY: Record<Provider, string> = {
   deepseek: "DEEPSEEK_API_KEY",
   dashscope: "DASHSCOPE_API_KEY",
   zhipu: "ZHIPU_API_KEY",
+  siliconflow: "SILICONFLOW_API_KEY",
 };
 
 export const PROVIDER_BASE_URL: Record<Provider, string> = {
   deepseek: "https://api.deepseek.com",
   dashscope: "https://dashscope.aliyuncs.com/compatible-mode/v1",
   zhipu: "https://open.bigmodel.cn/api/paas/v4",
+  siliconflow: "https://api.siliconflow.cn/v1",
 };
 
 /**

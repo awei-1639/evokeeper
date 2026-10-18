@@ -201,21 +201,48 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
     const base = getBaseUrl(spec.provider);
     const authorization = resolveAuth(spec.provider);
     const proxiedFetch = await resolveProxiedFetch();
-    const res = await (proxiedFetch ?? fetchImpl)(`${base}/embeddings`, {
-      method: "POST",
-      headers: { "content-type": "application/json", authorization },
-      body: JSON.stringify({ model: req.model, input: req.input }),
-      signal: AbortSignal.timeout(timeoutMs),
-    });
-    if (!res.ok) {
-      throw new Error(`Embedding 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    const doFetch = proxiedFetch ?? fetchImpl;
+
+    // 重试骨架与 chat 一致：429/5xx 可重试（含中转站冷却等待），其余直接失败
+    let lastError: unknown = null;
+    for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+      try {
+        const res = await doFetch(`${base}/embeddings`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization,
+            "user-agent": "Mozilla/5.0 (compatible; evokeeper-llm/0.1)",
+          },
+          body: JSON.stringify({ model: req.model, input: req.input }),
+          signal: AbortSignal.timeout(timeoutMs),
+        });
+        if ((res.status === 429 || res.status >= 500) && attempt < maxRetries) {
+          if (res.status === 429) {
+            const cooldown = parseRateLimitCooldown(await res.text());
+            if (cooldown !== null) {
+              await sleep((cooldown + 5) * 1000);
+              continue;
+            }
+          }
+          await sleep(backoff(attempt));
+          continue;
+        }
+        if (!res.ok) {
+          throw new Error(`Embedding 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+        }
+        const json = (await res.json()) as EmbeddingBody;
+        const vectors: number[][] = [];
+        for (const item of json.data ?? []) {
+          if (item.embedding) vectors.push(item.embedding);
+        }
+        return { vectors, inputTokens: json.usage?.prompt_tokens ?? 0 };
+      } catch (err) {
+        lastError = err;
+        if (attempt < maxRetries) await sleep(backoff(attempt));
+      }
     }
-    const json = (await res.json()) as EmbeddingBody;
-    const vectors: number[][] = [];
-    for (const item of json.data ?? []) {
-      if (item.embedding) vectors.push(item.embedding);
-    }
-    return { vectors, inputTokens: json.usage?.prompt_tokens ?? 0 };
+    throw lastError instanceof Error ? lastError : new Error(String(lastError));
   }
 
   return { chat, embed };
