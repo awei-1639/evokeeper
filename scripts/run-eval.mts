@@ -11,6 +11,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { Pool } from "pg";
 import {
   DEFAULT_MODEL_CONFIG,
   resolveModel,
@@ -122,7 +123,7 @@ if (RETRIEVE) {
     console.error("--retrieve 需要 DATABASE_URL（向量库未就绪）");
     process.exit(1);
   }
-  pool = new (require("pg") as typeof import("pg")).Pool({
+  pool = new Pool({
     connectionString,
     options: "-c search_path=evokeeper,public",
     max: 2,
