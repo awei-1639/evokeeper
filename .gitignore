@@ -21,3 +21,4 @@ datasets/pilot/.pilot-partial-*.jsonl
 datasets/pilot/.pilot-run.log
 datasets/pilot/pilot-deepseek-v4.1-flash-*.json
 scripts/_diag*.mts
+_tmp_*

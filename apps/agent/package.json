@@ -10,12 +10,17 @@
   },
   "dependencies": {
     "@evokeeper/core": "workspace:*",
-    "@evokeeper/memory": "workspace:*",
     "@evokeeper/gateway": "workspace:*",
-    "@evokeeper/llm": "workspace:*"
+    "@evokeeper/llm": "workspace:*",
+    "@evokeeper/memory": "workspace:*",
+    "bullmq": "^6.3.16",
+    "ioredis": "^6.0.0",
+    "langfuse": "^3.39.2",
+    "pg": "^8.23.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.0",
     "tsx": "^4.23.13",
     "typescript": "^5.7.0"
   }

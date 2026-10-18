@@ -20,11 +20,17 @@
     "eval:run": "tsx scripts/run-eval.mts",
     "eval:gate": "tsx scripts/gate-check.mts",
     "adversarial:check": "tsx scripts/adversarial-check.mts",
-    "scan:daily": "tsx scripts/scan-daily.mts"
+    "scan:daily": "tsx scripts/scan-daily.mts",
+    "db:init": "tsx scripts/db-init.mts"
   },
   "devDependencies": {
     "tsx": "^4.23.13",
     "undici": "^8.12.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "pg": "^8.23.1",
+    "@types/pg": "^8.11.0"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
   }
 }
