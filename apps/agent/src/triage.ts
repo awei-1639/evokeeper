@@ -8,7 +8,7 @@
  */
 import type { TriageLabel, TriageResult } from "@evokeeper/core";
 
-export const TRIAGE_PROMPT_VERSION = "tp-1.2";
+export const TRIAGE_PROMPT_VERSION = "tp-1.3";
 
 export const TRIAGE_LABELS: readonly TriageLabel[] = [
   "bug",
@@ -36,7 +36,7 @@ export const TRIAGE_SYSTEM_PROMPT = `你是开源仓库的 issue 分诊助手。
 - bug：明确的功能缺陷报告。必须能看出"预期行为 vs 实际行为"，且缺陷指向本产品的代码或配置行为，而非使用方式。"现在做不了 X"若是由缺陷导致的 → 判 bug。
 - feature：新能力诉求。包括：依赖版本升级规划、为现有机制增加可配置项或扩展点、"希望支持 X"。
 - question：使用咨询。**即使带报错堆栈也是 question，不是 bug**。以下情况即使带报错堆栈也判 question：部署/环境/网络问题（K8s、Docker、代理、数据库运维）、与其他框架/库搭配的集成用法问题、"如何配置才能实现 X"。
-- duplicate：与已有 issue 重复。**仅当你能写出确切的原 issue 编号（#数字）时才可输出**；你无法检索历史 issue，所以多数情况下不该输出 duplicate——若内容疑似重复，改判它本身的主性质，并在 rationale 中注明"疑似重复"。
+- duplicate：与已有 issue 重复。**仅当 <similar_issues> 块中存在与当前 issue 高度同题的条目时才可输出**，且必须在 rationale 中以“#编号”格式写出原 issue 编号（编号只能来自 <similar_issues>，不得臆造）；相似但不构成重复（话题相关、症状相近但成因不同）时，不要输出 duplicate——改判它本身的主性质，并在 rationale 中注明“疑似重复”及与最相似条目的差异点。
 - needs-more-info：**默认不加**。仅当正文连基本现象都没有（无版本、无报错、无任何诉求描述），完全无法判断性质时才加。
 - invalid：与本产品无关的内容：其他产品或品牌的咨询/推广（含广告、客服电话）、误发、纯情绪、完全空白的模板提交。
 
@@ -78,6 +78,11 @@ export interface TriageInput {
   skills?: string[];
   /** 检索到的记忆结论（W3 起启用） */
   memory?: string[];
+  /**
+   * 向量检索命中的相似历史 issue（W4 起启用，duplicate 判定的唯一合法证据来源）。
+   * 检索方保证已排除当前 issue 自身（评测防泄漏纪律）。
+   */
+  similarIssues?: Array<{ issueNumber: number; title: string; snippet: string; score: number }>;
 }
 
 /** 防止 issue 内容用 </tag> 提前闭合容器标签——这是结构化隔离的关键一环 */
@@ -103,6 +108,17 @@ export function buildTriageMessages(input: TriageInput): { system: string; user:
   if (input.memory && input.memory.length > 0) {
     const list = input.memory.map((m) => `- ${neutralizeClosingTags(m)}`).join("\n");
     blocks.push(`<memory>\n${list}\n</memory>`);
+  }
+  if (input.similarIssues && input.similarIssues.length > 0) {
+    const list = input.similarIssues
+      .map(
+        (s) =>
+          `- #${s.issueNumber}（相似度 ${s.score.toFixed(2)}）${neutralizeClosingTags(s.title)}\n  ${neutralizeClosingTags(truncate(s.snippet, 400))}`
+      )
+      .join("\n");
+    blocks.push(
+      `<similar_issues>\n${list}\n（向量检索的相似历史 issue，仅供 duplicate 判定与编号引用）\n</similar_issues>`
+    );
   }
 
   blocks.push(

@@ -14,6 +14,7 @@ import {
   buildTriageMessages,
   parseTriage,
   hasInjectionSuspicion,
+  type TriageInput,
 } from "./triage";
 
 export interface IssueEvent {
@@ -91,12 +92,57 @@ export function decideActions(triage: TriageResult, event: IssueEvent): AgentAct
   return actions;
 }
 
+export interface HandleIssueEventDeps {
+  llm?: Llm;
+  /**
+   * 相似 issue 检索器（W4）。传入后先检索再分诊，命中项注入 <similar_issues>。
+   * 检索失败降级为空证据（留痕一条零成本 llm 步），不阻断分诊主链路。
+   */
+  similarSearch?: {
+    search(event: IssueEvent): Promise<
+      Array<{ issueNumber: number; title: string; snippet: string; score: number }>
+    >;
+    model: string;
+  };
+}
+
 export async function handleIssueEvent(
   event: IssueEvent,
-  deps: { llm?: Llm } = {}
+  deps: HandleIssueEventDeps = {}
 ): Promise<HandleResult> {
   const llm = deps.llm ?? createLlm();
-  const { system, user } = buildTriageMessages(event);
+
+  const steps: TraceStep[] = [];
+  let similarIssues: TriageInput["similarIssues"] | undefined;
+  if (deps.similarSearch) {
+    const startedAt = new Date().toISOString();
+    const t0 = Date.now();
+    let inputTokens = 0;
+    try {
+      similarIssues = await deps.similarSearch.search(event);
+      // embed 输入 token 数无法从这里精确取回（检索器内部结算），留痕以 token=0 记录
+      // 检索这一步的真实成本在检索器侧结算；这里以零成本步保证"检索必留痕"（R3）
+      inputTokens = 0;
+    } catch (err) {
+      // 检索失败不阻断主链路：降级为无证据分诊（duplicate 自然无从输出）
+      console.error(`[similar] 检索失败，降级为无证据分诊：${String(err)}`);
+      similarIssues = [];
+    }
+    steps.push({
+      seq: 1,
+      kind: "tool",
+      promptVersion: null,
+      model: deps.similarSearch.model,
+      inputTokens,
+      outputTokens: 0,
+      costAmount: 0,
+      toolSummary: `similar-issues: ${similarIssues.length} hits`,
+      startedAt,
+      durationMs: Date.now() - t0,
+    });
+  }
+
+  const { system, user } = buildTriageMessages({ ...event, similarIssues });
 
   const completion = await llm.json({
     purpose: "triage",
@@ -108,7 +154,7 @@ export async function handleIssueEvent(
 
   // 无论成功失败都留痕（R3）：失败的调用同样消耗了成本，必须可归因
   const step: TraceStep = {
-    seq: 1,
+    seq: steps.length + 1,
     kind: "llm",
     promptVersion: completion.meta.promptVersion,
     model: completion.meta.model,
@@ -119,11 +165,12 @@ export async function handleIssueEvent(
     startedAt: completion.meta.startedAt,
     durationMs: completion.meta.durationMs,
   };
+  steps.push(step);
 
   if (!completion.ok || !completion.data) {
     return {
       actions: [{ kind: "escalate", reason: `分诊失败：${completion.error ?? "未知错误"}` }],
-      steps: [step],
+      steps,
       triage: null,
       escalated: true,
     };
@@ -132,7 +179,7 @@ export async function handleIssueEvent(
   const triage = completion.data;
   return {
     actions: decideActions(triage, event),
-    steps: [step],
+    steps,
     triage,
     escalated: false,
   };
