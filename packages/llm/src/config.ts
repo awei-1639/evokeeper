@@ -26,16 +26,15 @@ export interface ModelSpec {
 }
 
 /**
- * mc-1.1：embed 路由 text-embedding-v4 → BAAI/bge-m3。
- * 原因：中转站无任何 embedding 模型渠道（2026-10-18 实测 /v1/models 仅 2 个 chat 模型），
- * 换用 design.md §9.1 既定备选 BGE-M3（SiliconFlow 免费档，1024 维，维度约定不变）。
- * triage/answer/judge/consolidate 路由不变——基线可比性不受影响（embed 首次启用，
- * 无历史基线需要重跑；今后 EvalRun 快照里 configVersion 自动区分）。
+ * mc-1.2：triage 路由 deepseek-v4-flash → deepseek-v4.1-flash。
+ * 原因：中转站 2026-10-22 起 v4-flash 渠道下线（/v1/models 仅剩 v4.1-flash）；
+ * fidelity 对拍 20 条一致率 80% < 90% 线 → 行为不等价，按铁律递增版本并重跑基线。
+ * 其余路由不变。tp-1.3 检索实验改为"同模型同 prompt 无检索 vs 带检索"对照。
  */
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.1",
+  version: "mc-1.2",
   routing: {
-    triage: "deepseek-v4-flash",
+    triage: "deepseek-v4.1-flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
@@ -46,6 +45,17 @@ export const DEFAULT_MODEL_CONFIG: ModelConfig = {
 /** 人民币汇率按 1 USD ≈ 7.15 CNY 折算 GLM 的美元标价 */
 export const MODEL_SPECS: Record<string, ModelSpec> = {
   "deepseek-v4-flash": {
+    provider: "deepseek",
+    inputPerMTok: 1.5,
+    cachedInputPerMTok: 0.05,
+    outputPerMTok: 4.5,
+    peakHours: [9, 10, 11, 14, 15, 16, 17],
+    contextWindow: 1_000_000,
+    maxOutputTokens: 8192,
+    jsonMode: true,
+  },
+  "deepseek-v4.1-flash": {
+    // 中转站计价不透明，实测 ~＄0.002/条分诊调用；价目暂沿用 v4-flash，待官方渠道核验后修正
     provider: "deepseek",
     inputPerMTok: 1.5,
     cachedInputPerMTok: 0.05,
