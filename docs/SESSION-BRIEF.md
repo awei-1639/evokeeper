@@ -1,6 +1,6 @@
 # EvoKeeper 会话简报（给未来任何工作区的接续说明）
 
-> 用途：当你（AI 助手）在新的工作区/会话中接到本项目时，先读本文件与 `项目计划书.md`，即可恢复全部上下文。最近更新：2026-09-27。
+> 用途：当你（AI 助手）在新的工作区/会话中接到本项目时，先读本文件与 `项目计划书.md`，即可恢复全部上下文。最近更新：2026-10-01。
 
 ## 1. 项目一句话
 
@@ -33,7 +33,7 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
 - ✅ **W6 runner / 影子回放 / 发布回滚落地（2026-09-28）**：`eval:run`（golden set → EvalRun，基线 run 已落盘：68.7%、宏F1 0.592、CI95 [63,74]、¥0.57——与 pilot 67.0% 交叉验证吻合）；`eval:gate`（自比演练正确 REJECTED，退出码可挂 CI）；影子回放（第 6 道门禁，一致率阈值 0.95 provisional）；`release.ts`（§8 状态机：R1 禁发 / 无 diff 禁发 / 灰度三态 / O(1) 回滚）。教训：GoldenCase 须带 title/body（首跑空正文全判 invalid，产物作废重跑）。design.md v1.7
 - ✅ **工具治理网关落地（2026-09-28）**：`packages/gateway`——幂等键 (repo, issueNumber, actionKind, contentHash) 防 webhook 重放、单次配额（≤2 标签 + ≤1 评论）、同 issue 24h 评论冷却、全量审计留痕；纯函数无 IO（8 例单测）。W4 真实写动作执行器必须经此网关
 - ✅ **holdout 首评完成（2026-10-17）**：`pnpm eval:run -- --tag=final-holdout --split=holdout --ds=v1` → accuracy **62.5%**（25/40）、宏F1 0.510、CI95 [45.0, 77.5]、nmi 误报 0（命中 0/5）、¥0.13、p50 14.5s。**与 dev 基线 65.0%@160 对比：差 2.5pt 且落在 CI 内 → 泛化成立、无过拟合证据，W6 门禁的统计前提（dev 指标可外推）确认**。错例结构：duplicate 0/3 全错（既有结构性缺口，等 W4 RAG）、bug↔question 混淆 3 条、invalid 混淆 2 条。报告 `datasets/eval/run-final-holdout-holdout-deepseek-v4-flash-mc-1.0-v1.json`。**通道说明**：本次经公益站（xxs.l.cd）执行——模型字符串 deepseek-v4-flash 与 mc-1.0 一致，且事先以 fidelity-check 40 条验证通道行为等价（有效 35 条预测一致 91% ≥ 90% 门槛，详见 2026-10-17 会话记录）；holdout 此后只读，永不重评。
-- ⏳ 待办：① 仲裁 15 条（重点：3 条 duplicate 缺原号、feature/question 边界 2 条；`datasets/ai-annotation/round1/reviews.json`）——注意 κ 已按双轮协议达标，仲裁是锦上添花的人工复核；② 装 Docker 后：infra 验证 + Postgres/BullMQ 适配器 + 整理聚类换 embedding + Langfuse 观测；③ 真实流量启动：GitHub App 注册（issues:write）→ executeActions 接线上 → `pnpm scan:daily` 日扫 cron（脚本已就绪并冒烟）；④ 回答 LLM-judge 五维（等 GLM key）；⑤ apps/web 管理台 v1 已落地（7 页只读：概览/评测/轨迹/golden/仲裁/记忆/发布），一键回滚按钮待发布数据产生后接线；⑥ dev 全量重跑验证 tp-1.2（pilot 之外未见过的样本上的真实水位，可用公益站 + `--delay-ms=30000` 过夜跑，注意中转站频控约 19s/条 触发 9 分钟冷却）
+- ⏳ 待办：① 仲裁 15 条（重点：3 条 duplicate 缺原号、feature/question 边界 2 条；`datasets/ai-annotation/round1/reviews.json`）——注意 κ 已按双轮协议达标，仲裁是锦上添花的人工复核；② 装 Docker 后：infra 验证 + Postgres/BullMQ 适配器 + 整理聚类换 embedding + Langfuse 观测；③ 真实流量启动：GitHub App 注册（issues:write）→ executeActions 接线上 → `pnpm scan:daily` 日扫 cron（脚本已就绪并冒烟）；④ 回答 LLM-judge 五维（等 GLM key）；⑤ apps/web 管理台 v1 已落地（7 页只读：概览/评测/轨迹/golden/仲裁/记忆/发布），一键回滚按钮待发布数据产生后接线；⑥ dev 全量重跑（tp-1.3 无检索基线 71.3% 已完成，+6.3pt vs tp-1.2；检索 A/B 等 Docker/pgvector）
 
 ## 3. 不可违反的项目约定
 
