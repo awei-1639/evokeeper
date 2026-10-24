@@ -221,3 +221,92 @@
     … undefined 失败，60s 后重试：输出解析失败
     … undefined 失败，120s 后重试：输出解析失败
 ✗ gs-0209 传输失败: 输出解析失败
+== tp-1.3 检索组 == cases: 160 | 模型: deepseek-v4-flash（官方） | 检索: bge-m3→pgvector top-5 排除自身
+断点续跑：已有 120 条有效结果
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0103 #13897 gold=bug pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0118 #14406 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0126 #13855 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0154 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0209 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0210 #13847 gold=bug pred=duplicate dup=Y
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0215 #14482 gold=bug pred=bug dup=n
+✗ gs-0216 #14791 gold=feature pred=bug dup=n
+✓ gs-0227 #14443 gold=invalid pred=invalid dup=n
+✓ gs-0230 #15159 gold=duplicate pred=duplicate dup=Y
+✓ gs-0231 #15357 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0232 #15494 gold=bug pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0233 #15639 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0235 #13910 gold=feature pred=feature dup=n
+✓ gs-0241 #14925 gold=question pred=question dup=n
+✓ gs-0243 #15437 gold=bug pred=bug dup=n
+✓ gs-0247 #13900 gold=question pred=question dup=n
+✗ gs-0251 #14471 gold=bug pred=feature dup=n
+✓ gs-0252 #14691 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0254 #15265 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0255 #15431 gold=bug pred=question dup=n
+✓ gs-0257 #13859 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0259 #13950 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0263 #14768 gold=bug pred=duplicate dup=Y
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0264 #14952 gold=bug pred=bug dup=n
+✓ gs-0265 #15243 gold=feature pred=feature dup=n
+✓ gs-0268 #13860 gold=bug pred=bug dup=n
+✓ gs-0269 #13898 gold=question pred=question dup=n
+✓ gs-0273 #14489 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0275 #14965 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0279 #13854 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0284 #14492 gold=duplicate pred=bug dup=n
+✓ gs-0285 #14785 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0286 #14890 gold=question pred=question dup=n
+✓ gs-0289 #15603 gold=bug pred=bug dup=n
+✓ gs-0291 #13884 gold=bug pred=bug dup=n
+✓ gs-0295 #14501 gold=bug pred=bug dup=n
+✓ gs-0297 #14995 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0299 传输失败: 输出解析失败
+✓ gs-0300 #15560 gold=bug pred=bug dup=n
+
+═══ tp-1.3 检索组汇总 ═══
+完成: 157/160（本次运行）
+准确率: 113/157 = 72.0%
+duplicate: 命中 5/10 | 误报 6
+结果已写 datasets/eval/.tp13-retrieve-final.json（供与 tp13-baseline 对照）
+== tp-1.3 检索组 == cases: 160 | 模型: deepseek-v4-flash（官方） | 检索: bge-m3→pgvector top-5 排除自身
+断点续跑：已有 157 条有效结果
+✗ gs-0154 #14126 gold=invalid pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0209 #15767 gold=feature pred=feature dup=n
+✓ gs-0299 #15359 gold=bug pred=bug dup=n
+
+═══ tp-1.3 检索组汇总 ═══
+完成: 160/160（本次运行）
+准确率: 115/160 = 71.9%
+duplicate: 命中 5/10 | 误报 6
+结果已写 datasets/eval/.tp13-retrieve-final.json（供与 tp13-baseline 对照）

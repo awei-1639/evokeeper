@@ -1,0 +1,2091 @@
+{
+ "results": [
+  {
+   "issueNumber": 13968,
+   "id": "gs-0003",
+   "gold": "question",
+   "pred": "invalid",
+   "correct": false,
+   "labels": [
+    "needs-more-info"
+   ],
+   "nmiPred": true,
+   "cost": 0.003627,
+   "score": 0
+  },
+  {
+   "issueNumber": 14059,
+   "id": "gs-0004",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.002874,
+   "score": 0
+  },
+  {
+   "issueNumber": 14409,
+   "id": "gs-0005",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0039165,
+   "score": 0
+  },
+  {
+   "issueNumber": 14495,
+   "id": "gs-0006",
+   "gold": "bug",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.004923,
+   "score": 0
+  },
+  {
+   "issueNumber": 14695,
+   "id": "gs-0007",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003393,
+   "score": 0
+  },
+  {
+   "issueNumber": 14944,
+   "id": "gs-0008",
+   "gold": "feature",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.004572,
+   "score": 0
+  },
+  {
+   "issueNumber": 15339,
+   "id": "gs-0010",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0040184999999999995,
+   "score": 0
+  },
+  {
+   "issueNumber": 15584,
+   "id": "gs-0011",
+   "gold": "bug",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0057495,
+   "score": 0
+  },
+  {
+   "issueNumber": 13851,
+   "id": "gs-0014",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029519999999999998,
+   "score": 0
+  },
+  {
+   "issueNumber": 14254,
+   "id": "gs-0018",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003573,
+   "score": 0
+  },
+  {
+   "issueNumber": 14452,
+   "id": "gs-0019",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0030794999999999998,
+   "score": 0
+  },
+  {
+   "issueNumber": 14806,
+   "id": "gs-0020",
+   "gold": "feature",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003144,
+   "score": 0
+  },
+  {
+   "issueNumber": 14949,
+   "id": "gs-0021",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034425000000000002,
+   "score": 0
+  },
+  {
+   "issueNumber": 15236,
+   "id": "gs-0022",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034035000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 15414,
+   "id": "gs-0023",
+   "gold": "bug",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.003369,
+   "score": 0
+  },
+  {
+   "issueNumber": 15567,
+   "id": "gs-0024",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0036,
+   "score": 0
+  },
+  {
+   "issueNumber": 15674,
+   "id": "gs-0025",
+   "gold": "bug",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.00432,
+   "score": 0
+  },
+  {
+   "issueNumber": 13951,
+   "id": "gs-0029",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029265,
+   "score": 0
+  },
+  {
+   "issueNumber": 14068,
+   "id": "gs-0030",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003483,
+   "score": 0
+  },
+  {
+   "issueNumber": 14439,
+   "id": "gs-0032",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034154999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 14777,
+   "id": "gs-0033",
+   "gold": "question",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0039105,
+   "score": 0
+  },
+  {
+   "issueNumber": 15529,
+   "id": "gs-0037",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037545,
+   "score": 0
+  },
+  {
+   "issueNumber": 15675,
+   "id": "gs-0038",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0030825,
+   "score": 0
+  },
+  {
+   "issueNumber": 15812,
+   "id": "gs-0039",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0041715,
+   "score": 0
+  },
+  {
+   "issueNumber": 13837,
+   "id": "gs-0040",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038805,
+   "score": 0
+  },
+  {
+   "issueNumber": 14065,
+   "id": "gs-0043",
+   "gold": "question",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038835,
+   "score": 0
+  },
+  {
+   "issueNumber": 14437,
+   "id": "gs-0045",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.00396,
+   "score": 0
+  },
+  {
+   "issueNumber": 14739,
+   "id": "gs-0046",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0036255000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 15143,
+   "id": "gs-0048",
+   "gold": "feature",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004098,
+   "score": 0
+  },
+  {
+   "issueNumber": 15495,
+   "id": "gs-0050",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.002763,
+   "score": 0
+  },
+  {
+   "issueNumber": 13843,
+   "id": "gs-0053",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0041115,
+   "score": 0
+  },
+  {
+   "issueNumber": 13904,
+   "id": "gs-0054",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003474,
+   "score": 0
+  },
+  {
+   "issueNumber": 14455,
+   "id": "gs-0058",
+   "gold": "bug",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038985,
+   "score": 0
+  },
+  {
+   "issueNumber": 14614,
+   "id": "gs-0059",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.00399,
+   "score": 0
+  },
+  {
+   "issueNumber": 14964,
+   "id": "gs-0060",
+   "gold": "duplicate",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004083,
+   "score": 0
+  },
+  {
+   "issueNumber": 15596,
+   "id": "gs-0063",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0031365,
+   "score": 0
+  },
+  {
+   "issueNumber": 13899,
+   "id": "gs-0067",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033480000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 13979,
+   "id": "gs-0068",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0035250000000000004,
+   "score": 0
+  },
+  {
+   "issueNumber": 14118,
+   "id": "gs-0070",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0045405,
+   "score": 0
+  },
+  {
+   "issueNumber": 14494,
+   "id": "gs-0071",
+   "gold": "duplicate",
+   "pred": "duplicate",
+   "correct": true,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.005619,
+   "score": 0
+  },
+  {
+   "issueNumber": 15350,
+   "id": "gs-0075",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033195000000000004,
+   "score": 0
+  },
+  {
+   "issueNumber": 13842,
+   "id": "gs-0078",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003612,
+   "score": 0
+  },
+  {
+   "issueNumber": 13890,
+   "id": "gs-0079",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003561,
+   "score": 0
+  },
+  {
+   "issueNumber": 13987,
+   "id": "gs-0080",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0051855,
+   "score": 0
+  },
+  {
+   "issueNumber": 14060,
+   "id": "gs-0081",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0057555,
+   "score": 0
+  },
+  {
+   "issueNumber": 14445,
+   "id": "gs-0083",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0045284999999999995,
+   "score": 0
+  },
+  {
+   "issueNumber": 15147,
+   "id": "gs-0086",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003042,
+   "score": 0
+  },
+  {
+   "issueNumber": 15338,
+   "id": "gs-0087",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature",
+    "needs-more-info"
+   ],
+   "nmiPred": true,
+   "cost": 0.0050235,
+   "score": 0
+  },
+  {
+   "issueNumber": 15693,
+   "id": "gs-0089",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0036630000000000005,
+   "score": 0
+  },
+  {
+   "issueNumber": 13984,
+   "id": "gs-0092",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003447,
+   "score": 0
+  },
+  {
+   "issueNumber": 14128,
+   "id": "gs-0094",
+   "gold": "question",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.002889,
+   "score": 0
+  },
+  {
+   "issueNumber": 14712,
+   "id": "gs-0096",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0058125,
+   "score": 0
+  },
+  {
+   "issueNumber": 14932,
+   "id": "gs-0097",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.00372,
+   "score": 0
+  },
+  {
+   "issueNumber": 15202,
+   "id": "gs-0098",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038174999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 15532,
+   "id": "gs-0100",
+   "gold": "invalid",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037619999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 15704,
+   "id": "gs-0101",
+   "gold": "duplicate",
+   "pred": "duplicate",
+   "correct": true,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.004521000000000001,
+   "score": 0
+  },
+  {
+   "issueNumber": 13866,
+   "id": "gs-0102",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0046110000000000005,
+   "score": 0
+  },
+  {
+   "issueNumber": 13897,
+   "id": "gs-0103",
+   "gold": "bug",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.005530500000000001,
+   "score": 0
+  },
+  {
+   "issueNumber": 13975,
+   "id": "gs-0104",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033855,
+   "score": 0
+  },
+  {
+   "issueNumber": 14049,
+   "id": "gs-0105",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0030375000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 14111,
+   "id": "gs-0106",
+   "gold": "feature",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034514999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 14457,
+   "id": "gs-0107",
+   "gold": "invalid",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.006772499999999999,
+   "score": 0
+  },
+  {
+   "issueNumber": 15248,
+   "id": "gs-0110",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0026879999999999994,
+   "score": 0
+  },
+  {
+   "issueNumber": 15443,
+   "id": "gs-0111",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004953,
+   "score": 0
+  },
+  {
+   "issueNumber": 15599,
+   "id": "gs-0112",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003957,
+   "score": 0
+  },
+  {
+   "issueNumber": 13848,
+   "id": "gs-0114",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037860000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 13892,
+   "id": "gs-0115",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0036974999999999994,
+   "score": 0
+  },
+  {
+   "issueNumber": 13949,
+   "id": "gs-0116",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0060225,
+   "score": 0
+  },
+  {
+   "issueNumber": 14406,
+   "id": "gs-0118",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.004485,
+   "score": 0
+  },
+  {
+   "issueNumber": 14438,
+   "id": "gs-0119",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034305,
+   "score": 0
+  },
+  {
+   "issueNumber": 14642,
+   "id": "gs-0120",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004305,
+   "score": 0
+  },
+  {
+   "issueNumber": 14940,
+   "id": "gs-0121",
+   "gold": "question",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature",
+    "needs-more-info"
+   ],
+   "nmiPred": true,
+   "cost": 0.0058905,
+   "score": 0
+  },
+  {
+   "issueNumber": 15229,
+   "id": "gs-0122",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003189,
+   "score": 0
+  },
+  {
+   "issueNumber": 15354,
+   "id": "gs-0123",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0028559999999999996,
+   "score": 0
+  },
+  {
+   "issueNumber": 15476,
+   "id": "gs-0124",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003306,
+   "score": 0
+  },
+  {
+   "issueNumber": 15763,
+   "id": "gs-0125",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0032505,
+   "score": 0
+  },
+  {
+   "issueNumber": 13855,
+   "id": "gs-0126",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.00411,
+   "score": 0
+  },
+  {
+   "issueNumber": 13915,
+   "id": "gs-0127",
+   "gold": "invalid",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004741499999999999,
+   "score": 0
+  },
+  {
+   "issueNumber": 13969,
+   "id": "gs-0128",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": false,
+   "labels": [
+    "needs-more-info"
+   ],
+   "nmiPred": true,
+   "cost": 0.003927,
+   "score": 0
+  },
+  {
+   "issueNumber": 14407,
+   "id": "gs-0130",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.004146,
+   "score": 0
+  },
+  {
+   "issueNumber": 14774,
+   "id": "gs-0132",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0041595,
+   "score": 0
+  },
+  {
+   "issueNumber": 14963,
+   "id": "gs-0133",
+   "gold": "duplicate",
+   "pred": "duplicate",
+   "correct": true,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.006615,
+   "score": 0
+  },
+  {
+   "issueNumber": 15141,
+   "id": "gs-0134",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034815000000000002,
+   "score": 0
+  },
+  {
+   "issueNumber": 15761,
+   "id": "gs-0137",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0032519999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 13850,
+   "id": "gs-0138",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003177,
+   "score": 0
+  },
+  {
+   "issueNumber": 13894,
+   "id": "gs-0139",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003759,
+   "score": 0
+  },
+  {
+   "issueNumber": 13973,
+   "id": "gs-0140",
+   "gold": "question",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.0043695,
+   "score": 0
+  },
+  {
+   "issueNumber": 14627,
+   "id": "gs-0144",
+   "gold": "feature",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003489,
+   "score": 0
+  },
+  {
+   "issueNumber": 14935,
+   "id": "gs-0145",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.005561999999999999,
+   "score": 0
+  },
+  {
+   "issueNumber": 15439,
+   "id": "gs-0147",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.00345,
+   "score": 0
+  },
+  {
+   "issueNumber": 15554,
+   "id": "gs-0148",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.004269,
+   "score": 0
+  },
+  {
+   "issueNumber": 15728,
+   "id": "gs-0149",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029565,
+   "score": 0
+  },
+  {
+   "issueNumber": 13908,
+   "id": "gs-0151",
+   "gold": "duplicate",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0044025,
+   "score": 0
+  },
+  {
+   "issueNumber": 13956,
+   "id": "gs-0152",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.002991,
+   "score": 0
+  },
+  {
+   "issueNumber": 14075,
+   "id": "gs-0153",
+   "gold": "duplicate",
+   "pred": "duplicate",
+   "correct": true,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.0035865000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 14126,
+   "id": "gs-0154",
+   "gold": "invalid",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003528,
+   "score": 0
+  },
+  {
+   "issueNumber": 15173,
+   "id": "gs-0158",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.003258,
+   "score": 0
+  },
+  {
+   "issueNumber": 15305,
+   "id": "gs-0159",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029505,
+   "score": 0
+  },
+  {
+   "issueNumber": 15726,
+   "id": "gs-0161",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0027675,
+   "score": 0
+  },
+  {
+   "issueNumber": 13875,
+   "id": "gs-0162",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0032459999999999998,
+   "score": 0
+  },
+  {
+   "issueNumber": 13887,
+   "id": "gs-0163",
+   "gold": "duplicate",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029835,
+   "score": 0
+  },
+  {
+   "issueNumber": 14058,
+   "id": "gs-0165",
+   "gold": "duplicate",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0030255,
+   "score": 0
+  },
+  {
+   "issueNumber": 15175,
+   "id": "gs-0170",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0040125,
+   "score": 0
+  },
+  {
+   "issueNumber": 15430,
+   "id": "gs-0171",
+   "gold": "bug",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0042585,
+   "score": 0
+  },
+  {
+   "issueNumber": 15477,
+   "id": "gs-0172",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037800000000000004,
+   "score": 0
+  },
+  {
+   "issueNumber": 14478,
+   "id": "gs-0179",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0031275,
+   "score": 0
+  },
+  {
+   "issueNumber": 14673,
+   "id": "gs-0180",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034844999999999998,
+   "score": 0
+  },
+  {
+   "issueNumber": 14947,
+   "id": "gs-0181",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0031095000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 15673,
+   "id": "gs-0185",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0042495,
+   "score": 0
+  },
+  {
+   "issueNumber": 13845,
+   "id": "gs-0186",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0042375,
+   "score": 0
+  },
+  {
+   "issueNumber": 13990,
+   "id": "gs-0188",
+   "gold": "invalid",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0035835,
+   "score": 0
+  },
+  {
+   "issueNumber": 14079,
+   "id": "gs-0189",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0031335000000000004,
+   "score": 0
+  },
+  {
+   "issueNumber": 14399,
+   "id": "gs-0190",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0039585,
+   "score": 0
+  },
+  {
+   "issueNumber": 14466,
+   "id": "gs-0191",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003366,
+   "score": 0
+  },
+  {
+   "issueNumber": 14692,
+   "id": "gs-0192",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034635,
+   "score": 0
+  },
+  {
+   "issueNumber": 14992,
+   "id": "gs-0193",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0072225,
+   "score": 0
+  },
+  {
+   "issueNumber": 15172,
+   "id": "gs-0194",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034695,
+   "score": 0
+  },
+  {
+   "issueNumber": 15595,
+   "id": "gs-0196",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0039015,
+   "score": 0
+  },
+  {
+   "issueNumber": 15695,
+   "id": "gs-0197",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037575,
+   "score": 0
+  },
+  {
+   "issueNumber": 13888,
+   "id": "gs-0199",
+   "gold": "question",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004017,
+   "score": 0
+  },
+  {
+   "issueNumber": 14446,
+   "id": "gs-0203",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034395,
+   "score": 0
+  },
+  {
+   "issueNumber": 14898,
+   "id": "gs-0205",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0028320000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 15180,
+   "id": "gs-0206",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033405,
+   "score": 0
+  },
+  {
+   "issueNumber": 15374,
+   "id": "gs-0207",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003399,
+   "score": 0
+  },
+  {
+   "issueNumber": 15767,
+   "id": "gs-0209",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.005527499999999999,
+   "score": 0
+  },
+  {
+   "issueNumber": 13847,
+   "id": "gs-0210",
+   "gold": "bug",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.003567,
+   "score": 0
+  },
+  {
+   "issueNumber": 14482,
+   "id": "gs-0215",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.00333,
+   "score": 0
+  },
+  {
+   "issueNumber": 14791,
+   "id": "gs-0216",
+   "gold": "feature",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.005223,
+   "score": 0
+  },
+  {
+   "issueNumber": 14443,
+   "id": "gs-0227",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0036329999999999995,
+   "score": 0
+  },
+  {
+   "issueNumber": 15159,
+   "id": "gs-0230",
+   "gold": "duplicate",
+   "pred": "duplicate",
+   "correct": true,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.004026,
+   "score": 0
+  },
+  {
+   "issueNumber": 15357,
+   "id": "gs-0231",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0035475000000000003,
+   "score": 0
+  },
+  {
+   "issueNumber": 15494,
+   "id": "gs-0232",
+   "gold": "bug",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.004065,
+   "score": 0
+  },
+  {
+   "issueNumber": 15639,
+   "id": "gs-0233",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003294,
+   "score": 0
+  },
+  {
+   "issueNumber": 13910,
+   "id": "gs-0235",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.006864,
+   "score": 0
+  },
+  {
+   "issueNumber": 14925,
+   "id": "gs-0241",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0034349999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 15437,
+   "id": "gs-0243",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.00324,
+   "score": 0
+  },
+  {
+   "issueNumber": 13900,
+   "id": "gs-0247",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.003042,
+   "score": 0
+  },
+  {
+   "issueNumber": 14471,
+   "id": "gs-0251",
+   "gold": "bug",
+   "pred": "feature",
+   "correct": false,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033105,
+   "score": 0
+  },
+  {
+   "issueNumber": 14691,
+   "id": "gs-0252",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037155000000000005,
+   "score": 0
+  },
+  {
+   "issueNumber": 15265,
+   "id": "gs-0254",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0031409999999999997,
+   "score": 0
+  },
+  {
+   "issueNumber": 15431,
+   "id": "gs-0255",
+   "gold": "bug",
+   "pred": "question",
+   "correct": false,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0051375,
+   "score": 0
+  },
+  {
+   "issueNumber": 13859,
+   "id": "gs-0257",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0029805,
+   "score": 0
+  },
+  {
+   "issueNumber": 13950,
+   "id": "gs-0259",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.005296499999999999,
+   "score": 0
+  },
+  {
+   "issueNumber": 14768,
+   "id": "gs-0263",
+   "gold": "bug",
+   "pred": "duplicate",
+   "correct": false,
+   "labels": [
+    "duplicate"
+   ],
+   "nmiPred": false,
+   "cost": 0.0041519999999999994,
+   "score": 0
+  },
+  {
+   "issueNumber": 14952,
+   "id": "gs-0264",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004008,
+   "score": 0
+  },
+  {
+   "issueNumber": 15243,
+   "id": "gs-0265",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.003492,
+   "score": 0
+  },
+  {
+   "issueNumber": 13860,
+   "id": "gs-0268",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0030210000000000002,
+   "score": 0
+  },
+  {
+   "issueNumber": 13898,
+   "id": "gs-0269",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038504999999999998,
+   "score": 0
+  },
+  {
+   "issueNumber": 14489,
+   "id": "gs-0273",
+   "gold": "feature",
+   "pred": "feature",
+   "correct": true,
+   "labels": [
+    "feature"
+   ],
+   "nmiPred": false,
+   "cost": 0.0037995000000000004,
+   "score": 0
+  },
+  {
+   "issueNumber": 14965,
+   "id": "gs-0275",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0047235,
+   "score": 0
+  },
+  {
+   "issueNumber": 13854,
+   "id": "gs-0279",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.004758,
+   "score": 0
+  },
+  {
+   "issueNumber": 14492,
+   "id": "gs-0284",
+   "gold": "duplicate",
+   "pred": "bug",
+   "correct": false,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.004608,
+   "score": 0
+  },
+  {
+   "issueNumber": 14785,
+   "id": "gs-0285",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.00618,
+   "score": 0
+  },
+  {
+   "issueNumber": 14890,
+   "id": "gs-0286",
+   "gold": "question",
+   "pred": "question",
+   "correct": true,
+   "labels": [
+    "question"
+   ],
+   "nmiPred": false,
+   "cost": 0.0033855,
+   "score": 0
+  },
+  {
+   "issueNumber": 15603,
+   "id": "gs-0289",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0040455000000000005,
+   "score": 0
+  },
+  {
+   "issueNumber": 13884,
+   "id": "gs-0291",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0047415,
+   "score": 0
+  },
+  {
+   "issueNumber": 14501,
+   "id": "gs-0295",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0049440000000000005,
+   "score": 0
+  },
+  {
+   "issueNumber": 14995,
+   "id": "gs-0297",
+   "gold": "invalid",
+   "pred": "invalid",
+   "correct": true,
+   "labels": [
+    "invalid"
+   ],
+   "nmiPred": false,
+   "cost": 0.0026385000000000002,
+   "score": 0
+  },
+  {
+   "issueNumber": 15359,
+   "id": "gs-0299",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0041145,
+   "score": 0
+  },
+  {
+   "issueNumber": 15560,
+   "id": "gs-0300",
+   "gold": "bug",
+   "pred": "bug",
+   "correct": true,
+   "labels": [
+    "bug"
+   ],
+   "nmiPred": false,
+   "cost": 0.0038969999999999994,
+   "score": 0
+  }
+ ],
+ "n": 160,
+ "ok": 115,
+ "dupHit": 5,
+ "dupGoldCount": 10,
+ "dupFalsePos": 6
+}
