@@ -80,7 +80,8 @@ async function runWithRetry(
   let res = await handleIssueEvent(event, { llm, ...deps });
   for (const delay of [30_000, 60_000, 120_000]) {
     if (!res.escalated || totalCostOf(res.steps) > 0) return res;
-    console.log(`    … 传输失败，${delay / 1000}s 后重试`);
+    const why = res.actions[0]?.kind === "escalate" ? (res.actions[0] as { reason: string }).reason : "";
+    console.log(`    … 传输失败，${delay / 1000}s 后重试：${why.slice(0, 140)}`);
     await new Promise((r) => setTimeout(r, delay));
     res = await handleIssueEvent(event, { llm, ...deps });
   }

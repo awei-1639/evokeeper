@@ -224,7 +224,7 @@ describe("handleIssueEvent: 端到端", () => {
     expect(res.escalated).toBe(false);
     const step = res.steps[0];
     expect(step?.kind).toBe("llm");
-    expect(step?.model).toBe("deepseek-v4.1-flash");
+    expect(step?.model).toBe("deepseek-v4-flash");
     expect(step?.promptVersion).toBe(TRIAGE_PROMPT_VERSION);
     expect(step?.costAmount).toBeGreaterThan(0);
     expect(step?.inputTokens).toBe(1500);

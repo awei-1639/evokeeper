@@ -32,13 +32,13 @@ export interface ModelSpec {
  * 其余路由不变。tp-1.3 检索实验改为"同模型同 prompt 无检索 vs 带检索"对照。
  */
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.2",
+  version: "mc-1.0",
   routing: {
-    triage: "deepseek-v4.1-flash",
+    triage: "deepseek-v4-flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
-    embed: "BAAI/bge-m3",
+    embed: "text-embedding-v4",
   },
 };
 

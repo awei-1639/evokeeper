@@ -22,3 +22,6 @@ datasets/pilot/.pilot-run.log
 datasets/pilot/pilot-deepseek-v4.1-flash-*.json
 scripts/_diag*.mts
 _tmp_*
+
+# 评测运行瞬态日志
+datasets/eval/.*-run.log
