@@ -38,7 +38,7 @@ export const DEFAULT_MODEL_CONFIG: ModelConfig = {
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
-    embed: "text-embedding-v4",
+    embed: "BAAI/bge-m3",
   },
 };
 

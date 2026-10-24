@@ -1,0 +1,223 @@
+连续 5 条传输失败——通道不可用，退出（断点已保存，重跑续传）
+��pgvector top-5 排除自身
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0003 #13968 gold=question pred=invalid dup=n
+✓ gs-0004 #14059 gold=feature pred=feature dup=n
+✓ gs-0005 #14409 gold=invalid pred=invalid dup=n
+✗ gs-0006 #14495 gold=bug pred=duplicate dup=Y
+✓ gs-0007 #14695 gold=feature pred=feature dup=n
+✗ gs-0008 #14944 gold=feature pred=duplicate dup=Y
+✓ gs-0010 #15339 gold=bug pred=bug dup=n
+✗ gs-0011 #15584 gold=bug pred=feature dup=n
+✓ gs-0014 #13851 gold=invalid pred=invalid dup=n
+✓ gs-0018 #14254 gold=question pred=question dup=n
+✓ gs-0019 #14452 gold=question pred=question dup=n
+✗ gs-0020 #14806 gold=feature pred=bug dup=n
+✓ gs-0021 #14949 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0022 #15236 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0023 传输失败: 输出解析失败
+✓ gs-0024 #15567 gold=bug pred=bug dup=n
+✗ gs-0025 #15674 gold=bug pred=feature dup=n
+✓ gs-0029 #13951 gold=feature pred=feature dup=n
+✗ gs-0030 #14068 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0032 #14439 gold=feature pred=feature dup=n
+✗ gs-0033 #14777 gold=question pred=feature dup=n
+✓ gs-0037 #15529 gold=question pred=question dup=n
+✓ gs-0038 #15675 gold=feature pred=feature dup=n
+✓ gs-0039 #15812 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0040 #13837 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0043 #14065 gold=question pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0045 #14437 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0046 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0048 #15143 gold=feature pred=bug dup=n
+✓ gs-0050 #15495 gold=feature pred=feature dup=n
+✗ gs-0053 #13843 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0054 传输失败: 输出解析失败
+✗ gs-0058 #14455 gold=bug pred=feature dup=n
+✗ gs-0059 #14614 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0060 #14964 gold=duplicate pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0063 #15596 gold=invalid pred=invalid dup=n
+✓ gs-0067 #13899 gold=question pred=question dup=n
+✗ gs-0068 #13979 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0070 #14118 gold=bug pred=bug dup=n
+✓ gs-0071 #14494 gold=duplicate pred=duplicate dup=Y
+✓ gs-0075 #15350 gold=bug pred=bug dup=n
+✓ gs-0078 #13842 gold=feature pred=feature dup=n
+✓ gs-0079 #13890 gold=question pred=question dup=n
+✓ gs-0080 #13987 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0081 #14060 gold=question pred=bug dup=n
+✓ gs-0083 #14445 gold=question pred=question dup=n
+✓ gs-0086 #15147 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0087 #15338 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0089 #15693 gold=question pred=bug dup=n
+✓ gs-0092 #13984 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0094 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0096 #14712 gold=bug pred=bug dup=n
+✓ gs-0097 #14932 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0098 #15202 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0100 #15532 gold=invalid pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0101 #15704 gold=duplicate pred=duplicate dup=Y
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0102 传输失败: 输出解析失败
+连续 5 条传输失败——通道不可用，退出（断点已保存，重跑续传）
+��pgvector top-5 排除自身
+断点续跑：已有 52 条有效结果
+✗ gs-0023 #15414 gold=bug pred=duplicate dup=Y
+✓ gs-0046 #14739 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0054 #13904 gold=question pred=question dup=n
+✗ gs-0094 #14128 gold=question pred=feature dup=n
+✓ gs-0102 #13866 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0103 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0104 #13975 gold=question pred=question dup=n
+✓ gs-0105 #14049 gold=feature pred=feature dup=n
+✗ gs-0106 #14111 gold=feature pred=question dup=n
+✗ gs-0107 #14457 gold=invalid pred=question dup=n
+✓ gs-0110 #15248 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0111 #15443 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0112 #15599 gold=bug pred=bug dup=n
+✓ gs-0114 #13848 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0115 #13892 gold=question pred=question dup=n
+✗ gs-0116 #13949 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0118 传输失败: 输出解析失败
+✓ gs-0119 #14438 gold=invalid pred=invalid dup=n
+✓ gs-0120 #14642 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0121 #14940 gold=question pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0122 #15229 gold=bug pred=bug dup=n
+✓ gs-0123 #15354 gold=feature pred=feature dup=n
+✓ gs-0124 #15476 gold=feature pred=feature dup=n
+✓ gs-0125 #15763 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0126 传输失败: 输出解析失败
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0127 #13915 gold=invalid pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0128 #13969 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0130 #14407 gold=invalid pred=invalid dup=n
+✗ gs-0132 #14774 gold=question pred=bug dup=n
+✓ gs-0133 #14963 gold=duplicate pred=duplicate dup=Y
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0134 #15141 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0137 #15761 gold=feature pred=feature dup=n
+✓ gs-0138 #13850 gold=feature pred=feature dup=n
+✓ gs-0139 #13894 gold=question pred=question dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✗ gs-0140 #13973 gold=question pred=duplicate dup=Y
+✗ gs-0144 #14627 gold=feature pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0145 #14935 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0147 #15439 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0148 #15554 gold=question pred=question dup=n
+✓ gs-0149 #15728 gold=bug pred=bug dup=n
+✗ gs-0151 #13908 gold=duplicate pred=bug dup=n
+✓ gs-0152 #13956 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0153 #14075 gold=duplicate pred=duplicate dup=Y
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0154 传输失败: 输出解析失败
+✓ gs-0158 #15173 gold=bug pred=bug dup=n
+✓ gs-0159 #15305 gold=bug pred=bug dup=n
+✓ gs-0161 #15726 gold=feature pred=feature dup=n
+✓ gs-0162 #13875 gold=bug pred=bug dup=n
+✗ gs-0163 #13887 gold=duplicate pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✗ gs-0165 #14058 gold=duplicate pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0170 #15175 gold=question pred=question dup=n
+✗ gs-0171 #15430 gold=bug pred=question dup=n
+✓ gs-0172 #15477 gold=bug pred=bug dup=n
+✓ gs-0179 #14478 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0180 #14673 gold=bug pred=bug dup=n
+✓ gs-0181 #14947 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0185 #15673 gold=invalid pred=invalid dup=n
+✓ gs-0186 #13845 gold=bug pred=bug dup=n
+✗ gs-0188 #13990 gold=invalid pred=feature dup=n
+✓ gs-0189 #14079 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0190 #14399 gold=invalid pred=invalid dup=n
+✓ gs-0191 #14466 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0192 #14692 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0193 #14992 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0194 #15172 gold=bug pred=bug dup=n
+✓ gs-0196 #15595 gold=invalid pred=invalid dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0197 #15695 gold=feature pred=feature dup=n
+✗ gs-0199 #13888 gold=question pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0203 #14446 gold=bug pred=bug dup=n
+✓ gs-0205 #14898 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+✓ gs-0206 #15180 gold=bug pred=bug dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+✓ gs-0207 #15374 gold=feature pred=feature dup=n
+    … undefined 失败，30s 后重试：输出解析失败
+    … undefined 失败，60s 后重试：输出解析失败
+    … undefined 失败，120s 后重试：输出解析失败
+✗ gs-0209 传输失败: 输出解析失败
