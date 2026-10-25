@@ -57,6 +57,8 @@ export function parseIssueEvent(eventName: string, payload: unknown): IssueEvent
   }
   if (eventName === "issue_comment" && action === "created") {
     const comment = p.comment as Record<string, unknown> | undefined;
+    // Bot（含本 Agent）自己的评论不触发处理：防自激循环（Bot 回答 → webhook → 再回答）
+    if ((comment?.user as Record<string, unknown> | undefined)?.type === "Bot") return null;
     const author = (comment?.user as Record<string, unknown> | undefined)?.login;
     return {
       repo,

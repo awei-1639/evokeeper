@@ -25,6 +25,8 @@ import {
   type GithubClient,
 } from "./github-client";
 import { githubAppAuthFromEnv } from "./github-app-auth";
+import { createQaAwareHandle } from "./qa-hook";
+import { createLlm, liveModelConfigFromEnv } from "@evokeeper/llm";
 import { JsonlAuditStore, type AuditStore } from "@evokeeper/gateway";
 
 /** gateway 审计落盘位置（相对进程 cwd；生产可换 PG 实现） */
@@ -188,11 +190,26 @@ export function createWebhookServer(options: WebhookServerOptions = {}): Server 
 const isMain = process.argv[1] && import.meta.url.endsWith(process.argv[1].split(/[\\/]/).pop() ?? "?");
 if (isMain) {
   const port = Number(process.env.PORT ?? 8787);
+  const log = (msg: string) => console.log(msg);
   // R3：真实流量轨迹与 744 条历史轨迹同库（datasets/traces/traces.jsonl），scan:daily 统一消费
+  const traceStore = new JsonlTraceStore("datasets/traces/traces.jsonl");
+
+  // 模型路由按环境可用性降级（§9.1；answer/judge 档无对应 Key 时换 deepseek-v4-pro 并如实 log）
+  const llm = createLlm({ config: liveModelConfigFromEnv(log) });
+
+  // 问答钩子：BM25 语料（nacos 300 条）+ 引用护栏；初始化失败不阻断分诊主链路
+  let handle: NonNullable<Parameters<typeof createWebhookServer>[0]>["handle"];
+  try {
+    handle = createQaAwareHandle({ llm, log });
+  } catch (err) {
+    log(`[qa] 语料加载失败，问答钩子停用（分诊不受影响）：${String(err).slice(0, 120)}`);
+  }
+
   createWebhookServer({
     port,
-    traceStore: new JsonlTraceStore("datasets/traces/traces.jsonl"),
-    log: (msg) => console.log(msg),
+    traceStore,
+    log,
+    ...(handle ? { handle } : {}),
   }).listen(port, () => {
     console.log(`EvoKeeper webhook 接入已启动: http://localhost:${port}/webhook (healthz: /healthz)`);
     console.log(`[trace] 轨迹落库 -> datasets/traces/traces.jsonl`);

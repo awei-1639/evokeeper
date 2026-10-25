@@ -181,6 +181,33 @@ export function resolveModel(
   return config.routing[purpose];
 }
 
+/** 各档的降级备选（§9.1：无 Key 时按序降级，替换必须如实记录在轨迹/报告里） */
+export const PURPOSE_FALLBACK: Partial<Record<LlmPurpose, string>> = {
+  answer: "deepseek-v4-pro",
+  judge: "deepseek-v4-pro",
+};
+
+/**
+ * 线上运行时的模型配置：按环境可用性降级（§9.1"备选如实记录"）。
+ * 某档模型所属 provider 无 Key 时切换到备选并 log。
+ * - 轨迹 TraceStep 记录的是真实模型（R3），降级不会"冒充"原模型；
+ * - 评测不受影响：评测 runner 自带 config，不走本函数；
+ * - config.version 不变：这是环境适配不是行为变更（换模型重评的纪律针对评测基线）。
+ */
+export function liveModelConfigFromEnv(log: (msg: string) => void = () => {}): ModelConfig {
+  const routing = { ...DEFAULT_MODEL_CONFIG.routing };
+  for (const [purpose, model] of Object.entries(routing) as Array<[LlmPurpose, string]>) {
+    const fallback = PURPOSE_FALLBACK[purpose];
+    if (!fallback || model === fallback) continue;
+    const provider = MODEL_SPECS[model]?.provider;
+    if (provider && !process.env[PROVIDER_ENV_KEY[provider]]) {
+      routing[purpose] = fallback;
+      log(`[llm] ${purpose} 档 ${model} 无 ${PROVIDER_ENV_KEY[provider]}，按 §9.1 降级为 ${fallback}`);
+    }
+  }
+  return { ...DEFAULT_MODEL_CONFIG, routing };
+}
+
 export function getSpec(model: string): ModelSpec {
   const spec = MODEL_SPECS[model];
   if (!spec) {
