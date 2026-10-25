@@ -41,8 +41,10 @@ function readBody(req: IncomingMessage): Promise<string> {
     req.on("data", (c: Buffer) => {
       size += c.length;
       if (size > MAX_BODY_BYTES) {
+        // 不 destroy：杀连接会让 413 响应发不出去（客户端只见 ECONNRESET）。
+        // resume() 继续排水（data 事件继续触发但不再积存），响应正常写回后由 res.end 收尾。
         reject(new Error("payload too large"));
-        req.destroy();
+        req.resume();
         return;
       }
       chunks.push(c);

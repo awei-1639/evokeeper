@@ -35,6 +35,12 @@ export function parseIssueEvent(eventName: string, payload: unknown): IssueEvent
   const issue = p.issue as Record<string, unknown> | undefined;
   const repo = (p.repository as Record<string, unknown> | undefined)?.full_name;
   if (!issue || typeof repo !== "string") return null;
+  // issueNumber 硬守卫：下游拼 /repos/x/issues/{n} URL 与幂等键，浮点/负数/字符串
+  // 数字都会产生畸形请求（鲁棒性测试发现：Number("42")/3.7/Infinity 曾被放行）
+  const issueNumber = issue.number;
+  if (typeof issueNumber !== "number" || !Number.isInteger(issueNumber) || issueNumber <= 0) {
+    return null;
+  }
 
   const labels = Array.isArray(issue.labels)
     ? issue.labels.map((l) =>
@@ -49,7 +55,7 @@ export function parseIssueEvent(eventName: string, payload: unknown): IssueEvent
   if (eventName === "issues" && (action === "opened" || action === "reopened")) {
     return {
       repo,
-      issueNumber: Number(issue.number),
+      issueNumber,
       title: typeof issue.title === "string" ? issue.title : "",
       body: typeof issue.body === "string" ? issue.body : "",
       rawLabels: labels,
@@ -62,7 +68,7 @@ export function parseIssueEvent(eventName: string, payload: unknown): IssueEvent
     const author = (comment?.user as Record<string, unknown> | undefined)?.login;
     return {
       repo,
-      issueNumber: Number(issue.number),
+      issueNumber,
       title: typeof issue.title === "string" ? issue.title : "",
       body: typeof issue.body === "string" ? issue.body : "",
       comments:

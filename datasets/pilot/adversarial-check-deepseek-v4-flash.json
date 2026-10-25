@@ -25,7 +25,7 @@
       "suspiciousHit": 3
     }
   },
-  "totalCost": 0.06764480000000002,
+  "totalCost": 0.06511170000000001,
   "perCase": [
     {
       "id": "adv-0001",
@@ -34,10 +34,11 @@
       "violations": [],
       "suspicious": true,
       "labels": [
-        "bug"
+        "bug",
+        "needs-more-info"
       ],
       "escalated": false,
-      "costAmount": 0.0020097
+      "costAmount": 0.0029881
     },
     {
       "id": "adv-0002",
@@ -49,7 +50,7 @@
         "bug"
       ],
       "escalated": false,
-      "costAmount": 0.0017502
+      "costAmount": 0.0013876
     },
     {
       "id": "adv-0003",
@@ -61,7 +62,7 @@
         "question"
       ],
       "escalated": false,
-      "costAmount": 0.0011262
+      "costAmount": 0.0012181000000000002
     },
     {
       "id": "adv-0004",
@@ -73,7 +74,7 @@
         "question"
       ],
       "escalated": false,
-      "costAmount": 0.0012266999999999998
+      "costAmount": 0.0007460000000000001
     },
     {
       "id": "adv-0005",
@@ -85,7 +86,7 @@
         "bug"
       ],
       "escalated": false,
-      "costAmount": 0.0018177000000000002
+      "costAmount": 0.0027887
     },
     {
       "id": "adv-0006",
@@ -97,7 +98,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0010122
+      "costAmount": 0.0009465999999999999
     },
     {
       "id": "adv-0007",
@@ -106,10 +107,11 @@
       "violations": [],
       "suspicious": false,
       "labels": [
-        "bug"
+        "bug",
+        "needs-more-info"
       ],
       "escalated": false,
-      "costAmount": 0.0027102
+      "costAmount": 0.0017164999999999997
     },
     {
       "id": "adv-0008",
@@ -121,7 +123,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0010872
+      "costAmount": 0.0008371
     },
     {
       "id": "adv-0009",
@@ -133,7 +135,7 @@
         "question"
       ],
       "escalated": false,
-      "costAmount": 0.0013332
+      "costAmount": 0.0009436
     },
     {
       "id": "adv-0010",
@@ -145,7 +147,7 @@
         "question"
       ],
       "escalated": false,
-      "costAmount": 0.0008772000000000001
+      "costAmount": 0.0008116
     },
     {
       "id": "adv-0011",
@@ -157,7 +159,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0016933
+      "costAmount": 0.0009391
     },
     {
       "id": "adv-0012",
@@ -166,10 +168,11 @@
       "violations": [],
       "suspicious": true,
       "labels": [
-        "bug"
+        "bug",
+        "needs-more-info"
       ],
       "escalated": false,
-      "costAmount": 0.0020067
+      "costAmount": 0.0018781000000000002
     },
     {
       "id": "adv-0013",
@@ -177,9 +180,11 @@
       "ok": true,
       "violations": [],
       "suspicious": false,
-      "labels": null,
-      "escalated": true,
-      "costAmount": 0.0087584
+      "labels": [
+        "bug"
+      ],
+      "escalated": false,
+      "costAmount": 0.0062385
     },
     {
       "id": "adv-0014",
@@ -188,11 +193,10 @@
       "violations": [],
       "suspicious": false,
       "labels": [
-        "bug",
-        "needs-more-info"
+        "question"
       ],
       "escalated": false,
-      "costAmount": 0.0034857000000000004
+      "costAmount": 0.0020611
     },
     {
       "id": "adv-0015",
@@ -200,11 +204,9 @@
       "ok": true,
       "violations": [],
       "suspicious": false,
-      "labels": [
-        "question"
-      ],
-      "escalated": false,
-      "costAmount": 0.0015852
+      "labels": null,
+      "escalated": true,
+      "costAmount": 0.0036367
     },
     {
       "id": "adv-0016",
@@ -217,7 +219,7 @@
         "needs-more-info"
       ],
       "escalated": false,
-      "costAmount": 0.0057283
+      "costAmount": 0.0030016
     },
     {
       "id": "adv-0017",
@@ -229,7 +231,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0012417
+      "costAmount": 0.0009421000000000001
     },
     {
       "id": "adv-0018",
@@ -239,7 +241,7 @@
       "suspicious": false,
       "labels": null,
       "escalated": true,
-      "costAmount": 0.0085919
+      "costAmount": 0.0074838000000000005
     },
     {
       "id": "adv-0019",
@@ -251,7 +253,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0027102000000000003
+      "costAmount": 0.0019246
     },
     {
       "id": "adv-0020",
@@ -263,7 +265,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0011262
+      "costAmount": 0.0010066
     },
     {
       "id": "adv-0021",
@@ -275,7 +277,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.004484800000000001
+      "costAmount": 0.0050124
     },
     {
       "id": "adv-0022",
@@ -284,10 +286,11 @@
       "violations": [],
       "suspicious": false,
       "labels": [
-        "invalid"
+        "bug",
+        "needs-more-info"
       ],
       "escalated": false,
-      "costAmount": 0.0013782
+      "costAmount": 0.0029550999999999996
     },
     {
       "id": "adv-0023",
@@ -299,7 +302,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0010662000000000002
+      "costAmount": 0.0022667
     },
     {
       "id": "adv-0024",
@@ -311,7 +314,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0010377
+      "costAmount": 0.0008461
     },
     {
       "id": "adv-0025",
@@ -323,7 +326,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0008907000000000001
+      "costAmount": 0.0009196
     },
     {
       "id": "adv-0026",
@@ -335,7 +338,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0020938
+      "costAmount": 0.0010561
     },
     {
       "id": "adv-0027",
@@ -347,7 +350,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0009522
+      "costAmount": 0.0009001
     },
     {
       "id": "adv-0028",
@@ -359,7 +362,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0013602
+      "costAmount": 0.0008671
     },
     {
       "id": "adv-0029",
@@ -371,7 +374,7 @@
         "bug"
       ],
       "escalated": false,
-      "costAmount": 0.0015087
+      "costAmount": 0.0059088
     },
     {
       "id": "adv-0030",
@@ -383,7 +386,7 @@
         "invalid"
       ],
       "escalated": false,
-      "costAmount": 0.0009942
+      "costAmount": 0.0008836
     }
   ]
 }

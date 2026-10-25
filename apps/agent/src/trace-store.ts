@@ -97,15 +97,28 @@ export class InMemoryTraceStore implements TraceStore {
 /** 本地 JSONL 落盘：一行一条 Trace，启动时加载，append 同步刷盘 */
 export class JsonlTraceStore implements TraceStore {
   private readonly traces = new Map<string, Trace>();
+  /** 启动时被跳过的损坏行数（进程被杀时的半行截断是真实场景，不允许让整个库无法启动） */
+  readonly corruptLinesSkipped: number;
 
   constructor(private readonly filePath: string) {
+    let corrupt = 0;
     if (existsSync(filePath)) {
       for (const line of readFileSync(filePath, "utf8").trim().split("\n")) {
         if (!line) continue;
-        const t = JSON.parse(line) as Trace;
-        this.traces.set(t.id, t);
+        try {
+          const t = JSON.parse(line) as Trace;
+          if (typeof t?.id !== "string" || t.id.length === 0) {
+            corrupt += 1;
+            continue;
+          }
+          this.traces.set(t.id, t);
+        } catch {
+          // 崩溃/断电留下的半行：跳过并计数，绝不让整个轨迹库无法启动
+          corrupt += 1;
+        }
       }
     }
+    this.corruptLinesSkipped = corrupt;
   }
 
   async append(trace: Trace): Promise<void> {
