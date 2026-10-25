@@ -48,7 +48,8 @@ describe("GithubAppAuth", () => {
       installationId: "777",
       fetchInstallationToken: async (jwt, installationId) => {
         calls.push(`${installationId}:${jwt.slice(0, 10)}`);
-        return { token: `inst_tok_${calls.length}`, expiresAt: "2026-10-25T11:00:00Z" };
+        // 动态过期时间：写死固定时刻会在真实时钟越过后让缓存测试永久失效（实测踩坑）
+        return { token: `inst_tok_${calls.length}`, expiresAt: new Date(Date.now() + 3600_000).toISOString() };
       },
     });
     return { auth, calls };
