@@ -27,3 +27,4 @@ _tmp_*
 datasets/eval/.*-run.log
 cloudflared.exe
 cloudflared.exe
+logs/
