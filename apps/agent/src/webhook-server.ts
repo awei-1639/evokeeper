@@ -15,7 +15,7 @@ import {
   type InboxDeps,
   type InboxProcessor,
 } from "./inbox";
-import { buildTrace, type TraceStore } from "./trace-store";
+import { buildTrace, JsonlTraceStore, type TraceStore } from "./trace-store";
 import type { TraceExporter } from "./observe/langfuse";
 import {
   DryRunGithubClient,
@@ -126,7 +126,10 @@ export function createWebhookServer(options: WebhookServerOptions = {}): Server 
           const skipped = exec.executed.filter((e) => !e.ok).length;
           if (skipped > 0) log(`[gateway] ${delivery.eventId} 拦截 ${skipped} 个动作`);
         })
-        .catch((err) => log(`[gateway] 动作执行失败：${String(err)}`));
+        .catch((err) => {
+          const cause = err instanceof Error && err.cause instanceof Error ? `（cause: ${err.cause.message}）` : "";
+          log(`[gateway] 动作执行失败：${String(err)}${cause}`);
+        });
     },
   });
   const secret = options.secret ?? process.env.GITHUB_WEBHOOK_SECRET ?? "";
@@ -185,7 +188,13 @@ export function createWebhookServer(options: WebhookServerOptions = {}): Server 
 const isMain = process.argv[1] && import.meta.url.endsWith(process.argv[1].split(/[\\/]/).pop() ?? "?");
 if (isMain) {
   const port = Number(process.env.PORT ?? 8787);
-  createWebhookServer({ port }).listen(port, () => {
+  // R3：真实流量轨迹与 744 条历史轨迹同库（datasets/traces/traces.jsonl），scan:daily 统一消费
+  createWebhookServer({
+    port,
+    traceStore: new JsonlTraceStore("datasets/traces/traces.jsonl"),
+    log: (msg) => console.log(msg),
+  }).listen(port, () => {
     console.log(`EvoKeeper webhook 接入已启动: http://localhost:${port}/webhook (healthz: /healthz)`);
+    console.log(`[trace] 轨迹落库 -> datasets/traces/traces.jsonl`);
   });
 }

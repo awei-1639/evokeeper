@@ -107,4 +107,33 @@ describe("githubAppAuthFromEnv", () => {
       Object.assign(process.env, saved);
     }
   });
+
+  it("PEM 含字面 \\n（.env 单行约定）时还原为真实换行，签名可用", async () => {
+    const { privateKey } = onceKeyPair();
+    const pemReal = String(privateKey.export({ type: "pkcs1", format: "pem" }));
+    const pemSingleLine = pemReal.replace(/\n/g, "\\n");
+    const saved = { ...process.env };
+    try {
+      process.env.GITHUB_APP_ID = "42";
+      process.env.GITHUB_APP_PRIVATE_KEY = pemSingleLine;
+      process.env.GITHUB_INSTALLATION_ID = "7";
+      const auth = githubAppAuthFromEnv();
+      expect(auth).not.toBeNull();
+      // getToken 内部走 createPrivateKey → signAppJwt：
+      // 字面 \n 未还原会抛 OpenSSL DECODER unsupported（W4 实测踩坑）
+      const realFetch = globalThis.fetch;
+      globalThis.fetch = (async () =>
+        new Response(JSON.stringify({ token: "tok_ok", expires_at: "2099-01-01T00:00:00Z" }), {
+          status: 200,
+        })) as typeof fetch;
+      try {
+        const tok = await auth!.getToken();
+        expect(tok).toBe("tok_ok");
+      } finally {
+        globalThis.fetch = realFetch;
+      }
+    } finally {
+      Object.assign(process.env, saved);
+    }
+  });
 });

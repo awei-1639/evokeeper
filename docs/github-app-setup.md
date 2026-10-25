@@ -19,56 +19,53 @@
 | Where can this app be installed | Only on this account（沙盒阶段） |
 
 创建后：
-- 记下 **App ID**（设置页顶部）
-- 页面底部 **Private keys** → Generate a private key → 下载 `.pem` 文件
+- 记下 **App ID**（General 页 About 区的数字；`GET /apps/{slug}` 对未公开 App 会 404，只能手抄）
+- 新版 UI：左侧栏 **Credentials → Key pairs 标签 → Generate**（不是 Client secrets！）→ 下载 `.pem`
+- 事件订阅：**Permissions & events 页 → Subscribe to events**，勾 **Issues** 和 **Issue comment**
+  （不勾则 GitHub 一条 webhook 都不会发——投递记录为空时先查这里）
 
-## 2. 安装到沙盒仓库（2 分钟）
+## 2. 安装到仓库（2 分钟）
 
-- 新建一个测试仓库（比如 `yourname/evokeeper-sandbox`），放个 README 即可
-- GitHub App 设置页 → Install App → Install to your account → **Only select repositories** → 选沙盒仓库
-- 安装完成后，从安装页 URL 末段拿到 **Installation ID**（`/installations/<这串数字>`）
+- App 设置页 → Install App → **Only select repositories** → 选目标仓库（本项目直接用 `awei-1639/evokeeper` 自举）
+- Installation ID 不用手抄：`node scripts/setup-app-env.mjs <pem路径> --app-id <AppID>`
+  自动完成 反查 App → JWT 验签 → 抓 installation → 验证可见仓库 → 写 .env.local 三行
 
 ## 3. 内网穿透（webhook 公网可达，5 分钟）
 
-GitHub 必须能从公网 POST 到你的 webhook。任选其一：
-
 ```bash
-# 方案 A：cloudflared（免注册，推荐）
-cloudflared tunnel --url http://localhost:8787
-# 输出的 https://xxx.trycloudflare.com 填到 App 的 Webhook URL
-
-# 方案 B：ngrok（需注册）
-ngrok http 8787
+./cloudflared.exe tunnel --url http://localhost:8787 --no-autoupdate
+# 输出的 https://xxx.trycloudflare.com 即隧道地址
 ```
 
-注意：免费隧道地址每次重启会变——变了就去 App 设置页更新 Webhook URL。
+注意：免费隧道地址每次重启会变——变了就重跑第 5 步脚本（它会自动 PATCH 新地址）。
 
 ## 4. 配置并启动（3 分钟）
 
-`.env.local` 追加四行（PEM 私钥是**多行**的，用 `\n` 连接成一行）：
+`scripts/setup-app-env.mjs` 已把三元组写进 `.env.local`（PEM 自动压成单行 `\n` 转义；
+`githubAppAuthFromEnv` 会把字面 `\n` 还原成真实换行——W4 实测不还原会报
+OpenSSL `DECODER routines::unsupported`）。
+
+启动（自动注入 .env.local，服务 cwd=仓库根，轨迹/审计落在 datasets/ 下）：
 
 ```bash
-GITHUB_APP_ID=你的AppID
-GITHUB_APP_PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----
-GITHUB_INSTALLATION_ID=安装ID
-GITHUB_WEBHOOK_SECRET=第1步的webhook secret
-```
-
-启动：
-
-```bash
-pnpm --filter @evokeeper/agent dev
+node scripts/dev-webhook.mjs
 # 横幅会打印 [github] GitHub App 认证（installation token，1h 缓存）
 ```
 
 （没配 App 凭据时自动降级：有 GITHUB_TOKEN → PAT；都没有 → DryRun，动作只记录不外发——本地调试安全。）
 
-## 5. 验证（5 分钟）
+## 5. 验证（5 分钟，全自动）
 
-1. 沙盒仓库提一个测试 issue（比如标题 `[Bug] 部署后启动失败`）
-2. 看服务日志：应出现 `[inbox] issues delivery=... -> accepted` → `[gateway] ...`
-3. 几秒内 issue 上出现 Bot 的标签（如 `kind/bug`）与评论 → **链路通了**
-4. 管理台 `pnpm --filter @evokeeper/web dev` → 轨迹页应能看到这次处理的完整 TraceStep（含成本）
+```bash
+node scripts/e2e-verify.mjs <隧道域名>   # 例：node scripts/e2e-verify.mjs abc-xyz.trycloudflare.com
+```
+
+脚本会：探活隧道 → `PATCH /app/hook/config` 回填 webhook URL（比手填页面可靠）→
+用 App 身份建测试 issue → 轮询 `/app/hook/deliveries` 确认投递 202 → 轮询 issue 等 Bot 打标。
+
+判定通了的标准：issue 上出现 Bot 打的标签（如 `bug`），
+`datasets/gateway/audit.jsonl` 出现 allowed=true 的 addLabels 审计记录，
+`datasets/traces/traces.jsonl` 新增 `trace-<delivery-id>` 轨迹（含 LLM 成本）。
 
 ## 6. 跑一周后（W4 验收）
 

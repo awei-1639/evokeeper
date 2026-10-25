@@ -121,5 +121,8 @@ export function githubAppAuthFromEnv(): GithubAppAuth | null {
   const privateKey = process.env.GITHUB_APP_PRIVATE_KEY;
   const installationId = process.env.GITHUB_INSTALLATION_ID;
   if (!appId || !privateKey || !installationId) return null;
-  return new GithubAppAuth({ appId, privateKeyPem: privateKey, installationId });
+  // PEM 在 .env / CI secret / Docker env 里通常压成单行（字面 \n），统一还原为真实换行；
+  // 不还原的话 createPrivateKey 报 OpenSSL DECODER unsupported（W4 实测踩坑）。
+  const pem = privateKey.includes("\\n") ? privateKey.replace(/\\n/g, "\n") : privateKey;
+  return new GithubAppAuth({ appId, privateKeyPem: pem, installationId });
 }
