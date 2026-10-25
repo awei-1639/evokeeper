@@ -100,6 +100,12 @@ export interface HandleIssueEventDeps {
    */
   skills?: string[];
   /**
+   * 候选提示词评测通道：覆盖默认系统提示词（tp-x.draft），配套 promptVersionLabel
+   * 如实记录进 TraceStep（P1 可回放）。过门禁前不进代码默认值。
+   */
+  systemPrompt?: string;
+  promptVersionLabel?: string;
+  /**
    * 相似 issue 检索器（W4）。传入后先检索再分诊，命中项注入 <similar_issues>。
    * 检索失败降级为空证据（留痕一条零成本 llm 步），不阻断分诊主链路。
    */
@@ -147,11 +153,14 @@ export async function handleIssueEvent(
     });
   }
 
-  const { system, user } = buildTriageMessages({ ...event, similarIssues, skills: deps.skills });
+  const { system, user } = buildTriageMessages(
+    { ...event, similarIssues, skills: deps.skills },
+    deps.systemPrompt ? { systemOverride: deps.systemPrompt } : {}
+  );
 
   const completion = await llm.json({
     purpose: "triage",
-    promptVersion: TRIAGE_PROMPT_VERSION,
+    promptVersion: deps.promptVersionLabel ?? TRIAGE_PROMPT_VERSION,
     system,
     user,
     validate: parseTriage,

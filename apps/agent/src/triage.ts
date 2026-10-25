@@ -97,8 +97,15 @@ function truncate(text: string, maxChars: number): string {
 /**
  * 上下文装配顺序 = 信任等级（design.md §3.1）：
  * system（代码） → skills（版本化） → memory（带证据） → issue 数据（不可信）→ 输出格式
+ *
+ * opts.systemOverride：候选提示词评测通道（tp-x.draft 过门禁前不进代码默认值），
+ * 覆盖时调用方必须自带版本标签并如实记录（run-eval --system-prompt-file）。
  */
-export function buildTriageMessages(input: TriageInput): { system: string; user: string } {
+export function buildTriageMessages(
+  input: TriageInput,
+  opts: { systemOverride?: string } = {}
+): { system: string; user: string } {
+  const system = opts.systemOverride ?? TRIAGE_SYSTEM_PROMPT;
   const blocks: string[] = [];
 
   if (input.skills && input.skills.length > 0) {
@@ -146,7 +153,7 @@ export function buildTriageMessages(input: TriageInput): { system: string; user:
 
   blocks.push(`请按系统提示中的 JSON 格式输出对该 issue 的分诊结果。`);
 
-  return { system: TRIAGE_SYSTEM_PROMPT, user: blocks.join("\n\n") };
+  return { system, user: blocks.join("\n\n") };
 }
 
 /** LLM 输出校验：不合法一律拒绝，绝不静默降级（design.md §3.2） */

@@ -73,6 +73,9 @@ const RETRIEVE_BM25 = argv.includes("--retrieve-bm25");
 // 从 candidates.jsonl 按 id 取候选；tag 会决定报告文件名，注入内容摘要打印留痕。
 const SKILLS_FILE = arg("skills-file");
 const SKILLS_ID = arg("skills-id");
+// --system-prompt-file + --prompt-label：候选提示词评测（tp-x.draft 过门禁前进不了代码默认值）
+const SYSTEM_PROMPT_FILE = arg("system-prompt-file");
+const PROMPT_LABEL = arg("prompt-label") ?? "tp-draft";
 
 /** 全步成本合计（retrieve 开启后 steps 含检索 tool 步，不能只看 steps[0]） */
 function totalCostOf(steps: Array<{ costAmount: number }>): number {
@@ -139,6 +142,11 @@ if (SKILLS_FILE) {
   evalDeps = { ...evalDeps, skills: [`[${cand.type}] ${cand.pattern}\n${cand.content}`] };
   console.log(`技能注入: ${cand.id}（${cand.type}，${cand.content.length} 字，status=${cand.status}）`);
   console.log(`  pattern: ${cand.pattern}`);
+}
+if (SYSTEM_PROMPT_FILE) {
+  const text = readFileSync(resolve(ROOT, SYSTEM_PROMPT_FILE), "utf8");
+  evalDeps = { ...evalDeps, systemPrompt: text, promptVersionLabel: PROMPT_LABEL };
+  console.log(`系统提示词覆盖: ${SYSTEM_PROMPT_FILE}（${text.length} 字，label=${PROMPT_LABEL}；默认 tp-1.3 为 ${TRIAGE_PROMPT_VERSION === "tp-1.3" ? "同版" : TRIAGE_PROMPT_VERSION}）`);
 }
 if (RETRIEVE) {
   const connectionString = process.env.DATABASE_URL;
