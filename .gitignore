@@ -25,3 +25,5 @@ _tmp_*
 
 # 评测运行瞬态日志
 datasets/eval/.*-run.log
+cloudflared.exe
+cloudflared.exe
