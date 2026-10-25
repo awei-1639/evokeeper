@@ -17,6 +17,18 @@ import {
 } from "./inbox";
 import { buildTrace, type TraceStore } from "./trace-store";
 import type { TraceExporter } from "./observe/langfuse";
+import {
+  DryRunGithubClient,
+  executeActions,
+  RestGithubClient,
+  StaticToken,
+  type GithubClient,
+} from "./github-client";
+import { githubAppAuthFromEnv } from "./github-app-auth";
+import { JsonlAuditStore, type AuditStore } from "@evokeeper/gateway";
+
+/** gateway 审计落盘位置（相对进程 cwd；生产可换 PG 实现） */
+const GITHUB_AUDIT_PATH = "datasets/gateway/audit.jsonl";
 
 const MAX_BODY_BYTES = 1024 * 1024;
 
@@ -51,12 +63,38 @@ export interface WebhookServerOptions extends InboxDeps {
   traceStore?: TraceStore;
   /** 观测导出（W4）：传入后 Trace 落库同时上报（Langfuse 等；失败只打日志不影响主链路） */
   traceExporter?: TraceExporter;
+  /**
+   * GitHub 执行通道（W4 真实流量）：传入后处理完成的动作经 gateway 治理真实执行。
+   * 缺省时自动装配——GITHUB_APP_ID/PRIVATE_KEY/INSTALLATION_ID 三元组齐 → App 认证；
+   * 否则有 GITHUB_TOKEN → PAT；都没有 → dry-run（评测/本地调试）。
+   */
+  github?: GithubClient;
+  /** 动作执行器使用的审计存储（R3：允许与否都留痕 + 冷却判定历史） */
+  auditStore?: AuditStore;
   log?: (msg: string) => void;
+}
+
+/** 按环境自动选择 GitHub 执行通道：App installation > PAT > DryRun */
+export function resolveGithubClient(log: (msg: string) => void = () => {}): GithubClient {
+  const appAuth = githubAppAuthFromEnv();
+  if (appAuth) {
+    log("[github] GitHub App 认证（installation token，1h 缓存）");
+    return new RestGithubClient(appAuth);
+  }
+  if (process.env.GITHUB_TOKEN) {
+    log("[github] PAT 认证（GITHUB_TOKEN）");
+    return new RestGithubClient(new StaticToken(process.env.GITHUB_TOKEN));
+  }
+  log("[github] 未配置凭据 → DryRun（动作只记录不外发）");
+  return new DryRunGithubClient();
 }
 
 export function createWebhookServer(options: WebhookServerOptions = {}): Server {
   const log = options.log ?? (() => {});
-  const { traceStore, traceExporter, ...inboxDeps } = options;
+  const { traceStore, traceExporter, github, auditStore, ...inboxDeps } = options;
+  // GitHub 执行通道：显式传入 > 环境自动装配（App > PAT > DryRun）
+  const githubClient = github ?? resolveGithubClient(log);
+  const gatewayAudit = auditStore ?? new JsonlAuditStore(GITHUB_AUDIT_PATH);
   const processor: InboxProcessor = createInboxProcessor({
     ...inboxDeps,
     onProcessed: (delivery, event, result) => {
@@ -74,6 +112,21 @@ export function createWebhookServer(options: WebhookServerOptions = {}): Server 
             .catch((err) => log(`[observe] Langfuse 上报失败：${String(err)}`));
         }
       }
+      // W4 真实执行：动作经 gateway 治理（幂等/冷却/配额）后触达 GitHub（DryRun 模式只记录）
+      void executeActions({
+        repo: event.repo,
+        issueNumber: event.issueNumber,
+        traceId: `trace-${delivery.eventId}`,
+        actions: result.actions,
+        history: [],
+        github: githubClient,
+        auditStore: gatewayAudit,
+      })
+        .then((exec) => {
+          const skipped = exec.executed.filter((e) => !e.ok).length;
+          if (skipped > 0) log(`[gateway] ${delivery.eventId} 拦截 ${skipped} 个动作`);
+        })
+        .catch((err) => log(`[gateway] 动作执行失败：${String(err)}`));
     },
   });
   const secret = options.secret ?? process.env.GITHUB_WEBHOOK_SECRET ?? "";

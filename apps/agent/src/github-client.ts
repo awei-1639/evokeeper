@@ -44,18 +44,32 @@ export interface GithubEvent {
   createdAt: string;
 }
 
+/** 令牌提供者：静态 PAT（读公开数据）或 GitHub App 动态令牌（写动作，installation 权限） */
+export interface TokenProvider {
+  getToken(): Promise<string>;
+}
+
+/** 静态令牌（PAT / 固定 installation token） */
+export class StaticToken implements TokenProvider {
+  constructor(private readonly token: string) {}
+  async getToken(): Promise<string> {
+    return this.token;
+  }
+}
+
 export class RestGithubClient implements GithubClient {
   constructor(
-    private readonly token: string,
+    private readonly tokenProvider: TokenProvider,
     private readonly apiBase = GITHUB_API
   ) {}
 
   private async request(method: string, path: string, body?: unknown): Promise<{ ok: boolean; status: number; json: unknown }> {
+    const token = await this.tokenProvider.getToken();
     const res = await fetch(`${this.apiBase}${path}`, {
       method,
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${token}`,
         "User-Agent": "evokeeper-agent",
         "Content-Type": "application/json",
       },

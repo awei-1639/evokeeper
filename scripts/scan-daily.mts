@@ -14,7 +14,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { RestGithubClient } from "../apps/agent/src/github-client";
+import { RestGithubClient, StaticToken } from "../apps/agent/src/github-client";
 import { JsonlTraceStore } from "../apps/agent/src/trace-store";
 import { judgeTrace } from "../apps/worker/src/judge";
 import { scanReactions, type ProcessedIssue } from "../apps/worker/src/reaction-collector";
@@ -46,7 +46,7 @@ if (!existsSync(TRACE_FILE)) {
 }
 
 const store = new JsonlTraceStore(TRACE_FILE);
-const client = new RestGithubClient(process.env.GITHUB_TOKEN as string);
+const client = new RestGithubClient(new StaticToken(process.env.GITHUB_TOKEN as string));
 
 async function allTraces() {
   return store.all();
