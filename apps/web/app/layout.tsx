@@ -11,6 +11,7 @@ const NAV: Array<[string, string]> = [
   ["/", "概览"],
   ["/evals", "评测报告"],
   ["/traces", "轨迹"],
+  ["/candidates", "候选经验"],
   ["/golden", "Golden Set"],
   ["/review", "仲裁清单"],
   ["/memory", "记忆"],
