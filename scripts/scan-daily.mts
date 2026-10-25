@@ -21,7 +21,7 @@ import { scanReactions, type ProcessedIssue } from "../apps/worker/src/reaction-
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "..");
-const TRACE_FILE = resolve(ROOT, "datasets/traces/traces.jsonl");
+const DEFAULT_TRACE_FILE = "datasets/traces/traces.jsonl";
 const OUT_FILE = resolve(ROOT, "datasets/judged/judged.jsonl");
 
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
@@ -39,6 +39,10 @@ const arg = (name: string): string | undefined =>
   argv.find((a) => a.startsWith(`--${name}=`))?.split("=").slice(1).join("=");
 const LIMIT = arg("limit") ? Number(arg("limit")) : Infinity;
 const BOT_LOGIN = arg("bot") ?? "evokeeper-bot";
+/** 只扫指定仓库的轨迹（线上流量与历史/重放轨迹的核心区别就是 repo） */
+const REPO_FILTER = arg("repo") ?? "";
+/** 轨迹文件（默认线上库；演练可用 --file=datasets/traces/replay-traces.jsonl） */
+const TRACE_FILE = resolve(ROOT, arg("file") ?? DEFAULT_TRACE_FILE);
 
 if (!existsSync(TRACE_FILE)) {
   console.error(`轨迹库不存在：${TRACE_FILE}（先跑 eval:run 或接真实流量）`);
@@ -52,7 +56,9 @@ async function allTraces() {
   return store.all();
 }
 
-const traces = (await allTraces()).slice(0, LIMIT);
+const traces = (await allTraces())
+  .filter((t) => REPO_FILTER === "" || t.repo === REPO_FILTER)
+  .slice(0, LIMIT);
 const processed: ProcessedIssue[] = traces.map((t) => ({
   repo: t.repo,
   issueNumber: t.issueNumber,
