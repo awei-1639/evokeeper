@@ -65,6 +65,10 @@ const DELAY_MS = arg("delay-ms") ? Number(arg("delay-ms")) : 0;
 // --retrieve：开启相似 issue 检索证据（<similar_issues> 注入，duplicate 缺口修复的对照实验）。
 // 需要 DATABASE_URL（pgvector 向量库已回填）；检索自动排除 case 自身，防 gold 泄漏。
 const RETRIEVE = argv.includes("--retrieve");
+// --skills-file + --skills-id：注入候选经验（<skills> 块，经验生效/对照实验同一通道）。
+// 从 candidates.jsonl 按 id 取候选；tag 会决定报告文件名，注入内容摘要打印留痕。
+const SKILLS_FILE = arg("skills-file");
+const SKILLS_ID = arg("skills-id");
 
 /** 全步成本合计（retrieve 开启后 steps 含检索 tool 步，不能只看 steps[0]） */
 function totalCostOf(steps: Array<{ costAmount: number }>): number {
@@ -118,6 +122,20 @@ const llm: Llm | undefined =
 // 检索证据（--retrieve）：pgvector 向量库 + embed 查询；评测检索排除 case 自身
 let pool: import("pg").Pool | null = null;
 let evalDeps: Parameters<typeof handleIssueEvent>[1] = {};
+if (SKILLS_FILE) {
+  const rows = readFileSync(resolve(ROOT, SKILLS_FILE), "utf8")
+    .trim()
+    .split("\n")
+    .map((l) => JSON.parse(l) as { id: string; type: string; pattern: string; content: string; status: string });
+  const cand = SKILLS_ID ? rows.find((r) => r.id === SKILLS_ID) : rows[0];
+  if (!cand) {
+    console.error(`skills-file 中找不到候选 ${SKILLS_ID ?? "(第一条)"}`);
+    process.exit(1);
+  }
+  evalDeps = { ...evalDeps, skills: [`[${cand.type}] ${cand.pattern}\n${cand.content}`] };
+  console.log(`技能注入: ${cand.id}（${cand.type}，${cand.content.length} 字，status=${cand.status}）`);
+  console.log(`  pattern: ${cand.pattern}`);
+}
 if (RETRIEVE) {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -136,7 +154,7 @@ if (RETRIEVE) {
     process.exit(1);
   }
   const similarSearch = createSimilarIssuesSearch({ llm: llm ?? createLlm(), store });
-  evalDeps = { similarSearch };
+  evalDeps = { ...evalDeps, similarSearch };
   console.log(`检索证据: 开启（向量库 ${docs} 条，top-5，排除自身）`);
 }
 process.on("exit", () => void pool?.end());

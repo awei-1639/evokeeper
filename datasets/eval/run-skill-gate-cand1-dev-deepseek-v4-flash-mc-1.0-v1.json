@@ -1,0 +1,2442 @@
+{
+  "run": {
+    "id": "run-skill-gate-cand1-dev-v1",
+    "candidateId": null,
+    "baselineRunId": null,
+    "datasetVersion": "v1",
+    "split": "dev",
+    "modelConfig": {
+      "version": "mc-1.0",
+      "routing": {
+        "triage": "deepseek-v4-flash",
+        "answer": "qwen3-max",
+        "judge": "glm-4.6",
+        "consolidate": "deepseek-v4-pro",
+        "embed": "BAAI/bge-m3"
+      }
+    },
+    "metrics": {
+      "triageAccuracy": 0.7125,
+      "triageMacroF1": 0.6074194212125248,
+      "answerQuality": 0,
+      "p50LatencyMs": 1749,
+      "p95LatencyMs": 9245,
+      "costPerIssue": 0.0018890231249999996,
+      "adversarialPassRate": null
+    },
+    "ci95": {
+      "lower": 0.64375,
+      "upper": 0.78125
+    },
+    "perCase": [
+      {
+        "caseId": "gs-0003",
+        "passed": false,
+        "triageCorrect": null,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0004",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0005",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0006",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0007",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0008",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0010",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0011",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0014",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0018",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0019",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0020",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0021",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0022",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0023",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0024",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0025",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0029",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0030",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0032",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0033",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0037",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0038",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0039",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0040",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0043",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0045",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0046",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0048",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0050",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0053",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0054",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0058",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0059",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0060",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0063",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0067",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0068",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0070",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0071",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0075",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0078",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0079",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0080",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0081",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0083",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0086",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0087",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0089",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0092",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0094",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0096",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0097",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0098",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0100",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0101",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0102",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0103",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0104",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0105",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0106",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0107",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0110",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0111",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0112",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0114",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0115",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0116",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0118",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0119",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0120",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0121",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0122",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0123",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0124",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0125",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0126",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0127",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0128",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0130",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0132",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0133",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0134",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0137",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0138",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0139",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0140",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0144",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0145",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0147",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0148",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0149",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0151",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0152",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0153",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0154",
+        "passed": false,
+        "triageCorrect": null,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0158",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0159",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0161",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0162",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0163",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0165",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0170",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0171",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0172",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0179",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0180",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0181",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0185",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0186",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0188",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0189",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0190",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0191",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0192",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0193",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0194",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0196",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0197",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0199",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0203",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0205",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0206",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0207",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0209",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0210",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0215",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0216",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0227",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0230",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0231",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0232",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0233",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0235",
+        "passed": false,
+        "triageCorrect": null,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0241",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0243",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0247",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0251",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0252",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0254",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0255",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0257",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0259",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0263",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0264",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0265",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0268",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0269",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0273",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0275",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0279",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0284",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0285",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0286",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0289",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0291",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0295",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0297",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0299",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0300",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      }
+    ],
+    "ranAt": "2026-10-25T13:46:19.960Z"
+  },
+  "nmi": {
+    "hit": 0,
+    "goldCount": 18,
+    "falsePositives": 1
+  },
+  "perCaseDetail": [
+    {
+      "caseId": "gs-0003",
+      "goldMain": "question",
+      "predMain": null,
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0074187,
+      "durationMs": 14959
+    },
+    {
+      "caseId": "gs-0004",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.000815,
+      "durationMs": 1171
+    },
+    {
+      "caseId": "gs-0005",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006493,
+      "durationMs": 902
+    },
+    {
+      "caseId": "gs-0006",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012459,
+      "durationMs": 1806
+    },
+    {
+      "caseId": "gs-0007",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010179,
+      "durationMs": 991
+    },
+    {
+      "caseId": "gs-0008",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007283999999999999,
+      "durationMs": 1242
+    },
+    {
+      "caseId": "gs-0010",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0036065,
+      "durationMs": 4803
+    },
+    {
+      "caseId": "gs-0011",
+      "goldMain": "bug",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0045233999999999995,
+      "durationMs": 6093
+    },
+    {
+      "caseId": "gs-0014",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007854,
+      "durationMs": 1089
+    },
+    {
+      "caseId": "gs-0018",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010325,
+      "durationMs": 1584
+    },
+    {
+      "caseId": "gs-0019",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007539,
+      "durationMs": 1122
+    },
+    {
+      "caseId": "gs-0020",
+      "goldMain": "feature",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010614,
+      "durationMs": 1510
+    },
+    {
+      "caseId": "gs-0021",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0025554,
+      "durationMs": 3394
+    },
+    {
+      "caseId": "gs-0022",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009534,
+      "durationMs": 1902
+    },
+    {
+      "caseId": "gs-0023",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009369000000000001,
+      "durationMs": 1345
+    },
+    {
+      "caseId": "gs-0024",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012204,
+      "durationMs": 1235
+    },
+    {
+      "caseId": "gs-0025",
+      "goldMain": "bug",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0044358,
+      "durationMs": 6771
+    },
+    {
+      "caseId": "gs-0029",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008754,
+      "durationMs": 1447
+    },
+    {
+      "caseId": "gs-0030",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0024038999999999996,
+      "durationMs": 3527
+    },
+    {
+      "caseId": "gs-0032",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0031623000000000003,
+      "durationMs": 5016
+    },
+    {
+      "caseId": "gs-0033",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0017829,
+      "durationMs": 2594
+    },
+    {
+      "caseId": "gs-0037",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010479,
+      "durationMs": 1599
+    },
+    {
+      "caseId": "gs-0038",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009354000000000001,
+      "durationMs": 1544
+    },
+    {
+      "caseId": "gs-0039",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010149,
+      "durationMs": 1500
+    },
+    {
+      "caseId": "gs-0040",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009804,
+      "durationMs": 2117
+    },
+    {
+      "caseId": "gs-0043",
+      "goldMain": "question",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0056457,
+      "durationMs": 8459
+    },
+    {
+      "caseId": "gs-0045",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008874,
+      "durationMs": 1021
+    },
+    {
+      "caseId": "gs-0046",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007779,
+      "durationMs": 1001
+    },
+    {
+      "caseId": "gs-0048",
+      "goldMain": "feature",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0022357,
+      "durationMs": 3045
+    },
+    {
+      "caseId": "gs-0050",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009954,
+      "durationMs": 1596
+    },
+    {
+      "caseId": "gs-0053",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0023829,
+      "durationMs": 4055
+    },
+    {
+      "caseId": "gs-0054",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010734,
+      "durationMs": 1907
+    },
+    {
+      "caseId": "gs-0058",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0031689,
+      "durationMs": 4894
+    },
+    {
+      "caseId": "gs-0059",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0020184,
+      "durationMs": 2911
+    },
+    {
+      "caseId": "gs-0060",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0021819,
+      "durationMs": 2952
+    },
+    {
+      "caseId": "gs-0063",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006954,
+      "durationMs": 1044
+    },
+    {
+      "caseId": "gs-0067",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009635000000000002,
+      "durationMs": 1394
+    },
+    {
+      "caseId": "gs-0068",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0059254500000000005,
+      "durationMs": 9245
+    },
+    {
+      "caseId": "gs-0070",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0019539,
+      "durationMs": 2692
+    },
+    {
+      "caseId": "gs-0071",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.008312,
+      "durationMs": 12848
+    },
+    {
+      "caseId": "gs-0075",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0022582,
+      "durationMs": 3153
+    },
+    {
+      "caseId": "gs-0078",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012249000000000001,
+      "durationMs": 2049
+    },
+    {
+      "caseId": "gs-0079",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009729,
+      "durationMs": 1350
+    },
+    {
+      "caseId": "gs-0080",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0017139,
+      "durationMs": 2338
+    },
+    {
+      "caseId": "gs-0081",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012609000000000001,
+      "durationMs": 1732
+    },
+    {
+      "caseId": "gs-0083",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0018099000000000001,
+      "durationMs": 2398
+    },
+    {
+      "caseId": "gs-0086",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012699,
+      "durationMs": 1589
+    },
+    {
+      "caseId": "gs-0087",
+      "goldMain": "feature",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0077337000000000005,
+      "durationMs": 11158
+    },
+    {
+      "caseId": "gs-0089",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0017619,
+      "durationMs": 2585
+    },
+    {
+      "caseId": "gs-0092",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0011183999999999999,
+      "durationMs": 1627
+    },
+    {
+      "caseId": "gs-0094",
+      "goldMain": "question",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009094999999999999,
+      "durationMs": 1082
+    },
+    {
+      "caseId": "gs-0096",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0011573999999999998,
+      "durationMs": 1745
+    },
+    {
+      "caseId": "gs-0097",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012714,
+      "durationMs": 2356
+    },
+    {
+      "caseId": "gs-0098",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012174,
+      "durationMs": 1749
+    },
+    {
+      "caseId": "gs-0100",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009279,
+      "durationMs": 1333
+    },
+    {
+      "caseId": "gs-0101",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0022239,
+      "durationMs": 2951
+    },
+    {
+      "caseId": "gs-0102",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0112032,
+      "durationMs": 16291
+    },
+    {
+      "caseId": "gs-0103",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009474,
+      "durationMs": 1498
+    },
+    {
+      "caseId": "gs-0104",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007929,
+      "durationMs": 1178
+    },
+    {
+      "caseId": "gs-0105",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006054,
+      "durationMs": 1338
+    },
+    {
+      "caseId": "gs-0106",
+      "goldMain": "feature",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009039,
+      "durationMs": 1596
+    },
+    {
+      "caseId": "gs-0107",
+      "goldMain": "invalid",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0058713,
+      "durationMs": 9156
+    },
+    {
+      "caseId": "gs-0110",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009729000000000001,
+      "durationMs": 1508
+    },
+    {
+      "caseId": "gs-0111",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.005034299999999999,
+      "durationMs": 6959
+    },
+    {
+      "caseId": "gs-0112",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0026917,
+      "durationMs": 3483
+    },
+    {
+      "caseId": "gs-0114",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0011319000000000001,
+      "durationMs": 1559
+    },
+    {
+      "caseId": "gs-0115",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0015264,
+      "durationMs": 2590
+    },
+    {
+      "caseId": "gs-0116",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0022239,
+      "durationMs": 2687
+    },
+    {
+      "caseId": "gs-0118",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0040977,
+      "durationMs": 6867
+    },
+    {
+      "caseId": "gs-0119",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006744,
+      "durationMs": 1100
+    },
+    {
+      "caseId": "gs-0120",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0045667,
+      "durationMs": 6566
+    },
+    {
+      "caseId": "gs-0121",
+      "goldMain": "question",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.00445845,
+      "durationMs": 6500
+    },
+    {
+      "caseId": "gs-0122",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009503999999999999,
+      "durationMs": 1807
+    },
+    {
+      "caseId": "gs-0123",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008289,
+      "durationMs": 1469
+    },
+    {
+      "caseId": "gs-0124",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008634000000000001,
+      "durationMs": 1317
+    },
+    {
+      "caseId": "gs-0125",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008664,
+      "durationMs": 1190
+    },
+    {
+      "caseId": "gs-0126",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0016209,
+      "durationMs": 2567
+    },
+    {
+      "caseId": "gs-0127",
+      "goldMain": "invalid",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0027324000000000003,
+      "durationMs": 3897
+    },
+    {
+      "caseId": "gs-0128",
+      "goldMain": "invalid",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": true,
+      "costAmount": 0.0057582,
+      "durationMs": 8230
+    },
+    {
+      "caseId": "gs-0130",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008454,
+      "durationMs": 1140
+    },
+    {
+      "caseId": "gs-0132",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0023739000000000004,
+      "durationMs": 2821
+    },
+    {
+      "caseId": "gs-0133",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0014543999999999998,
+      "durationMs": 2032
+    },
+    {
+      "caseId": "gs-0134",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0040953,
+      "durationMs": 6199
+    },
+    {
+      "caseId": "gs-0137",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006714,
+      "durationMs": 947
+    },
+    {
+      "caseId": "gs-0138",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.000782,
+      "durationMs": 1320
+    },
+    {
+      "caseId": "gs-0139",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010509,
+      "durationMs": 1528
+    },
+    {
+      "caseId": "gs-0140",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012954,
+      "durationMs": 1639
+    },
+    {
+      "caseId": "gs-0144",
+      "goldMain": "feature",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0016089,
+      "durationMs": 2201
+    },
+    {
+      "caseId": "gs-0145",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009789,
+      "durationMs": 1431
+    },
+    {
+      "caseId": "gs-0147",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010104,
+      "durationMs": 1659
+    },
+    {
+      "caseId": "gs-0148",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012444,
+      "durationMs": 1745
+    },
+    {
+      "caseId": "gs-0149",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008079000000000001,
+      "durationMs": 1052
+    },
+    {
+      "caseId": "gs-0151",
+      "goldMain": "duplicate",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0025689000000000003,
+      "durationMs": 3344
+    },
+    {
+      "caseId": "gs-0152",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008214,
+      "durationMs": 1221
+    },
+    {
+      "caseId": "gs-0153",
+      "goldMain": "duplicate",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010025,
+      "durationMs": 1395
+    },
+    {
+      "caseId": "gs-0154",
+      "goldMain": "invalid",
+      "predMain": null,
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0043452,
+      "durationMs": 6332
+    },
+    {
+      "caseId": "gs-0158",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008724000000000001,
+      "durationMs": 1265
+    },
+    {
+      "caseId": "gs-0159",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010479,
+      "durationMs": 1691
+    },
+    {
+      "caseId": "gs-0161",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009459,
+      "durationMs": 1438
+    },
+    {
+      "caseId": "gs-0162",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0013629,
+      "durationMs": 2117
+    },
+    {
+      "caseId": "gs-0163",
+      "goldMain": "duplicate",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009364999999999999,
+      "durationMs": 995
+    },
+    {
+      "caseId": "gs-0165",
+      "goldMain": "duplicate",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007344,
+      "durationMs": 1252
+    },
+    {
+      "caseId": "gs-0170",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010899,
+      "durationMs": 1468
+    },
+    {
+      "caseId": "gs-0171",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0032163,
+      "durationMs": 4851
+    },
+    {
+      "caseId": "gs-0172",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012054000000000001,
+      "durationMs": 1482
+    },
+    {
+      "caseId": "gs-0179",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008558999999999999,
+      "durationMs": 1003
+    },
+    {
+      "caseId": "gs-0180",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008378999999999999,
+      "durationMs": 1848
+    },
+    {
+      "caseId": "gs-0181",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012189,
+      "durationMs": 1898
+    },
+    {
+      "caseId": "gs-0185",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006924,
+      "durationMs": 858
+    },
+    {
+      "caseId": "gs-0186",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0020934,
+      "durationMs": 3290
+    },
+    {
+      "caseId": "gs-0188",
+      "goldMain": "invalid",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0016854,
+      "durationMs": 2422
+    },
+    {
+      "caseId": "gs-0189",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008739,
+      "durationMs": 1212
+    },
+    {
+      "caseId": "gs-0190",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008558999999999999,
+      "durationMs": 924
+    },
+    {
+      "caseId": "gs-0191",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008289,
+      "durationMs": 988
+    },
+    {
+      "caseId": "gs-0192",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008034,
+      "durationMs": 1337
+    },
+    {
+      "caseId": "gs-0193",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0033924000000000003,
+      "durationMs": 4698
+    },
+    {
+      "caseId": "gs-0194",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0027018,
+      "durationMs": 4237
+    },
+    {
+      "caseId": "gs-0196",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007194,
+      "durationMs": 1198
+    },
+    {
+      "caseId": "gs-0197",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0013884000000000001,
+      "durationMs": 1810
+    },
+    {
+      "caseId": "gs-0199",
+      "goldMain": "question",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0015965000000000003,
+      "durationMs": 2004
+    },
+    {
+      "caseId": "gs-0203",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012969,
+      "durationMs": 2347
+    },
+    {
+      "caseId": "gs-0205",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010719000000000002,
+      "durationMs": 1581
+    },
+    {
+      "caseId": "gs-0206",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009878999999999999,
+      "durationMs": 1838
+    },
+    {
+      "caseId": "gs-0207",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008918999999999999,
+      "durationMs": 1560
+    },
+    {
+      "caseId": "gs-0209",
+      "goldMain": "feature",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0026439000000000002,
+      "durationMs": 3615
+    },
+    {
+      "caseId": "gs-0210",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0029424,
+      "durationMs": 4246
+    },
+    {
+      "caseId": "gs-0215",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008994000000000001,
+      "durationMs": 1159
+    },
+    {
+      "caseId": "gs-0216",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0017109,
+      "durationMs": 2523
+    },
+    {
+      "caseId": "gs-0227",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008228999999999999,
+      "durationMs": 1110
+    },
+    {
+      "caseId": "gs-0230",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0016703999999999998,
+      "durationMs": 2688
+    },
+    {
+      "caseId": "gs-0231",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0014288999999999999,
+      "durationMs": 1851
+    },
+    {
+      "caseId": "gs-0232",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010239,
+      "durationMs": 1689
+    },
+    {
+      "caseId": "gs-0233",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0028503,
+      "durationMs": 4230
+    },
+    {
+      "caseId": "gs-0235",
+      "goldMain": "feature",
+      "predMain": null,
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0067775000000000005,
+      "durationMs": 10376
+    },
+    {
+      "caseId": "gs-0241",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009939,
+      "durationMs": 1881
+    },
+    {
+      "caseId": "gs-0243",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008544,
+      "durationMs": 1161
+    },
+    {
+      "caseId": "gs-0247",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007209,
+      "durationMs": 1251
+    },
+    {
+      "caseId": "gs-0251",
+      "goldMain": "bug",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0026568,
+      "durationMs": 3897
+    },
+    {
+      "caseId": "gs-0252",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007809,
+      "durationMs": 1035
+    },
+    {
+      "caseId": "gs-0254",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008289,
+      "durationMs": 943
+    },
+    {
+      "caseId": "gs-0255",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0015219,
+      "durationMs": 2423
+    },
+    {
+      "caseId": "gs-0257",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007614,
+      "durationMs": 1569
+    },
+    {
+      "caseId": "gs-0259",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0071195,
+      "durationMs": 11199
+    },
+    {
+      "caseId": "gs-0263",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0013119,
+      "durationMs": 1989
+    },
+    {
+      "caseId": "gs-0264",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0014784,
+      "durationMs": 2390
+    },
+    {
+      "caseId": "gs-0265",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010164,
+      "durationMs": 1677
+    },
+    {
+      "caseId": "gs-0268",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008948999999999999,
+      "durationMs": 2757
+    },
+    {
+      "caseId": "gs-0269",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0013734,
+      "durationMs": 2109
+    },
+    {
+      "caseId": "gs-0273",
+      "goldMain": "feature",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0018039000000000002,
+      "durationMs": 2555
+    },
+    {
+      "caseId": "gs-0275",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": true,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0008858999999999999,
+      "durationMs": 1607
+    },
+    {
+      "caseId": "gs-0279",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0006459,
+      "durationMs": 855
+    },
+    {
+      "caseId": "gs-0284",
+      "goldMain": "duplicate",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0011079,
+      "durationMs": 1411
+    },
+    {
+      "caseId": "gs-0285",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0009383999999999999,
+      "durationMs": 1566
+    },
+    {
+      "caseId": "gs-0286",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.001007,
+      "durationMs": 1635
+    },
+    {
+      "caseId": "gs-0289",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010389000000000002,
+      "durationMs": 1825
+    },
+    {
+      "caseId": "gs-0291",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0070083,
+      "durationMs": 10325
+    },
+    {
+      "caseId": "gs-0295",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0012924,
+      "durationMs": 1837
+    },
+    {
+      "caseId": "gs-0297",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007415,
+      "durationMs": 1000
+    },
+    {
+      "caseId": "gs-0299",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010869,
+      "durationMs": 1248
+    },
+    {
+      "caseId": "gs-0300",
+      "goldMain": "bug",
+      "predMain": "bug",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0011244,
+      "durationMs": 1721
+    }
+  ]
+}

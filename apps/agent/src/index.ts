@@ -95,6 +95,11 @@ export function decideActions(triage: TriageResult, event: IssueEvent): AgentAct
 export interface HandleIssueEventDeps {
   llm?: Llm;
   /**
+   * 注入的技能结论（W5 经验生效通道）：进入 <skills> 块（数据，不进系统指令）。
+   * 来源是经验版本库中已过门禁的 skill；评测对照实验走同一通道。
+   */
+  skills?: string[];
+  /**
    * 相似 issue 检索器（W4）。传入后先检索再分诊，命中项注入 <similar_issues>。
    * 检索失败降级为空证据（留痕一条零成本 llm 步），不阻断分诊主链路。
    */
@@ -142,7 +147,7 @@ export async function handleIssueEvent(
     });
   }
 
-  const { system, user } = buildTriageMessages({ ...event, similarIssues });
+  const { system, user } = buildTriageMessages({ ...event, similarIssues, skills: deps.skills });
 
   const completion = await llm.json({
     purpose: "triage",
