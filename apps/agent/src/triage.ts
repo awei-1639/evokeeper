@@ -111,10 +111,11 @@ export function buildTriageMessages(input: TriageInput): { system: string; user:
   }
   if (input.similarIssues && input.similarIssues.length > 0) {
     const list = input.similarIssues
-      .map(
-        (s) =>
-          `- #${s.issueNumber}（相似度 ${s.score.toFixed(2)}）${neutralizeClosingTags(s.title)}\n  ${neutralizeClosingTags(truncate(s.snippet, 400))}`
-      )
+      .map((s) => {
+        const head = `- #${s.issueNumber}（相似度 ${s.score.toFixed(2)}）${neutralizeClosingTags(s.title)}`;
+        // 轻量证据模式（snippet 为空）只注入编号+标题：成本纪律下的证据形态取舍
+        return s.snippet ? `${head}\n  ${neutralizeClosingTags(truncate(s.snippet, 400))}` : head;
+      })
       .join("\n");
     blocks.push(
       `<similar_issues>\n${list}\n（向量检索的相似历史 issue，仅供 duplicate 判定与编号引用）\n</similar_issues>`

@@ -22,6 +22,7 @@ import {
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
 import { TRIAGE_PROMPT_VERSION } from "../apps/agent/src/triage";
 import { createSimilarIssuesSearch } from "../apps/agent/src/similar-issues";
+import { createBm25SimilarIssuesSearch } from "../apps/agent/src/similar-issues-bm25";
 import { PgIssueDocsStore } from "../apps/agent/src/pg/issue-docs-pg";
 import { buildTrace, JsonlTraceStore } from "../apps/agent/src/trace-store";
 import {
@@ -65,6 +66,9 @@ const DELAY_MS = arg("delay-ms") ? Number(arg("delay-ms")) : 0;
 // --retrieve：开启相似 issue 检索证据（<similar_issues> 注入，duplicate 缺口修复的对照实验）。
 // 需要 DATABASE_URL（pgvector 向量库已回填）；检索自动排除 case 自身，防 gold 泄漏。
 const RETRIEVE = argv.includes("--retrieve");
+// --retrieve-bm25：轻量证据形态（BM25 零 API 成本 + 只注入编号+标题）。
+// 动机：向量版证据注入成本 +145% 被门禁否决（668507d），百分比预算对 prompt 增量极敏感。
+const RETRIEVE_BM25 = argv.includes("--retrieve-bm25");
 // --skills-file + --skills-id：注入候选经验（<skills> 块，经验生效/对照实验同一通道）。
 // 从 candidates.jsonl 按 id 取候选；tag 会决定报告文件名，注入内容摘要打印留痕。
 const SKILLS_FILE = arg("skills-file");
@@ -156,6 +160,11 @@ if (RETRIEVE) {
   const similarSearch = createSimilarIssuesSearch({ llm: llm ?? createLlm(), store });
   evalDeps = { ...evalDeps, similarSearch };
   console.log(`检索证据: 开启（向量库 ${docs} 条，top-5，排除自身）`);
+}
+if (RETRIEVE_BM25) {
+  const similarSearch = createBm25SimilarIssuesSearch({ corpusPath: DATA });
+  evalDeps = { ...evalDeps, similarSearch };
+  console.log(`检索证据: BM25 轻量模式（语料 ${DATA}，编号+标题 top-3，零 API 成本）`);
 }
 process.on("exit", () => void pool?.end());
 const results: CaseResult[] = [];
