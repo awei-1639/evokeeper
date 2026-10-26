@@ -31,6 +31,7 @@ import {
   mainLabelOf,
   makeEvalRun,
   needsMoreInfoReport,
+  duplicateReport,
   type CaseResult,
 } from "../packages/eval/src/index";
 
@@ -292,11 +293,13 @@ const run = makeEvalRun({
   cases: results,
 });
 const nmi = needsMoreInfoReport(results);
+const dup = duplicateReport(results);
 
 console.log("");
 console.log("== EvalRun 汇总 ==");
 console.log(`accuracy: ${(run.metrics.triageAccuracy * 100).toFixed(1)}% | 宏F1: ${run.metrics.triageMacroF1.toFixed(3)}`);
 console.log(`nmi: 命中 ${nmi.hit}/${nmi.goldCount} | 误报 ${nmi.falsePositives}`);
+console.log(`duplicate: 命中 ${dup.hit}/${dup.goldCount} | 误报 ${dup.falsePositives}（${(dup.falsePositiveRate * 100).toFixed(1)}%）`);
 console.log(`CI95: [${((run.ci95?.lower ?? 0) * 100).toFixed(2)}pt, ${((run.ci95?.upper ?? 0) * 100).toFixed(2)}pt]`);
 console.log(`成本: ¥${totalCost.toFixed(4)} | p50 ${run.metrics.p50LatencyMs}ms / p95 ${run.metrics.p95LatencyMs}ms`);
 if (traceStore) {
@@ -311,5 +314,5 @@ if (existsSync(outFile) && !argv.includes("--force")) {
   console.error(`报告已存在，拒绝覆盖（加 --force 强制）：${outFile}`);
   process.exit(1);
 }
-writeFileSync(outFile, JSON.stringify({ run, nmi, perCaseDetail: results }, null, 2), "utf8");
+writeFileSync(outFile, JSON.stringify({ run, nmi, dup, perCaseDetail: results }, null, 2), "utf8");
 console.log(`\nEvalRun 已写入: ${outFile}`);

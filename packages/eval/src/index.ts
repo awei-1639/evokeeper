@@ -145,6 +145,29 @@ export function needsMoreInfoReport(cases: readonly CaseResult[]): {
   };
 }
 
+/**
+ * duplicate 单独报告：召回 + 误报（检索证据类经验的核心风险维度）。
+ * 背景：向量/BM25 证据注入实验均出现"相似 issue 存在本身诱导 dup 判定"
+ * （误 dup 3 例/次），accuracy 差距不足以捕捉该风险——小类误报需单列观测。
+ * 门禁阈值（建议 provisional：dup 误报 ≤2 或 误报率 ≤2%）：未入正式 gate，
+ * 待 W8 对抗集与检索类经验重评时一并定标（design.md §7.2 登记）。
+ */
+export function duplicateReport(cases: readonly CaseResult[]): {
+  hit: number;
+  goldCount: number;
+  falsePositives: number;
+  falsePositiveRate: number;
+} {
+  const goldRows = cases.filter((c) => c.goldMain === "duplicate");
+  const fp = cases.filter((c) => c.goldMain !== "duplicate" && c.predMain === "duplicate").length;
+  return {
+    hit: goldRows.filter((c) => c.predMain === "duplicate").length,
+    goldCount: goldRows.length,
+    falsePositives: fp,
+    falsePositiveRate: cases.length > 0 ? fp / cases.length : 0,
+  };
+}
+
 function percentile(values: readonly number[], p: number): number {
   if (values.length === 0) return 0;
   const sorted = [...values].sort((a, b) => a - b);

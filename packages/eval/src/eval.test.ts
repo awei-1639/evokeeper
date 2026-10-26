@@ -18,6 +18,7 @@ import {
   mainLabelOf,
   makeEvalRun,
   needsMoreInfoReport,
+  duplicateReport,
   triageAccuracy,
   triageMacroF1,
   type CaseResult,
@@ -66,6 +67,18 @@ describe("指标计算", () => {
     ];
     const r = needsMoreInfoReport(cases);
     expect(r).toEqual({ hit: 1, goldCount: 1, falsePositives: 1 });
+  });
+
+  it("duplicate 附加维度：召回 + 误报率单独报告", () => {
+    const cases = [
+      result("1", "duplicate", "duplicate"),
+      result("2", "duplicate", "bug"),
+      result("3", "bug", "duplicate"),
+      result("4", "question", "duplicate"),
+      result("5", "bug", "bug"),
+    ];
+    const r = duplicateReport(cases);
+    expect(r).toEqual({ hit: 1, goldCount: 2, falsePositives: 2, falsePositiveRate: 2 / 5 });
   });
 
   it("bootstrap CI：确定性可复现；强分离数据下界 > 0", () => {
