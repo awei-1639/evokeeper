@@ -37,6 +37,12 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "..");
 const DATA = resolve(ROOT, "datasets/drafts/alibaba_nacos.jsonl");
+// 数据集口径过滤：v1/v2 各有 assignment（v2 = v1 + expansion 100 入 dev，holdout 不变）；
+// 禁止跨版本比较指标——门禁两侧必须同 ds 跑
+const ASSIGNMENT_FILES: Record<string, string> = {
+  v1: "datasets/review/v1-assignment.json",
+  v2: "datasets/review/v2-assignment.json",
+};
 
 const envText = readFileSync(resolve(ROOT, ".env.local"), "utf8");
 for (const line of envText.split("\n")) {
@@ -101,18 +107,21 @@ async function runWithRetry(
 
 // ---- 执行 ----
 const cases = loadGoldenSet(DATA, { split: SPLIT }).slice(0, LIMIT);
-// v1 口径过滤：数据集定稿后（tag dataset-v1），扩充池 100 条不属于 v1，
-// 评测 dev/holdout 时必须按 v1-assignment 过滤，否则指标混入非 v1 样本（§7.1 纪律）
-if (DS === "v1" && existsSync(resolve(ROOT, "datasets/review/v1-assignment.json"))) {
-  const assignment = JSON.parse(
-    readFileSync(resolve(ROOT, "datasets/review/v1-assignment.json"), "utf8")
-  ) as { v1: { dev: string[]; holdout: string[] } };
-  const v1Ids = new Set([...assignment.v1.dev, ...assignment.v1.holdout]);
+// 口径过滤：数据集定稿后（tag dataset-vN），非本版本的扩充池记录必须排除（§7.1 纪律）。
+// assignmentFile 缺失时（如 ds=v1-draft-n300 历史口径）不做过滤，由 tag 前缀区分。
+const assignmentFile = ASSIGNMENT_FILES[DS];
+if (assignmentFile && existsSync(resolve(ROOT, assignmentFile))) {
+  const assignment = JSON.parse(readFileSync(resolve(ROOT, assignmentFile), "utf8")) as {
+    v1?: { dev: string[]; holdout: string[] };
+    v2?: { dev: string[]; holdout: string[] };
+  };
+  const member = assignment[DS as "v1" | "v2"];
+  const ids = new Set([...member.dev, ...member.holdout]);
   const before = cases.length;
-  const filtered = cases.filter((c) => v1Ids.has(c.id));
+  const filtered = cases.filter((c) => ids.has(c.id));
   cases.length = 0;
   cases.push(...filtered.slice(0, LIMIT));
-  console.log(`v1 口径过滤: ${before} → ${cases.length}（排除扩充池记录）`);
+  console.log(`${DS} 口径过滤: ${before} → ${cases.length}（排除非 ${DS} 成员）`);
 }
 if (cases.length === 0) {
   console.error(`golden set（split=${SPLIT}）无已定稿记录`);
