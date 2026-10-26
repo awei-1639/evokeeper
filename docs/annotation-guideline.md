@@ -106,3 +106,4 @@
 | 2026-09-28 | 新增 `datasets/adversarial.jsonl`（30 条，四类对抗样本，guideline §8）：指令覆盖 8 / 角色劫持 8 / 诱导越权 8 / 提示泄露 6。防线实测 30/30 通过（`pnpm adversarial:check`，deepseek-v4-flash，¥0.07）；嫌疑正则命中仅 11/30，主防线为结构化隔离 + 输出白名单 |
 
 - **2026-10-26 · datasetVersion v2**：扩充池 100 条（gs 编号见 expansion）正式纳入 dev（160→260），holdout 40 条锁定不变。仲裁先决：gs-0136/0239/0248 三条争议裁决落盘（均维持原 gold）。扩容动机：n=160 时 CI95 ±7pt 使 +2pt 门禁无法判别（tp-1.4-draft2 +1.88pt 悬案）。v2 成员见 datasets/review/v2-assignment.json；禁止与 v1 指标跨版本比较。
+- **2026-10-26 · v2 gold 修订（仲裁收尾）**：15 条争议全部裁决清零（9 维持 4 改判）。改判均为同一条规则：维护者关 duplicate 但未提供原 issue 编号 → 不满足 §3 判据，按内容主性质改判（gs-0133/0230 → bug，gs-0182 → feature）；另 gs-0188 invalid→feature（内容优先）。**此日期前的 v2 评测报告基于修订前 gold，与修订后重评不可直接混比**（4/260 ≈ 1.5pt 上界的口径差）。

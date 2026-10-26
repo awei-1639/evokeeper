@@ -24,15 +24,17 @@
     "issue_number": 14111,
     "id": "gs-0106",
     "review": "标题像使用咨询（How to adapt），正文为变更/贡献描述，feature 与 question 边界需人工复核",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 feature：正文按 PR 模板描述 Oracle 适配贡献，维护者给 oracle-plugin 仓库引导测试，属贡献/能力引入路径而非使用咨询。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14457,
     "id": "gs-0107",
     "review": "status/invalid 与正文报错现象并存，属用户侧数据源配置问题还是 nacos 缺陷从摘录无法完全确认，建议人工复查。",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 invalid：维护者明确回复与 Nacos 无关（应用侧 Spring 数据源重绑定异常），属用户自身配置问题。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14642,
@@ -45,22 +47,25 @@
     "issue_number": 13915,
     "id": "gs-0127",
     "review": "bug 与 invalid 边界，异常堆栈真实存在但维护者判 invalid 且具体回复内容未在数据中",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 invalid：维护者判定堆栈属于 rocketmq 社区问题，指向其他产品。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14774,
     "id": "gs-0132",
     "review": "bug 与 question 边界：有报错堆栈但缺缺陷证据，也可能是发行包/插件打包缺陷，需人工复核",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 question：有报错堆栈但未证明发行包缺陷（认证插件依赖来源不明），维护者仅标 discussion 未定性，按规范带堆栈咨询判 question。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14963,
     "id": "gs-0133",
     "review": "维护者以 duplicate 关闭但未指明原 issue 编号，需人工核对原 issue。",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "改判 bug：维护者仅评论 duplicate issue 未给出原编号（社区索要 link 亦无下文），不满足规范 §3 duplicate 必须写明原 issue 号；正文为带 PoC 的认证绕过缺陷报告，按内容主性质判 bug。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 15536,
@@ -88,36 +93,41 @@
     "issue_number": 15151,
     "id": "gs-0182",
     "review": "维护者标 status/duplicate 但数据与时间线中均未指明原 issue 号",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "改判 feature：维护者回复称 3.2.1 已支持，但未给出原 issue 编号，不满足 duplicate 判据；内容为规范支持诉求，按内容主性质判 feature。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 13990,
     "id": "gs-0188",
     "review": "invalid 与 question/feature 边界：内容亦可读作兼容性咨询或升级诉求，判 invalid 主要依据维护者 status/invalid 信号，建议人工复核",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "改判 feature：正文为 Spring Boot 4 兼容性诉求（含尝试报错），社区回复指向路线图讨论；invalid 依据仅维护者标签，按内容优先判 feature（§3 希望支持 X）。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 13888,
     "id": "gs-0199",
     "review": "正文为空，导入报错也可能是跨版本兼容缺陷，仅凭标题与 kind/question 标签判定，建议人工复核",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 question+needs-more-info：正文为空但社区已给出可能原因（缺 .metadata.yml），跨版本导入属使用咨询，信息不足并存成立。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14942,
     "id": "gs-0217",
     "review": "维护者标 status/invalid 与正文明确的 feature 诉求冲突，若 invalid 系因功能已存在或与其他 issue 重复，则定性需修正",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 feature：维护者拒绝请求（认为不合理）不改变诉求性质，内容为明确的接口能力诉求（判例 gs-0004）。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 15159,
     "id": "gs-0230",
     "review": "维护者称大量重复但未在数据中指明具体原 issue 号",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "改判 bug：维护者称大量重复但未给出任何原编号，不满足 duplicate 判据；正文为匿名接口暴露内部信息的安全缺陷报告，按内容主性质判 bug。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 15494,
@@ -160,8 +170,9 @@
     "issue_number": 13967,
     "id": "gs-0270",
     "review": "正文为空模板，仅凭标题'日志提示null'判 bug，也不排除是使用咨询",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 bug+needs-more-info：标题指向异常现象（日志提示 null）且按 bug 模板提交，正文空模板信息不足并存；无维护者回复可依据。",
+    "resolvedAt": "2026-10-26"
   },
   {
     "issue_number": 14492,
@@ -174,7 +185,8 @@
     "issue_number": 15603,
     "id": "gs-0289",
     "review": "维护者标 kind/enhancement，正文为新合入 PR 的边缘场景修正提案，bug 与 feature（增强非空资源场景支持）边界存在张力",
-    "resolved": false,
-    "resolution": null
+    "resolved": true,
+    "resolution": "维持 bug：指出 #15513 合入后的回归（非空组合转换不再正确），维护者回复完整修复方案证实缺陷成立。",
+    "resolvedAt": "2026-10-26"
   }
 ]
