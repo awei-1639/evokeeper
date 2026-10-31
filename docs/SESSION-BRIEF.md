@@ -1,12 +1,12 @@
 # EvoKeeper 会话简报（给未来任何工作区的接续说明）
 
-> 用途：当你（AI 助手）在新的工作区/会话中接到本项目时，先读本文件与 `项目计划书.md`，即可恢复全部上下文。最近更新：2026-10-01。
+> 用途：当你（AI 助手）在新的工作区/会话中接到本项目时，先读本文件与 `项目计划书.md`，即可恢复全部上下文。最近更新：2026-10-31。
 
 ## 1. 项目一句话
 
 EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 + 技术问答），核心是"经验 CI/CD"闭环——轨迹沉淀 → 睡眠式整理 → 候选经验 → 评测门禁 → 版本化灰度发布，越用越准、可审计可回滚。理论锚点：MetaRSI（arXiv:2609.06396）Loop Kernel / Harness-RSI。
 
-## 2. 当前进度（W1 收尾 / W2 已开工，更新于 2026-09-27）
+## 2. 当前进度（W1-W8 主体完成，进入经验发布攻坚，更新于 2026-10-31）
 
 - ✅ pnpm monorepo 脚手架（apps: agent/worker/web 占位；packages/core 已有完整领域类型）
 - ✅ golden set 标注规范 `docs/annotation-guideline.md` + 示例数据 `datasets/examples/`
@@ -33,7 +33,13 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
 - ✅ **W6 runner / 影子回放 / 发布回滚落地（2026-09-28）**：`eval:run`（golden set → EvalRun，基线 run 已落盘：68.7%、宏F1 0.592、CI95 [63,74]、¥0.57——与 pilot 67.0% 交叉验证吻合）；`eval:gate`（自比演练正确 REJECTED，退出码可挂 CI）；影子回放（第 6 道门禁，一致率阈值 0.95 provisional）；`release.ts`（§8 状态机：R1 禁发 / 无 diff 禁发 / 灰度三态 / O(1) 回滚）。教训：GoldenCase 须带 title/body（首跑空正文全判 invalid，产物作废重跑）。design.md v1.7
 - ✅ **工具治理网关落地（2026-09-28）**：`packages/gateway`——幂等键 (repo, issueNumber, actionKind, contentHash) 防 webhook 重放、单次配额（≤2 标签 + ≤1 评论）、同 issue 24h 评论冷却、全量审计留痕；纯函数无 IO（8 例单测）。W4 真实写动作执行器必须经此网关
 - ✅ **holdout 首评完成（2026-10-17）**：`pnpm eval:run -- --tag=final-holdout --split=holdout --ds=v1` → accuracy **62.5%**（25/40）、宏F1 0.510、CI95 [45.0, 77.5]、nmi 误报 0（命中 0/5）、¥0.13、p50 14.5s。**与 dev 基线 65.0%@160 对比：差 2.5pt 且落在 CI 内 → 泛化成立、无过拟合证据，W6 门禁的统计前提（dev 指标可外推）确认**。错例结构：duplicate 0/3 全错（既有结构性缺口，等 W4 RAG）、bug↔question 混淆 3 条、invalid 混淆 2 条。报告 `datasets/eval/run-final-holdout-holdout-deepseek-v4-flash-mc-1.0-v1.json`。**通道说明**：本次经公益站（xxs.l.cd）执行——模型字符串 deepseek-v4-flash 与 mc-1.0 一致，且事先以 fidelity-check 40 条验证通道行为等价（有效 35 条预测一致 91% ≥ 90% 门槛，详见 2026-10-17 会话记录）；holdout 此后只读，永不重评。
-- ⏳ 待办：① 仲裁 15 条（重点：3 条 duplicate 缺原号、feature/question 边界 2 条；`datasets/ai-annotation/round1/reviews.json`）——注意 κ 已按双轮协议达标，仲裁是锦上添花的人工复核；② 装 Docker 后：infra 验证 + Postgres/BullMQ 适配器 + 整理聚类换 embedding + Langfuse 观测；③ 真实流量启动：GitHub App 注册（issues:write）→ executeActions 接线上 → `pnpm scan:daily` 日扫 cron（脚本已就绪并冒烟）；④ 回答 LLM-judge 五维（等 GLM key）；⑤ apps/web 管理台 v1 已落地（7 页只读：概览/评测/轨迹/golden/仲裁/记忆/发布），一键回滚按钮待发布数据产生后接线；⑥ dev 全量重跑（tp-1.3 无检索基线 71.3% 已完成，+6.3pt vs tp-1.2；检索 A/B 等 Docker/pgvector）
+- ✅ **W4 端到端打通（2026-10-25）**：GitHub App 认证与真实写动作接线（`github-client` + 网关治理）、`bot-up` 一键拉起（清残留 + 服务 + cloudflared 隧道 + webhook URL 回填 + 公网探活）、问答链路上线 + 轨迹重放器、`scan:daily` 线上适配；**真实流量分诊首次生效**，写动作审计落 `datasets/gateway/audit.jsonl`
+- ✅ **经验闭环首次完整转通 + 门禁实战（2026-10-25/26）**：整理管线产出 2 条候选，**全部 REJECTED**——① skill（question 泛化）72.5%→71.3%、修 5 破 7、成本 +17%；② 检索证据注入 72.5%→69.4%，宏F1 +0.063、dup 召回 0/10→3/10（**机制有效**）但成本 **+145%** 触硬上限；第三条路线（BM25 轻量证据）持平。R1 首次以数据否决真实候选，不是形式主义
+- ✅ **数据集 v2（2026-10-26）**：v1 全量 + expansion 100 入 dev = **260 条**（holdout 40 条锁定不变），CI95 由 ±7pt 收到 ±5.5pt；v2 base 72.7% → tp-1.4d2 74.2%（+1.54pt）。仲裁 15 条清零（9 维持 4 改判）
+- ✅ **门禁第 2 条口径修复（2026-10-31）**：`ci95_lower_bound_gt_0` 原用候选 run 的**绝对准确率 CI**（准确率 0.6+ → 下界恒正），自 v1.6 起从未生效。改为 **Δ 配对 bootstrap**（`pairedDeltaCI95`，按 caseId 对齐，覆盖率 ≥80% / ≥20 条）。**回溯 6 组历史对照，Δ CI 全部跨 0** → tp-1.4 的 +1.88pt 是噪声（此前误读为"真实小增益"，已纠正），根因是统计功效不足（n=254 时 Δ CI 半宽 ≈3.1pt，要检出 2pt 需 n≈650 或多次采样）。详见 design.md §7.2 v1.19 + `scripts/gate-recheck.mts`
+- ✅ **环境恢复（2026-10-31）**：pg 停 4 天导致 langfuse 陷入 6021 次重启循环；拉起 pg 后 langfuse health=200，pgvector 0.8.5 + issue_docs 300 条向量完好。**全量 216/216 通过（真容器，零 skip）**，typecheck 8 包全绿
+- ⚠️ **未推送**：本地 `master` 领先 origin 24+ 提交（远端停在 10-18 的 `fb04e09`），需用户显式指令再 push
+- ⏳ 待办：① **门禁统计功效决策**（三选一：扩 dev 到 600+ / triage 采样 k=3 多数投票 / 转向可大效应量的经验类型）——这是当前唯一阻塞"经验能发布"的问题；② 回答 LLM-judge 五维（等 GLM key）；③ 管理台回滚按钮接线（等首个成功发布）；④ Langfuse 建组织拿 key 填 `.env.local`（观测真实上报）；⑤ 旧待办已清：仲裁 15 条已清零、Docker 适配器已接线、GitHub App 已上线、tp-1.3 检索 A/B 已做（结论见 design.md §9.1）
 
 ## 3. 不可违反的项目约定
 
@@ -48,10 +54,12 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
 - 学习方式：项目驱动；重视论文理论支撑与差异化，反感同质化方案；
 - 沟通偏好：直接给判断和依据，不要客套；方案要有第一性原理推导。
 
-## 5. 环境备忘（Windows）
+## 5. 环境备忘（Windows，2026-10-31 实测）
 
-- git 全路径：`C:\Users\lenovo\.workbuddy\binaries\PortableGit\versions\1.2.0\cmd\git.exe`（bash shim PATH 损坏，coreutils 需绝对路径；PowerShell 工具可能不回显 stdout，用 Glob/Read 校验结果）
-- 本地服务：`docker compose -f infra/docker-compose.yml up -d`（pgvector:5432 / redis:6379 / langfuse:3000）
-- Node 22 + pnpm 9；安装依赖 `pnpm install`（本机 pnpm 需经 corepack：`node <...>/node_modules/corepack/dist/pnpm.js`）
-- 测试 `pnpm test`（vitest，根 devDependency）；TS 脚本用 `tsx`（如 `pnpm triage:dryrun`）
-- Node 直跑 TS 不可行：相对导入无扩展名会 ERR_MODULE_NOT_FOUND（不启用 `--experimental-strip-types` 直跑）
+- git 全路径：`C:\Users\lenovo\.workbuddy\binaries\PortableGit\versions\1.3.0\cmd\git.exe`（**版本号会随工具升级变化**，找不到时先 `ls` versions/ 目录；/mingw64/bin/git 亦可用）
+- pnpm：**`/d/Nodejs/pnpm` 可直接调用**（旧的 corepack 路径已失效，别再照抄）
+- 本地服务：`docker compose -f infra/docker-compose.yml up -d`（pgvector:5432 / redis:6379 / langfuse:3001→3000）；只装在 WSL2 内，Windows 侧 `docker` 命令不存在 → 用 `wsl -e docker ps`
+- **容器会随 WSL VM 空闲回收而停**：pg 一停，langfuse 就连不上库、陷入无限重启（实测累计 6021 次）。症状是 langfuse 一直 Restarting + 集成测试静默 skip。修法：`wsl -e docker start evokeeper-postgres` → `wsl -e docker restart evokeeper-langfuse`
+- 集成测试要显式传容器地址（vitest 不读 .env.local）：`DATABASE_URL="postgresql://evokeeper:evokeeper_dev_only@localhost:5432/evokeeper" REDIS_URL="redis://localhost:6379" pnpm test` → 216/216 零 skip
+- Node 直跑 TS 不可行：相对导入无扩展名会 ERR_MODULE_NOT_FOUND；TS 脚本一律走 `pnpm exec tsx`
+- **坑**：Git Bash 下把 `/dev/null` 传给 wsl 会被 MSYS 路径转换成本地文件 `nul`（Windows 保留名，safe-delete 删不掉，需 `wsl -e rm /mnt/d/...` 清理）。探活改用 `-o /tmp/x` 或直接在 WSL 里跑
