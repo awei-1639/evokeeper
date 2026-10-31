@@ -60,6 +60,6 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
 - pnpm：**`/d/Nodejs/pnpm` 可直接调用**（旧的 corepack 路径已失效，别再照抄）
 - 本地服务：`docker compose -f infra/docker-compose.yml up -d`（pgvector:5432 / redis:6379 / langfuse:3001→3000）；只装在 WSL2 内，Windows 侧 `docker` 命令不存在 → 用 `wsl -e docker ps`
 - **容器会随 WSL VM 空闲回收而停**：pg 一停，langfuse 就连不上库、陷入无限重启（实测累计 6021 次）。症状是 langfuse 一直 Restarting + 集成测试静默 skip。修法：`wsl -e docker start evokeeper-postgres` → `wsl -e docker restart evokeeper-langfuse`
-- 集成测试要显式传容器地址（vitest 不读 .env.local）：`DATABASE_URL="postgresql://evokeeper:evokeeper_dev_only@localhost:5432/evokeeper" REDIS_URL="redis://localhost:6379" pnpm test` → 216/216 零 skip
+- 集成测试要显式传容器地址（vitest 不读 .env.local）：`DATABASE_URL="postgresql://evokeeper:<compose 里的密码>@localhost:5432/evokeeper" REDIS_URL="redis://localhost:6379" pnpm test` → 216/216 零 skip（密码见 `infra/docker-compose.yml`，勿复制进文档）
 - Node 直跑 TS 不可行：相对导入无扩展名会 ERR_MODULE_NOT_FOUND；TS 脚本一律走 `pnpm exec tsx`
 - **坑**：Git Bash 下把 `/dev/null` 传给 wsl 会被 MSYS 路径转换成本地文件 `nul`（Windows 保留名，safe-delete 删不掉，需 `wsl -e rm /mnt/d/...` 清理）。探活改用 `-o /tmp/x` 或直接在 WSL 里跑
