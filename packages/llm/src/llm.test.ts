@@ -62,9 +62,10 @@ describe("config: 峰谷计价", () => {
   });
 
   it("purpose 路由与配置版本快照", () => {
-    expect(resolveModel("triage")).toBe("deepseek-v4-flash");
+    // mc-1.3：triage 走 SiliconFlow 的同名通道别名，底层仍是 DeepSeek-V4-Flash
+    expect(resolveModel("triage")).toBe("deepseek-ai/DeepSeek-V4-Flash");
     expect(resolveModel("judge")).toBe("glm-4.6");
-    expect(DEFAULT_MODEL_CONFIG.version).toBe("mc-1.0");
+    expect(DEFAULT_MODEL_CONFIG.version).toBe("mc-1.3");
     // judge 与 answer 必须跨厂商，防自偏好偏差（design.md §7.1）
     expect(MODEL_SPECS[resolveModel("judge")]?.provider).not.toBe(
       MODEL_SPECS[resolveModel("answer")]?.provider
@@ -155,7 +156,8 @@ describe("structured: completeJson 行为", () => {
       validate: validator,
     });
     expect(res.ok).toBe(true);
-    expect(res.meta.model).toBe("deepseek-v4-flash");
+    // 断言与路由一致而非硬编码模型名：换通道时只需改 config，测试不必跟着改
+    expect(res.meta.model).toBe(resolveModel("triage"));
     expect(res.meta.promptVersion).toBe("tp-1.0");
     expect(res.meta.inputTokens).toBe(1200);
     expect(res.meta.costAmount).toBeGreaterThan(0);

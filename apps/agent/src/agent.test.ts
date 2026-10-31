@@ -9,7 +9,7 @@
  */
 import { describe, expect, it } from "vitest";
 import type { AgentAction, TriageResult } from "@evokeeper/core";
-import { createLlm } from "@evokeeper/llm";
+import { createLlm, resolveModel } from "@evokeeper/llm";
 import { createMockTransport } from "@evokeeper/llm";
 import {
   TRIAGE_PROMPT_VERSION,
@@ -224,7 +224,8 @@ describe("handleIssueEvent: 端到端", () => {
     expect(res.escalated).toBe(false);
     const step = res.steps[0];
     expect(step?.kind).toBe("llm");
-    expect(step?.model).toBe("deepseek-v4-flash");
+    // 跟随路由而非硬编码：换通道（如 mc-1.3 切 SiliconFlow）不必改这条断言
+    expect(step?.model).toBe(resolveModel("triage"));
     expect(step?.promptVersion).toBe(TRIAGE_PROMPT_VERSION);
     expect(step?.costAmount).toBeGreaterThan(0);
     expect(step?.inputTokens).toBe(1500);

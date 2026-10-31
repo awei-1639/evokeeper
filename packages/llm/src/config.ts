@@ -26,15 +26,25 @@ export interface ModelSpec {
 }
 
 /**
- * mc-1.2：triage 路由 deepseek-v4-flash → deepseek-v4.1-flash。
- * 原因：中转站 2026-10-22 起 v4-flash 渠道下线（/v1/models 仅剩 v4.1-flash）；
- * fidelity 对拍 20 条一致率 80% < 90% 线 → 行为不等价，按铁律递增版本并重跑基线。
- * 其余路由不变。tp-1.3 检索实验改为"同模型同 prompt 无检索 vs 带检索"对照。
+ * mc-1.3：triage 通道切到 SiliconFlow 的 deepseek-ai/DeepSeek-V4-Flash（**同一底层模型**）。
+ *
+ * 为什么必须切：xxs 中转站 2026-10-31 起已无任何可用 chat 渠道——
+ *   v4-flash → 503 model_not_found（"No available channel ... under group 稳定"）；
+ *   gpt-6-luna → 500 upstream error，重试后变 400 unknown provider。
+ *   官方端点 api.deepseek.com 对本站 key 返回 401 Authentication Fails（余额问题不存在，是渠道没了）。
+ *
+ * 为什么算"换通道"不算"换模型"：fidelity-check 40 条（stride=4, limit=40）实测
+ *   双方有效 35 条中预测一致 **32 条 = 91%** ≥ 90% 线；分歧 8 条里 4 条是官方自身解析 FAIL
+ *   而中转判对，真实判定差异仅 4 条（均为边界样本）。
+ *   判据与 2026-10-17 公益站那次（同 91%）一致。
+ *
+ * 代价：SiliconFlow 高峰价为官方 2 倍（¥3/¥9 vs ¥1.5/¥4.5），低谷同价；时段划分也不同。
+ * 遗留：mc-1.2 的注释（v4.1-flash 路由）已在 f59b234 回滚，本版本号跳过 1.2 不复用。
  */
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.0",
+  version: "mc-1.3",
   routing: {
-    triage: "deepseek-v4-flash",
+    triage: "deepseek-ai/DeepSeek-V4-Flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",
@@ -50,6 +60,31 @@ export const MODEL_SPECS: Record<string, ModelSpec> = {
     cachedInputPerMTok: 0.05,
     outputPerMTok: 4.5,
     peakHours: [9, 10, 11, 14, 15, 16, 17],
+    contextWindow: 1_000_000,
+    maxOutputTokens: 8192,
+    jsonMode: true,
+  },
+  /**
+   * deepseek-ai/DeepSeek-V4-Flash（SiliconFlow 提供的**同名模型**通道别名）。
+   *
+   * 背景（2026-10-31）：xxs 中转站 v4-flash 渠道下线（503 model_not_found），
+   * gpt-6-luna 也报 unknown provider，该站已无任何可用 chat 渠道；
+   * SiliconFlow 上可调用同一底层模型，仅命名带前缀。
+   *
+   * 纪律位置：这是**换通道、不换模型**。是否等价由 fidelity-check 的逐条一致率裁定
+   * （≥90% 才认通道等价，届时 mc 版本不变；<90% 则按换模型处理，递增版本并重跑基线）。
+   * 计价按 SiliconFlow 公开价登记（2026-10-31 官网价目）：
+   * 低谷（2:00–8:00）¥1.5 in / ¥4.5 out / ¥0.15 cached，**与官方 v4-flash 低谷价一致**；
+   * 高峰（0:00–2:00、8:00–24:00）¥3.0 / ¥9.0 / ¥0.30 = 低谷 ×2。
+   * 故基础价取低谷值 + peakHours 表达翻倍，与官方口径可直接比较。
+   * 注意：**时段划分与官方不同**（官方高峰 9-12/14-18），跨通道比成本时必须按各自身份换算。
+   */
+  "deepseek-ai/DeepSeek-V4-Flash": {
+    provider: "siliconflow",
+    inputPerMTok: 1.5,
+    cachedInputPerMTok: 0.15,
+    outputPerMTok: 4.5,
+    peakHours: [0, 1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
     contextWindow: 1_000_000,
     maxOutputTokens: 8192,
     jsonMode: true,
