@@ -1,0 +1,414 @@
+{
+ "k": 5,
+ "temperature": 0.8,
+ "modelConfig": {
+  "version": "mc-1.3",
+  "routing": {
+   "triage": "deepseek-ai/DeepSeek-V4-Flash",
+   "answer": "qwen3-max",
+   "judge": "glm-4.6",
+   "consolidate": "deepseek-v4-pro",
+   "embed": "BAAI/bge-m3"
+  }
+ },
+ "baselineRun": "run-v2-tp14d2-dev-deepseek-v4-flash-mc-1.0-v2.json",
+ "summary": {
+  "n": 24,
+  "valid": 24,
+  "called": 120,
+  "totalCost": 0.3730602,
+  "divergentRate": 0.125,
+  "ties": 0,
+  "fixed": 2,
+  "broken": 0,
+  "keptRight": 12,
+  "stillWrong": 10,
+  "noVote": 0
+ },
+ "probes": [
+  {
+   "caseId": "gs-0003",
+   "goldMain": "question",
+   "baselinePred": null,
+   "samples": [
+    "question",
+    "bug",
+    "bug",
+    "bug",
+    "question"
+   ],
+   "distinct": 2,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.04554540000000001
+  },
+  {
+   "caseId": "gs-0006",
+   "goldMain": "bug",
+   "baselinePred": "question",
+   "samples": [
+    "question",
+    "question",
+    "question",
+    "question",
+    "question"
+   ],
+   "distinct": 1,
+   "majority": "question",
+   "tie": false,
+   "cost": 0.0132852
+  },
+  {
+   "caseId": "gs-0011",
+   "goldMain": "bug",
+   "baselinePred": "question",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.014823
+  },
+  {
+   "caseId": "gs-0012",
+   "goldMain": "duplicate",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.0168324
+  },
+  {
+   "caseId": "gs-0015",
+   "goldMain": "bug",
+   "baselinePred": "question",
+   "samples": [
+    "question",
+    "question",
+    "question",
+    "question",
+    "question"
+   ],
+   "distinct": 1,
+   "majority": "question",
+   "tie": false,
+   "cost": 0.016067400000000003
+  },
+  {
+   "caseId": "gs-0016",
+   "goldMain": "bug",
+   "baselinePred": "question",
+   "samples": [
+    "question",
+    "question",
+    "question",
+    "question",
+    "question"
+   ],
+   "distinct": 1,
+   "majority": "question",
+   "tie": false,
+   "cost": 0.0161664
+  },
+  {
+   "caseId": "gs-0020",
+   "goldMain": "feature",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.014763000000000002
+  },
+  {
+   "caseId": "gs-0030",
+   "goldMain": "question",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.014785199999999998
+  },
+  {
+   "caseId": "gs-0032",
+   "goldMain": "feature",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "feature",
+    "feature",
+    "feature"
+   ],
+   "distinct": 2,
+   "majority": "feature",
+   "tie": false,
+   "cost": 0.0138234
+  },
+  {
+   "caseId": "gs-0033",
+   "goldMain": "question",
+   "baselinePred": "feature",
+   "samples": [
+    "feature",
+    "question",
+    "feature",
+    "feature",
+    "question"
+   ],
+   "distinct": 2,
+   "majority": "feature",
+   "tie": false,
+   "cost": 0.015246000000000001
+  },
+  {
+   "caseId": "gs-0041",
+   "goldMain": "duplicate",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.018522
+  },
+  {
+   "caseId": "gs-0048",
+   "goldMain": "feature",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.016233
+  },
+  {
+   "caseId": "gs-0004",
+   "goldMain": "feature",
+   "baselinePred": "feature",
+   "samples": [
+    "feature",
+    "feature",
+    "feature",
+    "feature",
+    "feature"
+   ],
+   "distinct": 1,
+   "majority": "feature",
+   "tie": false,
+   "cost": 0.012413999999999998
+  },
+  {
+   "caseId": "gs-0005",
+   "goldMain": "invalid",
+   "baselinePred": "invalid",
+   "samples": [
+    "invalid",
+    "invalid",
+    "invalid",
+    "invalid",
+    "invalid"
+   ],
+   "distinct": 1,
+   "majority": "invalid",
+   "tie": false,
+   "cost": 0.015189000000000001
+  },
+  {
+   "caseId": "gs-0007",
+   "goldMain": "feature",
+   "baselinePred": "feature",
+   "samples": [
+    "feature",
+    "feature",
+    "feature",
+    "feature",
+    "feature"
+   ],
+   "distinct": 1,
+   "majority": "feature",
+   "tie": false,
+   "cost": 0.015804
+  },
+  {
+   "caseId": "gs-0008",
+   "goldMain": "feature",
+   "baselinePred": "feature",
+   "samples": [
+    "feature",
+    "feature",
+    "feature",
+    "feature",
+    "feature"
+   ],
+   "distinct": 1,
+   "majority": "feature",
+   "tie": false,
+   "cost": 0.013970999999999999
+  },
+  {
+   "caseId": "gs-0009",
+   "goldMain": "bug",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.0123672
+  },
+  {
+   "caseId": "gs-0010",
+   "goldMain": "bug",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.019736999999999998
+  },
+  {
+   "caseId": "gs-0014",
+   "goldMain": "invalid",
+   "baselinePred": "invalid",
+   "samples": [
+    "invalid",
+    "invalid",
+    "invalid",
+    "invalid",
+    "invalid"
+   ],
+   "distinct": 1,
+   "majority": "invalid",
+   "tie": false,
+   "cost": 0.013731
+  },
+  {
+   "caseId": "gs-0018",
+   "goldMain": "question",
+   "baselinePred": "question",
+   "samples": [
+    "question",
+    "question",
+    "question",
+    "question",
+    "question"
+   ],
+   "distinct": 1,
+   "majority": "question",
+   "tie": false,
+   "cost": 0.011404799999999998
+  },
+  {
+   "caseId": "gs-0019",
+   "goldMain": "question",
+   "baselinePred": "question",
+   "samples": [
+    "question",
+    "question",
+    "question",
+    "question",
+    "question"
+   ],
+   "distinct": 1,
+   "majority": "question",
+   "tie": false,
+   "cost": 0.011734799999999998
+  },
+  {
+   "caseId": "gs-0021",
+   "goldMain": "bug",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.0094278
+  },
+  {
+   "caseId": "gs-0022",
+   "goldMain": "bug",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.0108714
+  },
+  {
+   "caseId": "gs-0023",
+   "goldMain": "bug",
+   "baselinePred": "bug",
+   "samples": [
+    "bug",
+    "bug",
+    "bug",
+    "bug",
+    "bug"
+   ],
+   "distinct": 1,
+   "majority": "bug",
+   "tie": false,
+   "cost": 0.0103158
+  }
+ ]
+}

@@ -170,31 +170,59 @@ if (valid === 0 || valid / n < 0.8) {
   let keptRight = 0;
   let stillWrong = 0;
   let noVote = 0;
+  // 采样真正的功劳只能算在「有分歧」的 case 上：无分歧却与基线预测不同，
+  // 那是换了通道/版本造成的差异，跟多数投票无关（2026-10-31 误判过一次，故显式分开记）。
+  let divFixed = 0;
+  let divBroken = 0;
+  let channelDiff = 0;
+  let accSingle = 0;
+  let accMajor = 0;
   for (const p of validProbes) {
     const baseRight = p.baselinePred === p.goldMain;
+    if (p.samples[0] === p.goldMain) accSingle++;
     if (p.majority === null) {
       noVote++;
       continue;
     }
     const nowRight = p.majority === p.goldMain;
+    if (nowRight) accMajor++;
     if (!baseRight && nowRight) fixed++;
     else if (baseRight && !nowRight) broken++;
     else if (baseRight && nowRight) keptRight++;
     else stillWrong++;
+    if (p.distinct > 1) {
+      if (!baseRight && nowRight) divFixed++;
+      else if (baseRight && !nowRight) divBroken++;
+    } else if (p.majority !== p.baselinePred) {
+      channelDiff++;
+    }
   }
-  const divRate = divergent / validProbes.length;
+  const total = validProbes.length;
+  const singleAcc = accSingle / total;
+  const majorAcc = accMajor / total;
+  const gainPt = (majorAcc - singleAcc) * 100;
+  const divRate = divergent / total;
   console.log(
-    `分歧率 ${(divRate * 100).toFixed(1)}%（${divergent}/${validProbes.length}）  平票 ${ties}`
+    `分歧率 ${(divRate * 100).toFixed(1)}%（${divergent}/${total}）  平票 ${ties}  无分歧但与基线不同 ${channelDiff}（通道差异，非采样功劳）`
   );
   console.log(
     `错例被多数票修正 ${fixed}  对例被改坏 ${broken}  对例保持 ${keptRight}  仍错 ${stillWrong}  无法裁决 ${noVote}`
   );
   console.log(
+    `其中真正来自分歧的：修正 ${divFixed} / 破坏 ${divBroken}`
+  );
+  console.log(
+    `准确率：首次单次 ${(singleAcc * 100).toFixed(1)}% → k=${K} 多数票 ${(majorAcc * 100).toFixed(1)}%  =  ${gainPt >= 0 ? "+" : ""}${gainPt.toFixed(1)}pt`
+  );
+  // 判据核心：多数票必须真的把准确率抬上去。修正>破坏只是必要条件，n 小时一条 case 就能翻盘。
+  console.log(
     divRate < 0.05
-      ? "→ 分歧率 <5%：多数投票无效，方案② 毙掉"
-      : fixed > broken
-        ? "→ 分歧有效且修正>破坏：方案② 成立，值得铺全量（k=5 预期 Δ CI 半宽 ÷√5 量级）"
-        : "→ 有分歧但破坏≥修正：需调温度/去偏手段，暂不上全量"
+      ? "→ 分歧率 <5%：多数投票没有可作用的对象，方案② 毙掉"
+      : gainPt <= 0
+        ? "→ 多数票与单次准确率持平或更差：方案② 不成立（此前的「修正>破坏」是通道差异冒充的）"
+        : divFixed > divBroken && gainPt >= 2
+          ? `→ 成立：分歧修正为主且净 +${gainPt.toFixed(1)}pt，值得铺全量（需再扩样本确认，勿凭单批外推）`
+          : `→ 有分歧但净收益仅 ${gainPt.toFixed(1)}pt：不足以抵消 k 倍成本，暂不上全量`
   );
 
   // ---- 落盘（仅有效跑，避免垃圾报告污染 datasets/pilot）----
