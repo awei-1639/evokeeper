@@ -207,13 +207,15 @@ if (isMain) {
     log(`[qa] 语料加载失败，问答钩子停用（分诊不受影响）：${String(err).slice(0, 120)}`);
   }
 
+  // 只绑回环：cloudflared 从 localhost 转入，公网唯一入口是带验签的隧道；
+  // listen(port) 默认绑 0.0.0.0 会把无鉴权的 healthz / 未签名 webhook 暴露到局域网
   createWebhookServer({
     port,
     traceStore,
     log,
     ...(handle ? { handle } : {}),
-  }).listen(port, () => {
-    console.log(`EvoKeeper webhook 接入已启动: http://localhost:${port}/webhook (healthz: /healthz)`);
+  }).listen(port, "127.0.0.1", () => {
+    console.log(`EvoKeeper webhook 接入已启动: http://127.0.0.1:${port}/webhook (healthz: /healthz, 仅回环)`);
     console.log(`[trace] 轨迹落库 -> datasets/traces/traces.jsonl`);
   });
 }
