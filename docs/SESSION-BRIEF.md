@@ -38,8 +38,10 @@ EvoKeeper：挂在开源仓库上的自进化维护者助手 Bot（issue 分诊 
 - ✅ **数据集 v2（2026-10-26）**：v1 全量 + expansion 100 入 dev = **260 条**（holdout 40 条锁定不变），CI95 由 ±7pt 收到 ±5.5pt；v2 base 72.7% → tp-1.4d2 74.2%（+1.54pt）。仲裁 15 条清零（9 维持 4 改判）
 - ✅ **门禁第 2 条口径修复（2026-10-31）**：`ci95_lower_bound_gt_0` 原用候选 run 的**绝对准确率 CI**（准确率 0.6+ → 下界恒正），自 v1.6 起从未生效。改为 **Δ 配对 bootstrap**（`pairedDeltaCI95`，按 caseId 对齐，覆盖率 ≥80% / ≥20 条）。**回溯 6 组历史对照，Δ CI 全部跨 0** → tp-1.4 的 +1.88pt 是噪声（此前误读为"真实小增益"，已纠正），根因是统计功效不足（n=254 时 Δ CI 半宽 ≈3.1pt，要检出 2pt 需 n≈650 或多次采样）。详见 design.md §7.2 v1.19 + `scripts/gate-recheck.mts`
 - ✅ **环境恢复（2026-10-31）**：pg 停 4 天导致 langfuse 陷入 6021 次重启循环；拉起 pg 后 langfuse health=200，pgvector 0.8.5 + issue_docs 300 条向量完好。**全量 216/216 通过（真容器，零 skip）**，typecheck 8 包全绿
+- ✅ **评测上限诊断（2026-10-31，design.md §7.3）**：三个零成本探针证伪三条路线——① **duplicate 纯相似度不可分**（最优 F1 0.281 @τ=0.79，precision 18.8%；invalid 组相似度中位数 0.777 反超 duplicate），说明「注入证据判 duplicate」的成本墙背后是**判据本身无效**；② **needs-more-info 不可学**（nmi 组文本信息完整度反比对照组高 13.2pt、版本号 +36pt）——gold nmi 是「维护者追问过」的事件标注，0/33 不是模型缺陷；③ k 采样降噪探针就绪，**待 DeepSeek 余额**验证（当前 402 Insufficient Balance 已阻塞一切真实评测实验）。
+- ✅ **战略结论**：给 title+body 的输入下 75% 已接近上限，剩余错误主要依赖维护者行为。**主指标应从标签 accuracy 转向动作质量**（escalate 精度 / 请求补充信息的正确率 / 评论被接受率），可被 `ReactionSignal` 自监督且效应量 10pt 级——这是唯一能绕开「统计功效 + 成本墙」双约束的方向。
 - ⚠️ **未推送**：本地 `master` 领先 origin 24+ 提交（远端停在 10-18 的 `fb04e09`），需用户显式指令再 push
-- ⏳ 待办：① **门禁统计功效决策**（三选一：扩 dev 到 600+ / triage 采样 k=3 多数投票 / 转向可大效应量的经验类型）——这是当前唯一阻塞"经验能发布"的问题；② 回答 LLM-judge 五维（等 GLM key）；③ 管理台回滚按钮接线（等首个成功发布）；④ Langfuse 建组织拿 key 填 `.env.local`（观测真实上报）；⑤ 旧待办已清：仲裁 15 条已清零、Docker 适配器已接线、GitHub App 已上线、tp-1.3 检索 A/B 已做（结论见 design.md §9.1）
+- ⏳ 待办（按优先级）：① **DeepSeek 充值**（硬阻塞：余额耗尽，所有评测/采样实验跑不了）；② 余额到账后跑 `sampling-probe` 判定 k 采样是否有效 → 有效则铺进 run-eval 压 Δ CI；③ **动作质量指标定义 + 基线采集**（需真实流量，现在 judged 只有 4 条自测轨迹）；④ 回答 LLM-judge 五维（等 GLM key）；⑤ 管理台回滚按钮（等首个成功发布）；⑥ Langfuse 建组织拿 key 填 `.env.local`。已清旧账：仲裁 15 条清零、Docker 适配器接线、GitHub App 上线、tp-1.3 检索 A/B、门禁口径修复
 
 ## 3. 不可违反的项目约定
 
