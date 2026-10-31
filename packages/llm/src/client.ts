@@ -5,6 +5,7 @@
  * 传输层与业务逻辑解耦：测试用 createMockTransport 注入，无需联网与 API Key。
  */
 import { PROVIDER_ENV_KEY, getBaseUrl, getSpec, type Provider } from "./config";
+import { isFatalLlmError } from "./errors";
 
 export interface ChatRequest {
   model: string;
@@ -177,7 +178,11 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
           continue;
         }
         if (!res.ok) {
-          throw new Error(`LLM 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+          // 4xx（除 429 已在上方处理）属于调用方/配置/余额问题，重试永远不会成功：
+          // 打上标记让 catch 直接抛出，不再消耗退避时间（2026-10-31 教训）
+          const err = new Error(`LLM 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+          (err as Error & { fatal?: boolean }).fatal = true;
+          throw err;
         }
         const json = (await res.json()) as ChatCompletionBody;
         const usage = json.usage ?? {};
@@ -190,6 +195,8 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
         };
       } catch (err) {
         lastError = err;
+        // 致命错误（余额/鉴权/渠道缺失）不重试：退避只会把一次失败拉长成几分钟
+        if ((err as { fatal?: boolean }).fatal || isFatalLlmError(err)) break;
         if (attempt < maxRetries) await sleep(backoff(attempt));
       }
     }
@@ -229,7 +236,9 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
           continue;
         }
         if (!res.ok) {
-          throw new Error(`Embedding 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+          const err = new Error(`Embedding 调用失败 ${res.status}: ${(await res.text()).slice(0, 200)}`);
+          (err as Error & { fatal?: boolean }).fatal = true;
+          throw err;
         }
         const json = (await res.json()) as EmbeddingBody;
         const vectors: number[][] = [];
@@ -239,6 +248,8 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
         return { vectors, inputTokens: json.usage?.prompt_tokens ?? 0 };
       } catch (err) {
         lastError = err;
+        // 致命错误（余额/鉴权/渠道缺失）不重试：退避只会把一次失败拉长成几分钟
+        if ((err as { fatal?: boolean }).fatal || isFatalLlmError(err)) break;
         if (attempt < maxRetries) await sleep(backoff(attempt));
       }
     }

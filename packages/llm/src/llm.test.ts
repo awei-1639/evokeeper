@@ -20,6 +20,7 @@ import { buildCacheKey, createMemoryCache, normalizeInput } from "./cache";
 import { createHttpTransport, createMockTransport } from "./client";
 import { extractJson } from "./structured";
 import { createLlm } from "./index";
+import { classifyLlmError } from "./errors";
 
 /** 北京时间 10:00（高峰） */
 const PEAK = new Date("2026-09-14T02:00:00Z");
@@ -255,5 +256,74 @@ describe("base URL 环境变量覆盖（中转站支持）", () => {
     });
     await transport.chat({ model: "deepseek-v4-flash", system: "s", user: "u" });
     expect(captured[0]).toBe("https://api.deepseek.com/chat/completions");
+  });
+});
+
+describe("errors: 致命错误分类（2026-10-31 教训）", () => {
+  const fatalSamples = [
+    'LLM 调用失败 402: {"code":30001,"message":"Sorry, your account balance is insufficient"}',
+    'LLM 调用失败 401: {"error":{"message":"Authentication Fails"}}',
+    "LLM 调用失败 401: Invalid token",
+    'LLM 调用失败 400: {"message":"unknown provider"}',
+    'LLM 调用失败 503: {"message":"model_not_found"}',
+    'LLM 调用失败 503: No available channel under group',
+  ];
+  for (const s of fatalSamples) {
+    it(`判定为致命：${s.slice(0, 48)}`, () => {
+      expect(classifyLlmError(s).fatal).toBe(true);
+    });
+  }
+
+  const transientSamples = [
+    "LLM 调用失败 429: rate limited",
+    "LLM 调用失败 500: upstream error",
+    "fetch failed",
+    "The operation was aborted due to timeout",
+  ];
+  for (const s of transientSamples) {
+    it(`不判定为致命：${s.slice(0, 40)}`, () => {
+      expect(classifyLlmError(s).fatal).toBe(false);
+    });
+  }
+
+  it("致命错误不重试（只调用 1 次），瞬时错误仍重试 3 次", async () => {
+    let calls = 0;
+    const failing = (message: string) => ({
+      chat: () => {
+        calls++;
+        throw new Error(message);
+      },
+      embed: () => {
+        throw new Error(message);
+      },
+    });
+    const fatalLlm = createLlm({
+      transport: failing('LLM 调用失败 402: {"message":"insufficient balance"}'),
+      cache: null,
+    });
+    calls = 0;
+    const fatalRes = await fatalLlm.json({
+      purpose: "triage",
+      system: "s",
+      user: "u",
+      validate: () => ({ ok: true as const, value: 1 }),
+    });
+    expect(fatalRes.ok).toBe(false);
+    expect(fatalRes.meta.attempts).toBe(1);
+    expect(calls).toBe(1);
+
+    const transientLlm = createLlm({
+      transport: failing("LLM 调用失败 500: upstream error"),
+      cache: null,
+    });
+    calls = 0;
+    const transientRes = await transientLlm.json({
+      purpose: "triage",
+      system: "s",
+      user: "u",
+      validate: () => ({ ok: true as const, value: 1 }),
+    });
+    expect(transientRes.ok).toBe(false);
+    expect(transientRes.meta.attempts).toBe(3);
   });
 });

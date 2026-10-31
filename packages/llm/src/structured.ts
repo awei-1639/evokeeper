@@ -7,6 +7,7 @@
  * - judge / consolidate 不缓存（TTL=0），保证评测可复现。
  */
 import type { ModelConfig } from "@evokeeper/core";
+import { isFatalLlmError } from "./errors";
 import { DEFAULT_TTL_MS, buildCacheKey, type LlmCache } from "./cache";
 import { estimateCost, resolveModel, type LlmPurpose } from "./config";
 import type { LlmTransport } from "./client";
@@ -162,6 +163,8 @@ export async function completeJson<T>(
       error = validated.error;
     } catch (err) {
       error = err instanceof Error ? err.message : String(err);
+      // 余额/鉴权/渠道类错误：连试 3 次只会把一次失败拉长成 3 次超时，直接放弃
+      if (isFatalLlmError(err)) break;
     }
   }
 
