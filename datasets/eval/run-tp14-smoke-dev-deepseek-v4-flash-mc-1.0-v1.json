@@ -1,0 +1,102 @@
+{
+  "run": {
+    "id": "run-tp14-smoke-dev-v1",
+    "candidateId": null,
+    "baselineRunId": null,
+    "datasetVersion": "v1",
+    "split": "dev",
+    "modelConfig": {
+      "version": "mc-1.0",
+      "routing": {
+        "triage": "deepseek-v4-flash",
+        "answer": "qwen3-max",
+        "judge": "glm-4.6",
+        "consolidate": "deepseek-v4-pro",
+        "embed": "BAAI/bge-m3"
+      }
+    },
+    "metrics": {
+      "triageAccuracy": 0.75,
+      "triageMacroF1": 0.6666666666666666,
+      "answerQuality": 0,
+      "p50LatencyMs": 2938,
+      "p95LatencyMs": 3862,
+      "costPerIssue": 0.0019119750000000002,
+      "adversarialPassRate": null
+    },
+    "ci95": {
+      "lower": 0.25,
+      "upper": 1
+    },
+    "perCase": [
+      {
+        "caseId": "gs-0003",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0004",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0005",
+        "passed": true,
+        "triageCorrect": true,
+        "answerScore": null
+      },
+      {
+        "caseId": "gs-0006",
+        "passed": false,
+        "triageCorrect": false,
+        "answerScore": null
+      }
+    ],
+    "ranAt": "2026-10-25T15:55:13.617Z"
+  },
+  "nmi": {
+    "hit": 0,
+    "goldCount": 0,
+    "falsePositives": 2
+  },
+  "perCaseDetail": [
+    {
+      "caseId": "gs-0003",
+      "goldMain": "question",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": true,
+      "costAmount": 0.0034035,
+      "durationMs": 3862
+    },
+    {
+      "caseId": "gs-0004",
+      "goldMain": "feature",
+      "predMain": "feature",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0007807999999999999,
+      "durationMs": 888
+    },
+    {
+      "caseId": "gs-0005",
+      "goldMain": "invalid",
+      "predMain": "invalid",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": false,
+      "costAmount": 0.0010133,
+      "durationMs": 1055
+    },
+    {
+      "caseId": "gs-0006",
+      "goldMain": "bug",
+      "predMain": "question",
+      "goldNeedsMoreInfo": false,
+      "predNeedsMoreInfo": true,
+      "costAmount": 0.0024503000000000003,
+      "durationMs": 2938
+    }
+  ]
+}
