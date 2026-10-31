@@ -19,6 +19,7 @@ import {
   makeEvalRun,
   needsMoreInfoReport,
   duplicateReport,
+  pairedDeltaCI95,
   triageAccuracy,
   triageMacroF1,
   type CaseResult,
@@ -305,5 +306,101 @@ describe("makeEvalRun / buildEvalMetrics", () => {
     expect(run.ci95).not.toBeNull();
     expect(run.metrics.p50LatencyMs).toBeGreaterThan(0);
     expect(buildEvalMetrics([]).costPerIssue).toBe(0);
+  });
+});
+
+/**
+ * 门禁第 2 条的口径回归（design.md §7.2 v1.19）
+ *
+ * 旧实现用候选 run 的**绝对准确率 CI** 判 `lower > 0`——准确率 0.6~0.8 时恒真，
+ * 等于没有这条门禁。下面第一个用例就是这个恒真陷阱的锁：候选 CI 下界为正，
+ * 但相对基线的提升在统计上完全不可判别（差值有正有负），必须判 fail。
+ */
+describe("pairedDeltaCI95 / 门禁第 2 条（Δ 配对比较）", () => {
+  const MC_SAME = MC;
+  const runOf = (id: string, preds: Array<"bug" | "question">, ci?: { lower: number; upper: number }) =>
+    makeEvalRun({
+      id,
+      candidateId: null,
+      baselineRunId: null,
+      datasetVersion: "v1",
+      split: "dev",
+      modelConfig: MC_SAME,
+      cases: preds.map((p, i) => result(`c${i}`, "bug", p)),
+      ...(ci ? { ci95: ci } : {}),
+    });
+
+  it("恒真陷阱：候选绝对 CI 下界为正，但 Δ 不显著 → 必须 fail", () => {
+    // 基线 60/100。候选 62/100：修好 7 条、弄坏 5 条 → 净 +2pt 但差值有正有负。
+    const base = runOf("b", Array.from({ length: 100 }, (_, i) => (i < 60 ? "bug" : "question")));
+    const cand = runOf(
+      "c",
+      Array.from({ length: 100 }, (_, i) =>
+        i < 55 || (i >= 60 && i < 67) ? "bug" : "question"
+      )
+    );
+    expect(cand.metrics.triageAccuracy).toBeCloseTo(0.62, 5);
+    expect(base.metrics.triageAccuracy).toBeCloseTo(0.6, 5);
+    // 绝对 CI 下界远大于 0 —— 旧实现据此判通过，是恒真陷阱
+    expect(cand.ci95!.lower).toBeGreaterThan(0.4);
+    const paired = pairedDeltaCI95(base, cand);
+    expect(paired).not.toBeNull();
+    expect(paired!.matchedCases).toBe(100);
+    expect(paired!.deltaPt).toBeCloseTo(2, 5);
+    expect(paired!.lowerPt).toBeLessThanOrEqual(0);
+  });
+
+  it("Δ 配对 CI 显著为正 → passed；且 CI 宽度明显窄于单次 run 的绝对 CI", () => {
+    const preds = Array.from({ length: 200 }, (_, i) => (i < 140 ? "bug" : "question") as "bug" | "question");
+    const candPreds = preds.map((p, i) => (i >= 140 && i < 160 ? "bug" : p) as "bug" | "question");
+    const base = runOf("b", preds);
+    const cand = runOf("c", candPreds);
+    const paired = pairedDeltaCI95(base, cand)!;
+    expect(paired.deltaPt).toBeCloseTo(10, 5); // 140/200 → 160/200
+    expect(paired.lowerPt).toBeGreaterThan(0);
+    const absWidth = (cand.ci95!.upper - cand.ci95!.lower) * 100;
+    expect(paired.upperPt - paired.lowerPt).toBeLessThan(absWidth);
+  });
+
+  it("无 caseId 交集 → 返回 null，门禁判 fail（不默认通过）", () => {
+    const base = runOf("b", ["bug", "bug", "question"]);
+    const cand = makeEvalRun({
+      id: "c",
+      candidateId: "x",
+      baselineRunId: "b",
+      datasetVersion: "v1",
+      split: "dev",
+      modelConfig: MC_SAME,
+      cases: [result("other-1", "bug", "bug"), result("other-2", "bug", "bug")],
+    });
+    expect(pairedDeltaCI95(base, cand)).toBeNull();
+    const d = evaluateGate({ baseline: base, candidate: cand });
+    const ci = d.checks.find((c) => c.rule === "ci95_lower_bound_gt_0");
+    expect(ci?.passed).toBe(false);
+    expect(ci?.detail).toContain("无按 caseId 对齐");
+  });
+
+  it("配对覆盖率 < 80% → fail（防拿少数 case 刷显著性）", () => {
+    const base = runOf("b", Array.from({ length: 100 }, () => "bug" as const));
+    // 只有前 30 条与基线对齐（caseId 同名），其余是无关 case
+    const cand = makeEvalRun({
+      id: "c",
+      candidateId: "x",
+      baselineRunId: "b",
+      datasetVersion: "v1",
+      split: "dev",
+      modelConfig: MC_SAME,
+      cases: [
+        ...Array.from({ length: 30 }, (_, i) => result(`c${i}`, "bug", "bug")),
+        ...Array.from({ length: 70 }, (_, i) => result(`x${i}`, "bug", "question")),
+      ],
+    });
+    const paired = pairedDeltaCI95(base, cand)!;
+    expect(paired.matchedCases).toBe(30);
+    expect(paired.coverage).toBeCloseTo(0.3, 5);
+    const d = evaluateGate({ baseline: base, candidate: cand });
+    const ci = d.checks.find((c) => c.rule === "ci95_lower_bound_gt_0");
+    expect(ci?.passed).toBe(false);
+    expect(ci?.detail).toContain("配对覆盖率不足");
   });
 });

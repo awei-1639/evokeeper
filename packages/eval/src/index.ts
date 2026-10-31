@@ -8,12 +8,15 @@
  * - 每个 EvalRun 必须携带 modelConfig 快照 + datasetVersion；跨版本比较在门禁直接拒绝。
  *
  * 门禁判定（§7.2，五条全过才放行）：
- * 1. dev_improvement_ge_2pt        dev 主指标提升 ≥ 2pt；
- * 2. ci95_lower_bound_gt_0         bootstrap 95% CI 下界 > 0；
+ * 1. dev_improvement_ge_2pt        dev 主指标提升 ≥ 2pt（点估计，管实质意义）；
+ * 2. ci95_lower_bound_gt_0         Δ（候选−基线）配对 bootstrap 95% CI 下界 > 0（管统计可判别）；
  * 3. holdout_no_regression_ge_1pt  holdout 回退 < 1pt（dev+holdout 双跑缺一不可）；
  * 4. adversarial_no_worsening      W8 前标记 skipped（detail 写明原因），不得默认 passed；
  * 5. cost_increase_le_10pct        单次成本增幅 ≤ 10%。
  * 外加第 6 道历史轨迹影子回放（W6 后续，独立实现）。
+ *
+ * 注：第 2 条的 CI 必须建在 Δ 上。用单次 run 的绝对准确率 CI 会让「下界 > 0」恒真
+ * （准确率 0.63~0.81，下界天然为正），门禁形同虚设——见 design.md §7.2 v1.19。
  */
 import fs from "node:fs";
 import type { EvalMetrics, EvalRun, GateDecision, ModelConfig } from "@evokeeper/core";
@@ -28,6 +31,10 @@ export const DEV_IMPROVEMENT_MIN_PT = 2;
 export const HOLDOUT_REGRESSION_MAX_PT = 1;
 export const COST_INCREASE_MAX_PCT = 10;
 export const BOOTSTRAP_ITERATIONS = 1000;
+/** 配对比较：对齐覆盖率下限（防对齐失败后拿少数 case 刷出显著性） */
+export const PAIRED_MIN_COVERAGE = 0.8;
+/** 配对比较：对齐 case 数下限 */
+export const PAIRED_MIN_CASES = 20;
 
 // ---------- golden set 加载 ----------
 
@@ -174,8 +181,22 @@ function percentile(values: readonly number[], p: number): number {
   return sorted[Math.min(sorted.length - 1, Math.floor((values.length * p) / 100))] ?? 0;
 }
 
+/** mulberry32（固定种子的可复现伪随机） */
+function makeRand(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /**
  * bootstrap 95% CI（主指标 triageAccuracy）。seed 固定可复现（mulberry32）。
+ *
+ * 注意：这是**单次 run 准确率**的 CI，回答"这个准确率本身有多确定"，
+ * 不能用于判断"候选是否优于基线"——那种比较必须用 {@link pairedDeltaCI95}。
  */
 export function bootstrapCI95(
   cases: readonly CaseResult[],
@@ -184,13 +205,7 @@ export function bootstrapCI95(
 ): { lower: number; upper: number } | null {
   if (cases.length === 0) return null;
   const correct = cases.map((c) => (c.predMain === c.goldMain ? 1 : 0));
-  let a = seed >>> 0;
-  const rand = () => {
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+  const rand = makeRand(seed);
   const n = correct.length;
   const stats: number[] = [];
   for (let it = 0; it < iterations; it++) {
@@ -204,6 +219,75 @@ export function bootstrapCI95(
   const lower = stats[Math.floor(iterations * 0.025)] ?? 0;
   const upper = stats[Math.min(stats.length - 1, Math.floor(iterations * 0.975))] ?? 0;
   return { lower, upper };
+}
+
+/** Δ（候选 − 基线）的配对 bootstrap 结果，单位 pt */
+export interface PairedDeltaCI {
+  /** 点估计差值（pt，基于对齐后的 case） */
+  deltaPt: number;
+  /** 95% CI 下界（pt） */
+  lowerPt: number;
+  upperPt: number;
+  /** 成功对齐的 case 数 */
+  matchedCases: number;
+  /** 对齐覆盖率 = matched / 两侧有效 case 数的较小值 */
+  coverage: number;
+  iterations: number;
+}
+
+/**
+ * Δ（候选 − 基线）的配对 bootstrap 95% CI——门禁第 2 条的正确口径（design.md §7.2 v1.19）。
+ *
+ * 为什么必须配对：同一批 case 的难度在两条 run 里是共同项，逐条做差可以消掉它，
+ * 差值序列的方差远小于两次独立准确率的方差和。用绝对准确率的 CI 判"是否提升"，
+ * 下界天然为正（准确率 0.6+），门禁恒真。
+ *
+ * 对齐规则：按 `caseId` 取交集，任一测的 `triageCorrect === null` 的 case 跳过。
+ * 无法对齐或无有效 case 时返回 null，由调用方判 fail（不默认通过）。
+ */
+export function pairedDeltaCI95(
+  baseline: Pick<EvalRun, "perCase">,
+  candidate: Pick<EvalRun, "perCase">,
+  iterations = BOOTSTRAP_ITERATIONS,
+  seed = 42
+): PairedDeltaCI | null {
+  const baseMap = new Map<string, boolean>();
+  for (const c of baseline.perCase) {
+    if (c.triageCorrect !== null) baseMap.set(c.caseId, c.triageCorrect);
+  }
+  const diffs: number[] = [];
+  let candidateValid = 0;
+  for (const c of candidate.perCase) {
+    if (c.triageCorrect === null) continue;
+    candidateValid++;
+    const base = baseMap.get(c.caseId);
+    if (base === undefined) continue;
+    diffs.push((c.triageCorrect ? 1 : 0) - (base ? 1 : 0));
+  }
+  if (diffs.length === 0) return null;
+
+  const n = diffs.length;
+  const rand = makeRand(seed);
+  const stats: number[] = [];
+  for (let it = 0; it < iterations; it++) {
+    let sum = 0;
+    for (let i = 0; i < n; i++) {
+      sum += diffs[Math.floor(rand() * n)] ?? 0;
+    }
+    stats.push(sum / n);
+  }
+  stats.sort((x, y) => x - y);
+  const lower = stats[Math.floor(iterations * 0.025)] ?? 0;
+  const upper = stats[Math.min(stats.length - 1, Math.floor(iterations * 0.975))] ?? 0;
+  const denom = Math.min(baseMap.size, candidateValid);
+  return {
+    deltaPt: (diffs.reduce((a, b) => a + b, 0) / n) * 100,
+    lowerPt: lower * 100,
+    upperPt: upper * 100,
+    matchedCases: n,
+    coverage: denom > 0 ? n / denom : 0,
+    iterations,
+  };
 }
 
 export function buildEvalMetrics(cases: readonly CaseResult[]): EvalMetrics {
@@ -337,15 +421,28 @@ export function evaluateGate(input: GateInput): GateDecision {
     `dev triageAccuracy ${(baseline.metrics.triageAccuracy * 100).toFixed(1)}% → ${(candidate.metrics.triageAccuracy * 100).toFixed(1)}%（${deltaPt >= 0 ? "+" : ""}${deltaPt.toFixed(2)}pt），要求 ≥ ${DEV_IMPROVEMENT_MIN_PT}pt`
   );
 
-  // 2. bootstrap 95% CI 下界 > 0（基于候选 dev run）
-  const ci = candidate.ci95;
-  add(
-    "ci95_lower_bound_gt_0",
-    ci !== null && ci.lower > 0,
-    ci === null
-      ? "候选 run 未提供 ci95（bootstrap 重采样未执行）"
-      : `CI95 = [${(ci.lower * 100).toFixed(2)}pt, ${(ci.upper * 100).toFixed(2)}pt]，下界须 > 0`
-  );
+  // 2. Δ（候选−基线）配对 bootstrap 95% CI 下界 > 0（§7.2 v1.19）
+  //    绝对准确率的 CI 不能用：其下界恒为正，等于没有判定。
+  const paired = pairedDeltaCI95(baseline, candidate);
+  if (paired === null) {
+    add(
+      "ci95_lower_bound_gt_0",
+      false,
+      "failed：两条 run 无按 caseId 对齐的有效 case，无法做配对比较（不默认通过）"
+    );
+  } else if (paired.matchedCases < PAIRED_MIN_CASES || paired.coverage < PAIRED_MIN_COVERAGE) {
+    add(
+      "ci95_lower_bound_gt_0",
+      false,
+      `failed：配对覆盖率不足（对齐 ${paired.matchedCases} 条，覆盖率 ${(paired.coverage * 100).toFixed(1)}%；要求 ≥ ${PAIRED_MIN_CASES} 条且 ≥ ${(PAIRED_MIN_COVERAGE * 100).toFixed(0)}%），拒绝据少数 case 判定显著性`
+    );
+  } else {
+    add(
+      "ci95_lower_bound_gt_0",
+      paired.lowerPt > 0,
+      `Δ 配对 CI95 = [${paired.lowerPt.toFixed(2)}pt, ${paired.upperPt.toFixed(2)}pt]（Δ = ${paired.deltaPt >= 0 ? "+" : ""}${paired.deltaPt.toFixed(2)}pt，对齐 ${paired.matchedCases} 条，${paired.iterations} 次重采样），下界须 > 0`
+    );
+  }
 
   // 3. holdout 回退 < 1pt（需 holdout 双评测）
   if (input.baselineHoldout && input.candidateHoldout) {
