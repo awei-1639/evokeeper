@@ -108,6 +108,8 @@ export interface CaseResult {
   predNeedsMoreInfo: boolean;
   costAmount: number;
   durationMs: number;
+  /** 模型自报置信度（§7.4 动作质量口径的输入）；null/缺失 = 未采集或解析失败 */
+  confidence?: number | null;
 }
 
 export function triageAccuracy(cases: readonly CaseResult[]): number {
@@ -502,3 +504,6 @@ export function evaluateGate(input: GateInput): GateDecision {
   const passed = checks.every((c) => c.passed || c.detail.startsWith("skipped："));
   return { evalRunId: candidate.id, passed, checks, decidedAt: now };
 }
+
+// 动作质量（§7.4）：主指标的候选替代口径，独立文件以免把 §7.1 的准确率逻辑搅浑
+export * from "./action-quality";
