@@ -13,7 +13,9 @@ services:
       POSTGRES_PASSWORD: evokeeper_dev_only
       POSTGRES_DB: evokeeper
     ports:
-      - "5432:5432"
+      # 宿主机端口可覆盖：本机 5432 常被其他项目占用（如 tutor-postgres），
+      # 冲突时用 EVOKEEPER_PG_PORT=5433 docker compose up -d --force-recreate postgres
+      - "${EVOKEEPER_PG_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
