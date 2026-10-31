@@ -20,6 +20,7 @@ import {
   type ModelConfig,
 } from "../packages/llm/src/index";
 import { handleIssueEvent, type IssueEvent } from "../apps/agent/src/index";
+import { classifyLlmError } from "../packages/llm/src/errors";
 import { TRIAGE_PROMPT_VERSION } from "../apps/agent/src/triage";
 import { createSimilarIssuesSearch } from "../apps/agent/src/similar-issues";
 import { createBm25SimilarIssuesSearch } from "../apps/agent/src/similar-issues-bm25";
@@ -32,6 +33,8 @@ import {
   makeEvalRun,
   needsMoreInfoReport,
   duplicateReport,
+  actionQualityReport,
+  type ActionCase,
   type CaseResult,
 } from "../packages/eval/src/index";
 
@@ -96,14 +99,31 @@ async function runWithRetry(
   deps: Parameters<typeof handleIssueEvent>[1] = {}
 ) {
   let res = await handleIssueEvent(event, { llm, ...deps });
+  abortOnFatal(res);
   for (const delay of [30_000, 60_000, 120_000]) {
     if (!res.escalated || totalCostOf(res.steps) > 0) return res;
     const why = res.actions[0]?.kind === "escalate" ? (res.actions[0] as { reason: string }).reason : "";
     console.log(`    … 传输失败，${delay / 1000}s 后重试：${why.slice(0, 140)}`);
     await new Promise((r) => setTimeout(r, delay));
     res = await handleIssueEvent(event, { llm, ...deps });
+    abortOnFatal(res);
   }
   return res;
+}
+
+/**
+ * 余额/鉴权/渠道类错误立刻中止整批。
+ * 2026-10-31 教训：SiliconFlow 余额耗尽后每条 case 都走完 30/60/120s 退避，
+ * 52 分钟只跑了十几条、报告最终不落盘——一次配置问题的代价被放大成整晚空转。
+ */
+function abortOnFatal(res: Awaited<ReturnType<typeof handleIssueEvent>>): void {
+  if (!res.escalated || totalCostOf(res.steps) > 0) return;
+  const reason = res.actions[0]?.kind === "escalate" ? res.actions[0].reason : "";
+  const verdict = classifyLlmError(reason);
+  if (!verdict.fatal) return;
+  console.error(`\n致命错误，中止整批（命中 ${verdict.matched}）：${reason.slice(0, 300)}`);
+  console.error("这属于余额/凭据/渠道配置问题，重试不会成功。处理后可续跑（同 tag 会从轨迹库断点恢复）。");
+  process.exit(1);
 }
 
 // ---- 执行 ----
@@ -129,12 +149,37 @@ if (cases.length === 0) {
   process.exit(1);
 }
 const model = MODEL ?? resolveModel("triage", MODEL_OVERRIDE as ModelConfig);
+// 文件名安全：SiliconFlow 的模型标识带 "deepseek-ai/" 前缀，直接拼进路径会写出子目录
+const modelSlug = model.replace(/[^a-zA-Z0-9._-]+/g, "-");
 console.log(`== eval:run == tag=${TAG} split=${SPLIT} ds=${DS} 模型=${model} 样本=${cases.length}`);
 
 const llm: Llm | undefined =
   JSON.stringify(MODEL_OVERRIDE) !== JSON.stringify(DEFAULT_MODEL_CONFIG)
     ? createLlm({ config: MODEL_OVERRIDE })
     : undefined;
+
+// 预检：一次 4 token 的调用确认凭据/余额/渠道可用（约 ¥0.0001），
+// 让「通道是死的」在第一条 case 之前暴露，而不是跑到一半才发现（2026-10-31：52 分钟空转）
+if (!argv.includes("--skip-preflight")) {
+  try {
+    await (llm ?? createLlm()).transport.chat({
+      model,
+      system: "",
+      user: "ping",
+      maxOutputTokens: 4,
+    });
+    console.log("预检通过：通道可用");
+  } catch (e) {
+    const v = classifyLlmError(e);
+    const msg = e instanceof Error ? e.message.slice(0, 200) : String(e);
+    console.error(`预检失败${v.fatal ? `（致命，命中 ${v.matched}）` : ""}：${msg}`);
+    if (v.fatal) {
+      console.error("余额/凭据/渠道问题，重试无意义——补齐后重跑（或 --skip-preflight 跳过预检）。");
+      process.exit(1);
+    }
+    console.warn("预检非致命失败，继续；若大面积失败会由质量门拦截");
+  }
+}
 
 // 检索证据（--retrieve）：pgvector 向量库 + embed 查询；评测检索排除 case 自身
 let pool: import("pg").Pool | null = null;
@@ -213,6 +258,7 @@ if (traceStore) {
       predNeedsMoreInfo: false,
       costAmount: t.totalCost,
       durationMs: 0,
+      confidence: null, // 轨迹未存置信度：断点恢复行不参与动作质量统计
     });
   }
   if (resumedCases.size > 0) {
@@ -250,6 +296,8 @@ for (const c of cases) {
     predNeedsMoreInfo: res.triage?.labels.includes("needs-more-info") ?? false,
     costAmount: stepCost,
     durationMs: stepDuration,
+    // §7.4 动作质量：置信度是 escalate 决策的唯一输入，必须随 run 一起留痕
+    confidence: res.triage?.confidence ?? null,
   });
   if (traceStore) {
     // 确定性 id：同 tag/dataset/case 重跑不重复落库（幂等，R3）
@@ -302,6 +350,35 @@ console.log(`nmi: 命中 ${nmi.hit}/${nmi.goldCount} | 误报 ${nmi.falsePositiv
 console.log(`duplicate: 命中 ${dup.hit}/${dup.goldCount} | 误报 ${dup.falsePositives}（${(dup.falsePositiveRate * 100).toFixed(1)}%）`);
 console.log(`CI95: [${((run.ci95?.lower ?? 0) * 100).toFixed(2)}pt, ${((run.ci95?.upper ?? 0) * 100).toFixed(2)}pt]`);
 console.log(`成本: ¥${totalCost.toFixed(4)} | p50 ${run.metrics.p50LatencyMs}ms / p95 ${run.metrics.p95LatencyMs}ms`);
+
+// ---- 动作质量（§7.4）：置信度是否可当概率用 ----
+// 只统计采集到置信度的 case（断点恢复行 confidence=null 且已有预测，无法判定其决策，排除）
+const measured = results.filter((r) => (r.confidence ?? null) !== null || r.predMain === null);
+const unmeasured = results.length - measured.length;
+const actionCases: ActionCase[] = measured.map((r) => ({
+  caseId: r.caseId,
+  correct: r.predMain === null ? null : r.predMain === r.goldMain,
+  confidence: r.confidence ?? null,
+}));
+const aq = actionQualityReport(actionCases);
+console.log("");
+console.log("== 动作质量（§7.4）==");
+console.log(
+  `盈亏平衡置信度 p*=${aq.breakEven.toFixed(3)}（m=${aq.weights.mislabel}, w=${aq.weights.wastedEscalation}）| 校准 ECE=${aq.ece.toFixed(3)}${unmeasured > 0 ? ` | 未采集置信度 ${unmeasured} 条已排除` : ""}`
+);
+if (aq.alwaysAuto)
+  console.log(
+    `全自动: 效用 ${aq.alwaysAuto.utilityPerCase.toFixed(3)}/条（误标 ${aq.alwaysAuto.mislabeled}）`
+  );
+if (aq.best)
+  console.log(
+    `最优: τ=${aq.best.threshold.toFixed(2)} | 自动标注 ${(aq.best.autoCoverage * 100).toFixed(1)}% | 自动精确率 ${(aq.best.autoPrecision * 100).toFixed(1)}% | 拦截召回 ${(aq.best.escalationRecall * 100).toFixed(1)}% | 效用 ${aq.best.utilityPerCase.toFixed(3)}/条（${aq.liftVsAlwaysAuto >= 0 ? "+" : ""}${aq.liftVsAlwaysAuto.toFixed(3)}）`
+  );
+for (const b of aq.bins) {
+  console.log(
+    `  校准桶 [${b.lowerBound.toFixed(1)},${b.upperBound.toFixed(1)}): n=${String(b.n).padStart(3)} 实际 ${(b.accuracy * 100).toFixed(0)}% vs 自报 ${(b.meanConfidence * 100).toFixed(0)}%`
+  );
+}
 if (traceStore) {
   console.log(`轨迹落库: 新增 ${savedTraces} 条${duplicateTraces > 0 ? `（重复跳过 ${duplicateTraces}）` : ""}`);
 }
@@ -309,10 +386,10 @@ if (traceStore) {
 // ---- 落盘（防覆盖）----
 const outDir = resolve(ROOT, "datasets/eval");
 mkdirSync(outDir, { recursive: true });
-const outFile = resolve(outDir, `run-${TAG}-${SPLIT}-${model}-${(MODEL_OVERRIDE as ModelConfig).version}-${DS}.json`);
+const outFile = resolve(outDir, `run-${TAG}-${SPLIT}-${modelSlug}-${(MODEL_OVERRIDE as ModelConfig).version}-${DS}.json`);
 if (existsSync(outFile) && !argv.includes("--force")) {
   console.error(`报告已存在，拒绝覆盖（加 --force 强制）：${outFile}`);
   process.exit(1);
 }
-writeFileSync(outFile, JSON.stringify({ run, nmi, dup, perCaseDetail: results }, null, 2), "utf8");
+writeFileSync(outFile, JSON.stringify({ run, nmi, dup, actionQuality: aq, perCaseDetail: results }, null, 2), "utf8");
 console.log(`\nEvalRun 已写入: ${outFile}`);
