@@ -60,6 +60,11 @@ export interface Trace {
   issueExcerpt: string | null;
   steps: TraceStep[];
   finalActions: AgentAction[];
+  /**
+   * 分诊自报置信度（0-1）。断点续跑时用它恢复动作质量样本——
+   * 早期轨迹没有该字段，续跑行按 null 处理（不参与效用统计）。
+   */
+  triageConfidence?: number | null;
   totalCost: number;
   totalTokens: number;
   startedAt: string;

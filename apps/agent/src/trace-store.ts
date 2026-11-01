@@ -50,6 +50,7 @@ export function buildTrace(
     issueExcerpt: maskSensitive(event.body).slice(0, TRACE_EXCERPT_MAX_CHARS) || null,
     steps,
     finalActions: result.actions,
+    triageConfidence: result.triage?.confidence ?? null,
     totalCost: steps.reduce((a, s) => a + s.costAmount, 0),
     totalTokens: steps.reduce((a, s) => a + s.inputTokens + s.outputTokens, 0),
     startedAt,

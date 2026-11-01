@@ -241,29 +241,71 @@ const traceStore = SAVE_TRACES
 let savedTraces = 0;
 let duplicateTraces = 0;
 
-// 断点续跑：从轨迹库恢复已完成 case 的预测（通道中断不丢进度）
+// 断点续跑源一：进度台账（默认常开，与轨迹解耦）
+// 教训（2026-11-01）：上一次 260 条跑到第 259 条撞额度，因带 --no-traces 无断点，
+// 2 小时结果全丢。台账只存「预测 + 置信度 + 成本」，体积可控且含动作质量所需字段。
+const progressFile = resolve(
+  ROOT,
+  `datasets/eval/.progress/run-${TAG}-${SPLIT}-${DS}-${(MODEL_OVERRIDE as ModelConfig).version}.jsonl`
+);
+mkdirSync(dirname(progressFile), { recursive: true });
 const resumedCases = new Map<string, CaseResult>();
-if (traceStore) {
+if (existsSync(progressFile)) {
+  for (const line of readFileSync(progressFile, "utf8").split("\n")) {
+    if (!line.trim()) continue;
+    let row: { caseId?: string; predMain?: string | null; confidence?: number | null; costAmount?: number; durationMs?: number };
+    try {
+      row = JSON.parse(line);
+    } catch {
+      continue; // 崩溃时可能留下半行，跳过
+    }
+    if (!row.caseId) continue;
+    resumedCases.set(row.caseId, {
+      caseId: row.caseId,
+      goldMain: "invalid", // 占位，下方按 golden set 重算
+      predMain: (row.predMain ?? null) as CaseResult["predMain"],
+      goldNeedsMoreInfo: false,
+      predNeedsMoreInfo: false,
+      costAmount: row.costAmount ?? 0,
+      durationMs: row.durationMs ?? 0,
+      confidence: row.confidence ?? null,
+    });
+  }
+}
+const appended = (r: CaseResult): void => {
+  // 只记成功分诊：predMain=null 是通道/解析失败，续跑必须重试，不能锁死成 FAIL
+  if (r.predMain === null) return;
+  writeFileSync(
+    progressFile,
+    JSON.stringify({ caseId: r.caseId, predMain: r.predMain, confidence: r.confidence ?? null, costAmount: r.costAmount, durationMs: r.durationMs }) + "\n",
+    { encoding: "utf8", flag: "a" }
+  );
+};
+
+// 断点续跑源二：轨迹库（旧 run 只有轨迹没有台账，保留兼容）
+if (traceStore && resumedCases.size === 0) {
   for (const t of await traceStore.all()) {
     const m = new RegExp(`^trace-eval-${TAG}-${DS}-(.+)$`).exec(t.id);
     if (!m || !m[1]) continue;
     if (t.totalCost <= 0) continue; // 零成本 escalate = 传输失败垃圾，不作为断点
     const caseId = m[1];
     const labels = t.finalActions.flatMap((a) => (a.kind === "addLabels" ? a.labels : []));
+    // 只要成功分诊的轨迹：解析失败的行必须重试，不能被断点锁死
+    if (labels.length === 0) continue;
     resumedCases.set(caseId, {
       caseId,
       goldMain: "invalid", // 占位：恢复行不参与指标（下方按需重算 gold）
-      predMain: labels.length > 0 ? mainLabelOf(labels) : null,
+      predMain: mainLabelOf(labels),
       goldNeedsMoreInfo: false,
       predNeedsMoreInfo: false,
       costAmount: t.totalCost,
       durationMs: 0,
-      confidence: null, // 轨迹未存置信度：断点恢复行不参与动作质量统计
+      confidence: t.triageConfidence ?? null, // 旧轨迹无此字段 → null，该行不参与效用统计
     });
   }
-  if (resumedCases.size > 0) {
-    console.log(`断点续跑：轨迹库中已有 ${resumedCases.size} 条本 run 的 case，跳过重跑`);
-  }
+}
+if (resumedCases.size > 0) {
+  console.log(`断点续跑：已有 ${resumedCases.size} 条本 run 的 case，跳过重跑`);
 }
 
 let called = 0;
@@ -314,7 +356,9 @@ for (const c of cases) {
       }
     }
   }
-  const mark = results[results.length - 1]?.predMain === c.goldMain ? "✓" : "✗";
+  const justDone = results[results.length - 1];
+  if (justDone) appended(justDone); // 先落台账再判 mark：进程被打断也不丢这条
+  const mark = justDone?.predMain === c.goldMain ? "✓" : "✗";
   console.log(
     `${mark} ${c.id} gold=${c.goldMain.padEnd(8)} pred=${(results[results.length - 1]?.predMain ?? "FAIL").padEnd(8)} ¥${stepCost.toFixed(4)}`
   );
