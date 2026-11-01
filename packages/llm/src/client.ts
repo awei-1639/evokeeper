@@ -141,8 +141,15 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
   function resolveProxiedFetch(): Promise<typeof fetch | null> {
     if (options.fetchImpl) return Promise.resolve(null);
     if (!proxiedFetchPromise) {
+      // EVOKEEPER_HTTPS_PROXY 优先：系统级 HTTPS_PROXY 可能是 IDE/沙箱自己的代理
+      // （2026-11-01：50154 接受 TCP 但会取消非白名单请求，表现为 fetch failed），
+      // 而 .env.local 里写的值不会覆盖已存在的系统变量，故需要独立变量名。
       const proxyUrl =
-        process.env.HTTPS_PROXY ?? process.env.https_proxy ?? process.env.HTTP_PROXY ?? process.env.http_proxy;
+        process.env.EVOKEEPER_HTTPS_PROXY ??
+        process.env.HTTPS_PROXY ??
+        process.env.https_proxy ??
+        process.env.HTTP_PROXY ??
+        process.env.http_proxy;
       proxiedFetchPromise = (async () => {
         if (!proxyUrl) return null;
         try {

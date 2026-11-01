@@ -26,6 +26,20 @@ export interface ModelSpec {
 }
 
 /**
+ * mc-1.4：triage 通道改回 xxs 中转站的 amd/deepseek-v4-flash。
+ *
+ * 为什么又是这条通道：SiliconFlow 余额自 2026-10-31 起耗尽（402 insufficient balance，
+ * 2026-11-01 复测仍未充），而 xxs 的渠道在 11-01 恢复（/v1/models 从 0 回到 64 个）。
+ *
+ * **按"换模型"处理，不是换通道**：fidelity-check 40 条实测双方有效 32 条、一致 27 条 = **84%**，
+ * 低于 90% 线（剔除限流导致的两条 429 后最好也只到 85.3%）。分歧方向集中在 bug→feature/question，
+ * 另有 2 条 schema 违规（"必须给出一个主性质标签"、"labels 必须是非空数组"）。
+ * 故递增版本号并要求在本通道上重跑基线，历史 run 的数字不可与 mc-1.3 直接比较。
+ *
+ * 该站限流 10 req/min（英文文案），跑评测必须设 EVOKEEPER_LLM_MIN_INTERVAL_MS=6500，
+ * 否则 429 会把样本打散（见 client.ts 的 pace）。
+ *
+ * --- 以下为 mc-1.3 的历史注释，保留以便追溯 ---
  * mc-1.3：triage 通道切到 SiliconFlow 的 deepseek-ai/DeepSeek-V4-Flash（**同一底层模型**）。
  *
  * 为什么必须切：xxs 中转站 2026-10-31 起已无任何可用 chat 渠道——
@@ -42,9 +56,9 @@ export interface ModelSpec {
  * 遗留：mc-1.2 的注释（v4.1-flash 路由）已在 f59b234 回滚，本版本号跳过 1.2 不复用。
  */
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  version: "mc-1.3",
+  version: "mc-1.4",
   routing: {
-    triage: "deepseek-ai/DeepSeek-V4-Flash",
+    triage: "amd/deepseek-v4-flash",
     answer: "qwen3-max",
     judge: "glm-4.6",
     consolidate: "deepseek-v4-pro",

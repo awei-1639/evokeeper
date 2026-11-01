@@ -68,7 +68,7 @@ function parseProxy(url: string): { host: string; port: number } | null {
   }
 }
 
-const envProxy = env.HTTPS_PROXY ?? process.env.HTTPS_PROXY ?? "";
+const envProxy = env.EVOKEEPER_HTTPS_PROXY ?? env.HTTPS_PROXY ?? process.env.HTTPS_PROXY ?? "";
 const candidates = [
   ...(arg("proxy") ? [arg("proxy")!] : []),
   ...(envProxy ? [envProxy] : []),
