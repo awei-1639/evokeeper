@@ -49,6 +49,7 @@ let same = 0;
 let sameGold = 0;
 let bothNonNull = 0;
 const diffs: string[] = [];
+const failures: string[] = [];
 const delayMs = Number(argv2.find((a) => a.startsWith("--delay-ms="))?.split("=")[1] ?? 0);
 for (const [idx, c] of sampled.entries()) {
   if (delayMs > 0 && idx > 0) {
@@ -60,6 +61,15 @@ for (const [idx, c] of sampled.entries()) {
     { llm }
   );
   const relayPred = res.triage ? mainLabelOf(res.triage.labels) : null;
+  if (relayPred === null) {
+    // 记录失败原因：否则「中转=FAIL」会和「判定不同」混在一起，
+    // 把限流/解析问题误读成模型行为差异（2026-11-01 首轮即如此：11 条 FAIL 差点被当成通道不等价）
+    const reason =
+      res.actions.find((a) => a.kind === "escalate")?.reason ??
+      res.steps.find((s) => s.error)?.error ??
+      "未知原因";
+    failures.push(`${c.id}: ${String(reason).slice(0, 160)}`);
+  }
   const offPred = officialPred.get(c.id) ?? null;
   if (relayPred !== null && offPred !== null) {
     bothNonNull++;
@@ -73,3 +83,4 @@ console.log('待检模型:', process.argv.slice(2).find(a=>a.startsWith("--model
 console.log(`样本: ${sampled.length} | 双方有效: ${bothNonNull} | 预测一致: ${same}/${bothNonNull} = ${((same / Math.max(1, bothNonNull)) * 100).toFixed(0)}%`);
 console.log(`对 gold 一致率（中转）: ${sameGold}/${sampled.length}`);
 if (diffs.length) console.log("分歧明细:\n  " + diffs.join("\n  "));
+if (failures.length) console.log("\n中转失败原因:\n  " + failures.slice(0, 8).join("\n  "));
