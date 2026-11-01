@@ -21,6 +21,7 @@ import { createHttpTransport, createMockTransport } from "./client";
 import { extractJson } from "./structured";
 import { createLlm } from "./index";
 import { classifyLlmError } from "./errors";
+import { parseRateLimitCooldown } from "./client";
 
 /** 北京时间 10:00（高峰） */
 const PEAK = new Date("2026-09-14T02:00:00Z");
@@ -325,5 +326,30 @@ describe("errors: 致命错误分类（2026-10-31 教训）", () => {
     });
     expect(transientRes.ok).toBe(false);
     expect(transientRes.meta.attempts).toBe(3);
+  });
+});
+
+describe("parseRateLimitCooldown: 频控文案解析（2026-11-01 教训）", () => {
+  it("中文文案：请等待 N 秒", () => {
+    expect(parseRateLimitCooldown("请求过于频繁，请等待 526 秒后再试")).toBe(526);
+  });
+
+  it("new-api 英文文案：maximum N requests in M minutes（xxs 实际返回）", () => {
+    expect(
+      parseRateLimitCooldown(
+        '{"error":{"message":"You have reached the request limit: maximum 10 requests in 1 minutes (request id: ...)","type":"new_api_error"}}'
+      )
+    ).toBe(60);
+  });
+
+  it("英文秒/小时单位与 retry-after 头", () => {
+    expect(parseRateLimitCooldown("maximum 3 requests in 20 seconds")).toBe(20);
+    expect(parseRateLimitCooldown("maximum 5 requests in 1 hours")).toBe(900); // 上限 900 秒
+    expect(parseRateLimitCooldown("Retry-After: 45")).toBe(45);
+  });
+
+  it("无冷却信息时返回 null（不能瞎猜，否则会误等）", () => {
+    expect(parseRateLimitCooldown('{"message":"upstream error"}')).toBeNull();
+    expect(parseRateLimitCooldown("")).toBeNull();
   });
 });

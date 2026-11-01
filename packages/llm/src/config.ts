@@ -89,6 +89,26 @@ export const MODEL_SPECS: Record<string, ModelSpec> = {
     maxOutputTokens: 8192,
     jsonMode: true,
   },
+  /**
+   * amd/deepseek-v4-flash（xxs 中转站的渠道别名，响应体 model 字段为 self-dploy/DeepSeek-V4-Flash）。
+   *
+   * 背景（2026-11-01）：中转站渠道在 10-31 全线 503 后于 11-01 恢复，/v1/models 回到 64 个，
+   * 但**裸名 deepseek-v4-flash 已不在清单里**，同模型只剩 `amd/deepseek-v4-flash` 这条别名。
+   * 实测 200 / 3.7s，响应体 model=self-dploy/DeepSeek-V4-Flash——与基线同一底层模型。
+   *
+   * 计价：中转站不透明，先沿用 v4-flash 官价（宁可高估），待用 /v1/dashboard/billing/usage
+   * 的 total_usage 前后差值实测校正（脚本 scripts/relay-cost-probe.mts）。
+   */
+  "amd/deepseek-v4-flash": {
+    provider: "deepseek",
+    inputPerMTok: 1.5,
+    cachedInputPerMTok: 0.05,
+    outputPerMTok: 4.5,
+    peakHours: [9, 10, 11, 14, 15, 16, 17],
+    contextWindow: 1_000_000,
+    maxOutputTokens: 8192,
+    jsonMode: true,
+  },
   "deepseek-v4.1-flash": {
     // 中转站计价不透明，实测 ~＄0.002/条分诊调用；价目暂沿用 v4-flash，待官方渠道核验后修正
     provider: "deepseek",

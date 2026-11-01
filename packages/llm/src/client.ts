@@ -80,10 +80,51 @@ function backoff(attempt: number): number {
  * 匹配中转站文案「请等待 526 秒后再试」；官方 API 无此文案时返回 null（走普通退避）。
  * 上限 900s：防止被异常文案骗到无限挂起。
  */
-function parseRateLimitCooldown(body: string): number | null {
-  const m = /请等待\s*(\d+)\s*秒/.exec(body);
-  if (!m || !m[1]) return null;
-  return Math.min(Number(m[1]), 900);
+export function parseRateLimitCooldown(body: string): number | null {
+  // 中文中转站：请等待 526 秒
+  const zh = /请等待\s*(\d+)\s*秒/.exec(body);
+  if (zh?.[1]) return Math.min(Number(zh[1]), 900);
+  // new-api 英文：maximum 10 requests in 1 minutes（2026-11-01 xxs 实测文案）
+  const en = /maximum\s+\d+\s+requests?\s+(?:in|per)\s+(\d+)\s*(second|seconds|minute|minutes|hour|hours)/i.exec(body);
+  if (en?.[1]) {
+    const n = Number(en[1]);
+    const unit = (en[2] ?? "seconds").toLowerCase();
+    const sec = unit.startsWith("hour") ? n * 3600 : unit.startsWith("minute") ? n * 60 : n;
+    return Math.min(sec, 900);
+  }
+  // 标准头语义：retry after: 30
+  const ra = /retry[- ]after[:\s]+(\d+)/i.exec(body);
+  if (ra?.[1]) return Math.min(Number(ra[1]), 900);
+  return null;
+}
+
+/**
+ * 通道级最小请求间隔（毫秒）。默认 0 = 不限速。
+ *
+ * 为什么需要：限流是**服务器侧**的硬约束，客户端只能节流适配。2026-11-01 实测
+ * xxs 中转站限「10 requests / 1 minute」，用 1.2s 间隔跑 40 条保真度时 29 条被 429 打回，
+ * 一致率被算成 88%——限流差点被误读成「通道不等价」。重试救不了这种约束（窗口内必然再失败），
+ * 唯一正确做法是提前把间隔拉开：
+ *   EVOKEEPER_LLM_MIN_INTERVAL_MS=6500 pnpm exec tsx scripts/run-eval.mts ...
+ */
+const providerNextAt = new Map<string, number>();
+
+/** 每次调用时读环境变量：ESM 的 import 先于脚本加载 .env.local，
+ *  若在模块初始化时读，写在 .env.local 里的间隔会永远读不到（静默失效）。 */
+function minIntervalMs(): number {
+  const n = Number(process.env.EVOKEEPER_LLM_MIN_INTERVAL_MS ?? 0);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+/** 按 provider 串行排程：先占坑再等待，避免并发请求同时醒来又一起撞限流 */
+async function pace(provider: string): Promise<void> {
+  const gap = minIntervalMs();
+  if (gap === 0) return;
+  const now = Date.now();
+  const slot = Math.max(now, providerNextAt.get(provider) ?? 0);
+  providerNextAt.set(provider, slot + gap);
+  const wait = slot - now;
+  if (wait > 0) await sleep(wait);
 }
 
 export function createHttpTransport(options: HttpTransportOptions = {}): LlmTransport {
@@ -153,6 +194,7 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
     const doFetch = proxiedFetch ?? fetchImpl;
     for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
       try {
+        await pace(spec.provider);
         const res = await doFetch(`${base}/chat/completions`, {
           method: "POST",
           headers: {
@@ -214,6 +256,7 @@ export function createHttpTransport(options: HttpTransportOptions = {}): LlmTran
     let lastError: unknown = null;
     for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
       try {
+        await pace(spec.provider);
         const res = await doFetch(`${base}/embeddings`, {
           method: "POST",
           headers: {
