@@ -404,3 +404,74 @@ describe("pairedDeltaCI95 / 门禁第 2 条（Δ 配对比较）", () => {
     expect(ci?.detail).toContain("配对覆盖率不足");
   });
 });
+
+describe("第 6 条门禁：动作质量效用（§7.4，默认关闭）", () => {
+  const MC6: ModelConfig = MC;
+
+  /** correct=true 的 case 置信度按 hi/lo 分，用来构造「置信度有区分度」的样本 */
+  const withConf = (
+    n: number,
+    correctRate: number,
+    confFor: (correct: boolean, i: number) => number
+  ): CaseResult[] =>
+    Array.from({ length: n }, (_, i) => {
+      const ok = i < correctRate * n;
+      return {
+        ...result(`c${i}`, "bug", ok ? "bug" : "question"),
+        confidence: confFor(ok, i),
+      };
+    });
+
+  const mk = (id: string, cases: CaseResult[]) =>
+    makeEvalRun({
+      id,
+      candidateId: id.startsWith("cand") ? id : null,
+      baselineRunId: id.startsWith("cand") ? "base" : null,
+      datasetVersion: "v1",
+      split: "dev",
+      modelConfig: MC6,
+      cases,
+    });
+
+  it("默认关闭：不产生第 6 条检查", () => {
+    const base = mk("base", withConf(100, 0.7, () => 0.9));
+    const cand = mk("cand", withConf(100, 0.7, () => 0.9));
+    const d = evaluateGate({ baseline: base, candidate: cand });
+    expect(d.checks.find((c) => c.rule === "action_utility_ci_lower_gt_0")).toBeUndefined();
+    expect(d.checks).toHaveLength(5);
+  });
+
+  it("开启后：把判错的高置信 case 改判低置信 → 效用提升 → passed", () => {
+    // 基线：全 0.9（30 条错也自动标注 → 每条 −2）
+    const base = mk("base", withConf(100, 0.7, () => 0.9));
+    // 候选：预测完全不变，只是错误 case 的置信度降到 0.3（转人工 → 0 而不是 −2）
+    const cand = mk(
+      "cand",
+      withConf(100, 0.7, (ok) => (ok ? 0.9 : 0.3))
+    );
+    const d = evaluateGate({ baseline: base, candidate: cand, requireActionUtility: true });
+    const c6 = d.checks.find((c) => c.rule === "action_utility_ci_lower_gt_0");
+    expect(c6?.passed).toBe(true);
+    expect(c6?.detail).toContain("下界须 > 0");
+  });
+
+  it("开启后：全转人工不是捷径（效用为负）→ failed", () => {
+    const base = mk("base", withConf(100, 0.7, () => 0.9));
+    const cand = mk("cand", withConf(100, 0.7, () => 0.1)); // 全部低于 p*
+    const d = evaluateGate({ baseline: base, candidate: cand, requireActionUtility: true });
+    const c6 = d.checks.find((c) => c.rule === "action_utility_ci_lower_gt_0");
+    expect(c6?.passed).toBe(false);
+  });
+
+  it("置信度覆盖率 < 80% → 显式 fail（不允许缺数据默认通过）", () => {
+    const base = mk("base", withConf(100, 0.7, () => 0.9));
+    const half = withConf(100, 0.7, () => 0.9).map((c, i) =>
+      i < 50 ? c : { ...c, confidence: null }
+    );
+    const cand = mk("cand", half);
+    const d = evaluateGate({ baseline: base, candidate: cand, requireActionUtility: true });
+    const c6 = d.checks.find((c) => c.rule === "action_utility_ci_lower_gt_0");
+    expect(c6?.passed).toBe(false);
+    expect(c6?.detail).toContain("置信度覆盖率不足");
+  });
+});

@@ -241,6 +241,8 @@ export interface EvalRun {
     passed: boolean;
     triageCorrect: boolean | null;
     answerScore: number | null;
+    /** 分诊自报置信度；缺失（旧 run / 续跑无轨迹）时该条不参与效用统计 */
+    confidence?: number | null;
   }>;
   ranAt: string;
 }
@@ -255,7 +257,9 @@ export interface GateDecision {
       | "ci95_lower_bound_gt_0"
       | "holdout_no_regression_ge_1pt"
       | "adversarial_no_worsening"
-      | "cost_increase_le_10pct";
+      | "cost_increase_le_10pct"
+      /** 第 6 条（可选，默认不启用）：动作质量效用 Δ 配对 CI 下界 > 0 */
+      | "action_utility_ci_lower_gt_0";
     passed: boolean;
     detail: string;
   }>;

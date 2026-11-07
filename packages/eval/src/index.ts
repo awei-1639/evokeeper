@@ -20,6 +20,12 @@
  */
 import fs from "node:fs";
 import type { EvalMetrics, EvalRun, GateDecision, ModelConfig } from "@evokeeper/core";
+import {
+  DEFAULT_ACTION_WEIGHTS,
+  breakEvenProbability,
+  pairedUtilityDeltaCI,
+  utilityScores,
+} from "./action-quality";
 
 export { type EvalRun, type GateDecision } from "@evokeeper/core";
 
@@ -332,6 +338,7 @@ export function makeEvalRun(args: {
       passed: c.predMain === c.goldMain,
       triageCorrect: c.predMain === null ? null : c.predMain === c.goldMain,
       answerScore: null,
+      confidence: c.confidence ?? null,
     })),
     ranAt: args.ranAt ?? new Date().toISOString(),
   };
@@ -355,6 +362,14 @@ export interface GateInput {
    * 要求先用新模型重跑基线生成新 baselineRunId。
    */
   modelConfigChanged?: boolean;
+  /**
+   * 启用第 6 条门禁：动作质量效用 Δ 配对 CI 下界 > 0（§7.4）。
+   *
+   * **默认关闭**。开启它会改变「什么算改进」的定义——从「分对更多」变成
+   * 「自动决策更划算」（转人工不吃误标记罚）。这是产品口径的选择，不是工程细节，
+   * 必须由项目负责人显式开启；关闭时门禁仍是原来的五条。
+   */
+  requireActionUtility?: boolean;
   now?: string;
 }
 
@@ -497,6 +512,59 @@ export function evaluateGate(input: GateInput): GateDecision {
     costPct <= COST_INCREASE_MAX_PCT,
     `单条成本 ${baseline.metrics.costPerIssue.toFixed(5)} → ${candidate.metrics.costPerIssue.toFixed(5)}（${costPct >= 0 ? "+" : ""}${costPct.toFixed(1)}%），上限 +${COST_INCREASE_MAX_PCT}%`
   );
+
+  // 6. 动作质量效用 Δ 配对 CI 下界 > 0（可选，§7.4）
+  //    与 1/2 条的分工：1/2 判「分对更多」，本条判「自动决策更划算」。
+  //    阈值固定取代价矩阵的盈亏平衡点 p*，不允许候选自选阈值——
+  //    否则等于让候选自己挑最有利的操作点，门禁失去约束力。
+  if (input.requireActionUtility === true) {
+    const toActionCases = (run: EvalRun) =>
+      run.perCase.map((c) => ({
+        caseId: c.caseId,
+        correct: c.triageCorrect,
+        confidence: c.confidence ?? null,
+      }));
+    const baseCases = toActionCases(baseline);
+    const candCases = toActionCases(candidate);
+    const confCoverage = (run: EvalRun) =>
+      run.perCase.length === 0
+        ? 0
+        : run.perCase.filter((c) => typeof c.confidence === "number").length / run.perCase.length;
+    const pStar = breakEvenProbability(DEFAULT_ACTION_WEIGHTS);
+    const baseCov = confCoverage(baseline);
+    const candCov = confCoverage(candidate);
+    if (baseCov < 0.8 || candCov < 0.8) {
+      add(
+        "action_utility_ci_lower_gt_0",
+        false,
+        `failed：置信度覆盖率不足（基线 ${(baseCov * 100).toFixed(1)}%、候选 ${(candCov * 100).toFixed(1)}%，要求均 ≥ 80%），无法计算效用`
+      );
+    } else {
+      const util = pairedUtilityDeltaCI(
+        utilityScores(baseCases, pStar),
+        utilityScores(candCases, pStar)
+      );
+      if (util === null) {
+        add("action_utility_ci_lower_gt_0", false, "failed：两条 run 无按 caseId 对齐的有效 case");
+      } else if (util.matchedCases < PAIRED_MIN_CASES || util.coverage < PAIRED_MIN_COVERAGE) {
+        add(
+          "action_utility_ci_lower_gt_0",
+          false,
+          `failed：配对覆盖率不足（对齐 ${util.matchedCases} 条，覆盖率 ${(util.coverage * 100).toFixed(1)}%）`
+        );
+      } else {
+        const baseUtil = utilityScores(baseCases, pStar);
+        const candUtil = utilityScores(candCases, pStar);
+        const avg = (m: ReadonlyMap<string, number>) =>
+          m.size === 0 ? 0 : [...m.values()].reduce((a, b) => a + b, 0) / m.size;
+        add(
+          "action_utility_ci_lower_gt_0",
+          util.lower > 0,
+          `每条约效用 ${avg(baseUtil).toFixed(3)} → ${avg(candUtil).toFixed(3)}（Δ = ${util.delta >= 0 ? "+" : ""}${util.delta.toFixed(3)}，CI95 = [${util.lower.toFixed(3)}, ${util.upper.toFixed(3)}]，阈值 p* = ${pStar.toFixed(3)}，对齐 ${util.matchedCases} 条），下界须 > 0`
+        );
+      }
+    }
+  }
 
   // 整体判定：所有检查通过才算放行；唯一的例外是 adversarial 的显式 skipped
   // （W8 前对抗集不存在，§7.2 要求 skipped 而非默认 passed——它不阻塞发布但也不计通过；
