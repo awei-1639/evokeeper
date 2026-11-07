@@ -5,7 +5,12 @@
  *   pnpm eval:gate -- --baseline=datasets/eval/run-baseline-....json \
  *                    --candidate=datasets/eval/run-cand-1-dev-....json \
  *                    [--baseline-holdout=...] [--candidate-holdout=...] \
- *                    [--adversarial=0.97] [--model-config-changed]
+ *                    [--adversarial=0.97] [--model-config-changed] \
+ *                    [--require-action-utility]
+ *
+ * --require-action-utility：启用第 6 条（动作质量效用 Δ 配对 CI 下界 > 0）。
+ * 它改变的是「什么算改进」的定义（分对更多 vs 自动决策更划算），默认不启用，
+ * 需负责人显式开启后再用本开关（§7.2 v1.23）。
  * 退出码：passed=0 / failed=1（CI 可直接挂）
  */
 import { readFileSync } from "node:fs";
@@ -38,6 +43,7 @@ const decision = evaluateGate({
   candidateHoldout: loadRun("candidate-holdout", arg("candidate-holdout")),
   adversarialPassRate: arg("adversarial") ? Number(arg("adversarial")) : undefined,
   modelConfigChanged: process.argv.includes("--model-config-changed"),
+  requireActionUtility: process.argv.includes("--require-action-utility"),
 });
 
 console.log("== eval:gate 门禁判定 ==");
