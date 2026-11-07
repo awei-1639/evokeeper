@@ -32,3 +32,4 @@ logs/
 # 评测轨迹（体积大、含 issue 正文，属运行时数据）
 datasets/traces/
 datasets/eval/.progress/
+datasets/eval/.probe/
