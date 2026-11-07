@@ -1,0 +1,126 @@
+[
+  {
+    "caseId": "gs-0054",
+    "goldMain": "question",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"question\"], \"rationale\": \"该 issue 询问修改 Nacos 配置导致 JVM 重启的日志查看和排查思路，属于使用咨询，而非明确的功能缺陷报告。\", \"confidence\": 0.85}",
+    "extracted": {
+      "labels": [
+        "question"
+      ],
+      "rationale": "该 issue 询问修改 Nacos 配置导致 JVM 重启的日志查看和排查思路，属于使用咨询，而非明确的功能缺陷报告。",
+      "confidence": 0.85
+    },
+    "ok": true,
+    "error": null,
+    "contentLength": 121
+  },
+  {
+    "caseId": "gs-0102",
+    "goldMain": "bug",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"needs-more-info\"], \"rationale\": \"正文仅有一张截图，无文字描述、版本、报错或具体诉求，无法判断是bug、feature还是question。\", \"confidence\": 0.6}",
+    "extracted": {
+      "labels": [
+        "needs-more-info"
+      ],
+      "rationale": "正文仅有一张截图，无文字描述、版本、报错或具体诉求，无法判断是bug、feature还是question。",
+      "confidence": 0.6
+    },
+    "ok": false,
+    "error": "必须给出一个主性质标签（bug/feature/question/duplicate）或 invalid",
+    "contentLength": 120
+  },
+  {
+    "caseId": "gs-0121",
+    "goldMain": "question",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"needs-more-info\"], \"rationale\": \"正文仅重复标题，无版本、报错详情或具体漏洞描述，无法判断性质。\", \"confidence\": 0.6}",
+    "extracted": {
+      "labels": [
+        "needs-more-info"
+      ],
+      "rationale": "正文仅重复标题，无版本、报错详情或具体漏洞描述，无法判断性质。",
+      "confidence": 0.6
+    },
+    "ok": false,
+    "error": "必须给出一个主性质标签（bug/feature/question/duplicate）或 invalid",
+    "contentLength": 98
+  },
+  {
+    "caseId": "gs-0127",
+    "goldMain": "invalid",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"bug\"], \"rationale\": \"报错NoClassDefFoundError指向nacos客户端代码在优雅关闭时缺少类，属于产品代码或配置缺陷，非使用咨询。\", \"confidence\": 0.85}",
+    "extracted": {
+      "labels": [
+        "bug"
+      ],
+      "rationale": "报错NoClassDefFoundError指向nacos客户端代码在优雅关闭时缺少类，属于产品代码或配置缺陷，非使用咨询。",
+      "confidence": 0.85
+    },
+    "ok": true,
+    "error": null,
+    "contentLength": 118
+  },
+  {
+    "caseId": "gs-0129",
+    "goldMain": "feature",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"feature\"], \"rationale\": \"该 issue 是统一插件管理系统系列子任务，明确为增强功能，属于新能力诉求。\", \"confidence\": 0.9}",
+    "extracted": {
+      "labels": [
+        "feature"
+      ],
+      "rationale": "该 issue 是统一插件管理系统系列子任务，明确为增强功能，属于新能力诉求。",
+      "confidence": 0.9
+    },
+    "ok": true,
+    "error": null,
+    "contentLength": 98
+  },
+  {
+    "caseId": "gs-0151",
+    "goldMain": "duplicate",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\n  \"label\": \"question\",\n  \"rationale\": \"该 issue 描述的是 Nacos 2.5.1 在未执行灰度发布操作时后台任务 DumpGrayChange 的日志输出，未提供具体报错堆栈或预期与实际行为的差异，属于对运行日志的咨询，而非明确的功能缺陷。\"\n}",
+    "extracted": {
+      "label": "question",
+      "rationale": "该 issue 描述的是 Nacos 2.5.1 在未执行灰度发布操作时后台任务 DumpGrayChange 的日志输出，未提供具体报错堆栈或预期与实际行为的差异，属于对运行日志的咨询，而非明确的功能缺陷。"
+    },
+    "ok": false,
+    "error": "labels 必须是非空数组",
+    "contentLength": 148
+  },
+  {
+    "caseId": "gs-0166",
+    "goldMain": "bug",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\n  \"labels\": [\"needs-more-info\"],\n  \"rationale\": \"issue 正文仅包含模板占位符，没有描述任何具体现象、版本、报错或诉求，无法判断是 bug、feature 还是 question。\"\n}",
+    "extracted": {
+      "labels": [
+        "needs-more-info"
+      ],
+      "rationale": "issue 正文仅包含模板占位符，没有描述任何具体现象、版本、报错或诉求，无法判断是 bug、feature 还是 question。"
+    },
+    "ok": false,
+    "error": "必须给出一个主性质标签（bug/feature/question/duplicate）或 invalid",
+    "contentLength": 121
+  },
+  {
+    "caseId": "gs-0202",
+    "goldMain": "duplicate",
+    "model": "amd/deepseek-v4-flash",
+    "raw": "{\"labels\": [\"question\"], \"rationale\": \"用户描述安全扫描发现未授权访问，并自行通过修改源码添加注解解决，但询问角色用户登录后的行为，属于使用咨询而非缺陷报告。\", \"confidence\": 0.7}",
+    "extracted": {
+      "labels": [
+        "question"
+      ],
+      "rationale": "用户描述安全扫描发现未授权访问，并自行通过修改源码添加注解解决，但询问角色用户登录后的行为，属于使用咨询而非缺陷报告。",
+      "confidence": 0.7
+    },
+    "ok": true,
+    "error": null,
+    "contentLength": 119
+  }
+]

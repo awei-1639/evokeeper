@@ -51,6 +51,7 @@ function mockLlm(answer: { answer: string; citations: string[]; confidence: numb
             startedAt: new Date().toISOString(),
             cacheHit: false,
             attempts: 1,
+            repairTurns: 0,
           },
         };
       }
@@ -71,6 +72,7 @@ function mockLlm(answer: { answer: string; citations: string[]; confidence: numb
           startedAt: new Date().toISOString(),
           cacheHit: false,
           attempts: 1,
+          repairTurns: 0,
         },
       };
     },
